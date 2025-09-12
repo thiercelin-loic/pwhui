@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing</title>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="alternate icon" href="../../favicon.ico">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/landing.css">
+</head>
+
+<body>
+  <div class="container">
+    <header class="header" [ngClass]="'time-' + getTimeOfDay()">
+      <div class="paris-landscape">
+        <img [src]="getLandscape()" [alt]="'Paris ' + getTimeOfDay()" class="landscape-image">
+      </div>
+      <div class="header-text">
+        <h1>Hello, {{ name }}</h1>
+        <p>Book your ideal workspace in Paris</p>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <!-- Dark overlay when suggestions are shown -->
+      <div class="search-overlay" *ngIf="showSuggestions" (click)="hideSuggestions()"></div>
+      
+      <div class="search-bar">
+        <span class="material-icons">search</span>
+        <input type="text" placeholder="Search for coworking spaces" 
+               (input)="setSearch($event.target.value)" 
+               (blur)="hideSuggestions()"
+               [value]="search" />
+      </div>
+
+      <!-- Suggestions Container Outside Search Bar -->
+      <div class="suggestions-container" *ngIf="showSuggestions">
+        <!-- Card Suggestions (First 2) -->
+        <div class="suggestions-cards" *ngIf="getCardSuggestions().length > 0">
+          <div class="suggestion-card" 
+               *ngFor="let suggestion of getCardSuggestions(); trackBy: trackBySpaceId" 
+               (click)="selectSuggestion(suggestion)">
+            <div class="suggestion-card-image">
+              <img [src]="suggestion.photo" [alt]="suggestion.name" loading="lazy">
+              <div class="status-tag" [ngClass]="getAvailabilityStatus(suggestion).class">{{ getAvailabilityStatus(suggestion).text }}</div>
+            </div>
+            <div class="suggestion-card-body">
+              <div class="suggestion-card-title-price">
+                <h3>{{ suggestion.name }}</h3>
+                <span class="suggestion-card-price">€{{ suggestion.pricing }}</span>
+              </div>
+              <p class="suggestion-card-description">{{ suggestion.description }}</p>
+              <div class="suggestion-card-location-book">
+                <p class="suggestion-card-location">{{ suggestion.location }}</p>
+                <button class="apply-filters-btn">
+                  <span class="material-icons">event_available</span>
+                  Book Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dropdown Suggestions (Remaining) -->
+        <div class="suggestions-dropdown" *ngIf="getDropdownSuggestions().length > 0">
+          <div class="suggestion-item" 
+               *ngFor="let suggestion of getDropdownSuggestions(); trackBy: trackBySpaceId" 
+               (click)="selectSuggestion(suggestion)">
+            <div class="suggestion-content">
+              <span class="suggestion-name">{{ suggestion.name }}</span>
+              <span class="suggestion-location">{{ suggestion.location }}</span>
+            </div>
+            <span class="suggestion-price">€{{ suggestion.pricing }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Show Filters Button (when filters are hidden) -->
+      <div class="show-filters-container" *ngIf="!isFiltered && !showFilters">
+        <button class="show-filters-btn" (click)="toggleFilters()">
+          <span class="material-icons">tune</span>
+          Show Filters
+        </button>
+        <button class="publish-workspace-btn" (click)="publishWorkspace()">
+          <span class="material-icons">add_business</span>
+          Publish Workspace
+        </button>
+      </div>
+
+      <div class="filter-bar" 
+           *ngIf="isFiltered || showFilters" 
+           [ngClass]="{
+             'filter-visible': showFilters,
+             'filter-hidden': !showFilters && !isFiltered
+           }">
+        <div class="filter-item">
+          <label for="date-select">Date:</label>
+          <select id="date-select" #dates (change)="setDate(dates.value)" [value]="date">
+            <option value="">Pick a date</option>
+            <option *ngFor="let date of calendar; let i = index" [value]="date">
+              {{ i === 0 ? 'Today' : (i === 1 ? 'Tomorrow' : date) }}
+            </option>
+          </select>
+        </div>
+
+        <div class="filter-item">
+          <label for="time-select">Time:</label>
+          <select id="time-select" #times (change)="setTime(times.value)" [value]="time">
+            <option value="0">Pick a time</option>
+            <option *ngFor="let hour of hours" [value]="hour">{{hour}} hr</option>
+          </select>
+        </div>
+
+        <div class="filter-item">
+          <label for="duration-select">Duration:</label>
+          <select id="duration-select" #durationSelect (change)="setDuration(durationSelect.value)" [value]="duration">
+            <option value="0">Pick a duration</option>
+            <option *ngFor="let duration of durations" [value]="duration">{{duration}} min</option>
+          </select>
+        </div>
+
+        <div class="filter-item filter-action">
+          <a class="apply-filters-btn" (click)="setFilters()">
+            <span class="material-icons">check</span>
+            Apply filters
+          </a>
+        </div>
+
+        <div class="filter-item filter-action" *ngIf="isFiltered">
+          <a class="clear-filters-btn" (click)="clearFilters()">
+            <span class="material-icons">clear</span>
+            Clear filters
+          </a>
+        </div>
+        
+        <div class="filter-item filter-action" *ngIf="!isFiltered && showFilters">
+          <a class="hide-filters-btn" (click)="toggleFilters()">
+            <span class="material-icons">visibility_off</span>
+            Hide filters
+          </a>
+        </div>
+      </div>
+
+      <!-- Filter Status -->
+      <div class="filter-status" *ngIf="isFiltered">
+        <span class="filter-status-text">
+          Showing {{ getDisplayedSpaces().length }} filtered results
+        </span>
+      </div>
+
+      <section class="popular-workspaces">
+        <div class="section-header">
+          <h2>Popular Workspaces</h2>
+          <a href="#">See all</a>
+        </div>
+        <div class="cards-container">
+          <div class="card" *ngFor="let space of (isFiltered ? getDisplayedSpaces().slice(0,3) : popularSpaces); trackBy: trackBySpaceId">
+            <div class="card-image">
+              <img [src]="space.photo" [alt]="space.name" loading="lazy">
+              <div class="status-tag" [ngClass]="getPopularSpaceStatus(space).class">{{ getPopularSpaceStatus(space).text }}</div>
+            </div>
+            <div class="card-body">
+              <div class="card-title-price">
+                <h3>{{ space.name }}</h3>
+                <span class="price">€{{ space.pricing }}</span>
+              </div>
+              <p class="card-description">{{ space.description }}</p>
+              <div class="card-location-book">
+                <p class="location">{{ space.location }}</p>
+                <button class="apply-filters-btn">
+                  <span class="material-icons">event_available</span>
+                  Book Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    <div class="section-separator"></div>
+
+      <section class="available-now">
+        <div class="section-header">
+          <h2>Available Now</h2>
+          <a href="#">See all</a>
+        </div>
+        <div class="cards-container">
+          <div class="card" *ngFor="let space of (isFiltered ? getDisplayedSpaces().slice(3,6) : availableSpaces); trackBy: trackBySpaceId">
+            <div class="card-image">
+              <img [src]="space.photo" [alt]="space.name" loading="lazy">
+              <div class="status-tag" [ngClass]="getAvailabilityStatus(space).class">{{ getAvailabilityStatus(space).text }}</div>
+            </div>
+            <div class="card-body">
+              <div class="card-title-price">
+                <h3>{{ space.name }}</h3>
+                <span class="price">€{{ space.pricing }}</span>
+              </div>
+              <p class="card-description">{{ space.description }}</p>
+              <div class="card-location-book">
+                <p class="location">{{ space.location }}</p>
+                <button class="apply-filters-btn">
+                  <span class="material-icons">event_available</span>
+                  Book Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- No results message when filtered -->
+        <div class="no-results" *ngIf="isFiltered && getDisplayedSpaces().length === 0">
+          <p>No workspaces found matching your filters. Try adjusting your search criteria.</p>
+        </div>
+      </section>
+    <div class="section-separator"></div>
+
+        <section class="upcoming-bookings">
+          <div class="section-header">
+            <h2>Your Upcoming Bookings</h2>
+            <a href="#">See all</a>
+          </div>
+          <div class="bookings-container">
+            <div class="booking-card" *ngFor="let booking of upcomingBookings; trackBy: trackByBookingId">
+              <img [src]="booking.photo" [alt]="booking.name" loading="lazy">
+              <div class="booking-details">
+                <h3>{{ booking.name }}</h3>
+                <p>{{ booking.dateTime }}</p>
+                <span>Confirmation #{{ booking.confirmation }}</span>
+              </div>
+              <button class="cancel-btn">
+                <span class="material-icons">cancel</span>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </section>
+    </main>
+
+    <nav class="bottom-nav" *ngIf="isNavVisible">
+      <a href="#" class="nav-item active">
+        <span class="material-icons">home</span>
+        <span>Home</span>
+      </a>
+      <a href="#" class="nav-item">
+        <span class="material-icons">event_note</span>
+        <span>Bookings</span>
+      </a>
+      <a href="#" class="nav-item">
+        <span class="material-icons">person</span>
+        <span>Profile</span>
+      </a>
+      <a class="nav-item" (click)="toggleNav()">
+        <span class="material-icons">keyboard_arrow_down</span>
+        <span>Hide</span>
+      </a>
+    </nav>
+
+    <button class="show-nav-btn" *ngIf="!isNavVisible" (click)="toggleNav()">
+      <span class="material-icons">menu</span>
+    </button>
+
+    <!-- Publish Workspace Modal -->
+    <div class="modal-overlay" *ngIf="showPublishModal" (click)="closePublishModal()"></div>
+    <div class="publish-modal" *ngIf="showPublishModal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Publish Your Workspace</h2>
+        <button class="close-btn" (click)="closePublishModal()">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <form (ngSubmit)="submitWorkspace()" #publishWorkspaceForm="ngForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="workspace-name">Workspace Name *</label>
+              <input type="text" id="workspace-name" [(ngModel)]="publishForm.name" name="name" required 
+                     placeholder="Enter workspace name">
+            </div>
+            <div class="form-group">
+              <label for="workspace-pricing">Price per hour (€) *</label>
+              <input type="number" id="workspace-pricing" [(ngModel)]="publishForm.pricing" name="pricing" required 
+                     min="1" placeholder="25">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="workspace-description">Description</label>
+            <textarea id="workspace-description" [(ngModel)]="publishForm.description" name="description" 
+                      placeholder="Describe your workspace..." rows="3"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="workspace-district">District *</label>
+              <select id="workspace-district" [(ngModel)]="publishForm.district" name="district" required>
+                <option value="">Select district</option>
+                <option value="1st">1st Arr</option>
+                <option value="2nd">2nd Arr</option>
+                <option value="3rd">3rd Arr</option>
+                <option value="4th">4th Arr</option>
+                <option value="5th">5th Arr</option>
+                <option value="6th">6th Arr</option>
+                <option value="7th">7th Arr</option>
+                <option value="8th">8th Arr</option>
+                <option value="9th">9th Arr</option>
+                <option value="10th">10th Arr</option>
+                <option value="11th">11th Arr</option>
+                <option value="12th">12th Arr</option>
+                <option value="13th">13th Arr</option>
+                <option value="14th">14th Arr</option>
+                <option value="15th">15th Arr</option>
+                <option value="16th">16th Arr</option>
+                <option value="17th">17th Arr</option>
+                <option value="18th">18th Arr</option>
+                <option value="19th">19th Arr</option>
+                <option value="20th">20th Arr</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="workspace-location">Specific Location *</label>
+              <input type="text" id="workspace-location" [(ngModel)]="publishForm.location" name="location" required 
+                     placeholder="e.g., Tolbiac, République">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="workspace-opening">Opening Time</label>
+              <input type="time" id="workspace-opening" [(ngModel)]="publishForm.openingTime" name="openingTime">
+            </div>
+            <div class="form-group">
+              <label for="workspace-closing">Closing Time</label>
+              <input type="time" id="workspace-closing" [(ngModel)]="publishForm.closingTime" name="closingTime">
+            </div>
+            <div class="form-group">
+              <label for="workspace-capacity">Capacity</label>
+              <input type="number" id="workspace-capacity" [(ngModel)]="publishForm.capacity" name="capacity" 
+                     min="1" placeholder="10">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="workspace-amenities">Amenities</label>
+            <input type="text" id="workspace-amenities" [(ngModel)]="publishForm.amenities" name="amenities" 
+                   placeholder="WiFi, Coffee, Meeting rooms, Printer">
+          </div>
+
+          <div class="form-group">
+            <label for="workspace-photo">Photo URL</label>
+            <input type="url" id="workspace-photo" [(ngModel)]="publishForm.photo" name="photo" 
+                   placeholder="https://example.com/photo.jpg">
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="cancel-btn" (click)="closePublishModal()">Cancel</button>
+            <button type="submit" class="publish-btn" [disabled]="!publishWorkspaceForm.form.valid">
+              <span class="material-icons">publish</span>
+              Publish Workspace
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
