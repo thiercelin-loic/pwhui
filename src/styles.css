@@ -1,1 +1,103 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'Karla-ExtraLight';
+    src: url('./fonts/Karla-ExtraLight.ttf');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Karla-ExtraLightItalic';
+    src: url('./fonts/Karla-ExtraLightItalic.ttf');
+    font-weight: 200;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Karla-Light';
+    src: url('./fonts/Karla-Light.ttf');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Karla-LightItalic';
+    src: url('./fonts/Karla-LightItalic.ttf');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Karla-Regular';
+    src: url('./fonts/Karla-Regular.ttf');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Karla-Italic';
+    src: url('./fonts/Karla-Italic.ttf');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Karla-Medium';
+    src: url('./fonts/Karla-Medium.ttf');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Karla-MediumItalic';
+    src: url('./fonts/Karla-MediumItalic.ttf');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Karla-SemiBold';
+    src: url('./fonts/Karla-SemiBold.ttf');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Karla-SemiBoldItalic';
+    src: url('./fonts/Karla-SemiBoldItalic.ttf');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Karla-Bold';
+    src: url('./fonts/Karla-Bold.ttf');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Karla-BoldItalic';
+    src: url('./fonts/Karla-BoldItalic.ttf');
+    font-weight: 700;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Karla-ExtraBold';
+    src: url('./fonts/Karla-ExtraBold.ttf');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Karla-ExtraBoldItalic';
+    src: url('./fonts/Karla-ExtraBoldItalic.ttf');
+    font-weight: 800;
+    font-style: italic;
+}
+
+body {
+    font-family: 'Karla-Regular', sans-serif;
+    margin: 0;
+    padding: 0;
+}

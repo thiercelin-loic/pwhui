@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { Landing } from './scripts/landing';
-import { Login } from './scripts/login';
-import { Signup } from './scripts/signup';
-import { Terms } from './scripts/terms';
+import { Landing } from './landing/landing';
+import { Contract } from './contract/contract';
+import { ProfileComponent } from './profile/profile';
+import { AuthGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: Landing },
-  { path: 'login', component: Login },
-  { path: 'signup', component: Signup },
-  { path: 'terms', component: Terms },
+  { path: 'auth', loadChildren: () => import('./auth/auth.routes').then(m => m.routes) },
+  { path: 'contract', component: Contract },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];
