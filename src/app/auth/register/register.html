@@ -1,0 +1,102 @@
+<div class="back-button" routerLink="/" title="Back to landing">
+  <span class="material-icons">arrow_back</span>
+  <p>Return to landing</p>
+</div>
+<div class="app-logo">
+  <img src="/favicon.ico" alt="App logo">
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <h4>Sign up</h4>
+  <div class="mb-3">
+    <label for="firstname" class="form-label">First Name</label>
+    <input type="text" class="form-control" id="firstname" formControlName="firstname">
+    <div *ngIf="form.get('firstname')?.invalid && form.get('firstname')?.touched">
+      <small class="text-danger" *ngIf="form.get('firstname')?.errors?.['required']">First name is required.</small>
+      <small class="text-danger" *ngIf="form.get('firstname')?.errors?.['minlength']">First name must be at least 2
+        characters long.</small>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="lastname" class="form-label">Last Name</label>
+    <input type="text" class="form-control" id="lastname" formControlName="lastname">
+    <div *ngIf="form.get('lastname')?.invalid && form.get('lastname')?.touched">
+      <small class="text-danger" *ngIf="form.get('lastname')?.errors?.['required']">Last name is required.</small>
+      <small class="text-danger" *ngIf="form.get('lastname')?.errors?.['minlength']">Last name must be at least 2
+        characters long.</small>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+      formControlName="email">
+    <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+      <small class="text-danger" *ngIf="form.get('email')?.errors?.['required']">Email is required.</small>
+      <small class="text-danger" *ngIf="form.get('email')?.errors?.['email']">Invalid email format.</small>
+    </div>
+    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+  </div>
+  <div class="mb-3">
+    <label for="phone" class="form-label">Phone Number</label>
+    <input type="tel" class="form-control" id="phone" formControlName="phone" placeholder="+1 (555) 123-4567">
+    <div *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched">
+      <small class="text-danger" *ngIf="form.get('phone')?.errors?.['required']">Phone number is required.</small>
+      <small class="text-danger" *ngIf="form.get('phone')?.errors?.['pattern']">Please enter a valid phone
+        number.</small>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" formControlName="password">
+    <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+      <small class="text-danger" *ngIf="form.get('password')?.errors?.['required']">Password is required.</small>
+      <small class="text-danger" *ngIf="form.get('password')?.errors?.['minlength']">Password must be at least 8
+        characters long.</small>
+      <small class="text-danger" *ngIf="form.get('password')?.errors?.['pattern']">Password must contain at least one
+        uppercase letter, one lowercase letter, one number, and one special character.</small>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="confirm" class="form-label">Confirm Password</label>
+    <input type="password" class="form-control" id="confirm" formControlName="confirm">
+    <div *ngIf="form.get('confirm')?.invalid && form.get('confirm')?.touched">
+      <small class="text-danger" *ngIf="form.get('confirm')?.errors?.['required']">Please confirm your
+        password.</small>
+    </div>
+    <div *ngIf="form.hasError('passwordMismatch') && form.get('confirm')?.touched">
+      <small class="text-danger">Passwords do not match.</small>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="birth" class="form-label">Date of Birth</label>
+    <input type="date" class="form-control" id="birth" formControlName="birth">
+    <div *ngIf="form.get('birth')?.invalid && form.get('birth')?.touched">
+      <small class="text-danger" *ngIf="form.get('birth')?.errors?.['required']">Date of birth is
+        required.</small>
+      <small class="text-danger" *ngIf="form.get('birth')?.errors?.['ageValidator']">You must be at least 18 years
+        old.</small>
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="termsCheck" formControlName="accept">
+      <label class="form-check-label ms-2" for="termsCheck">I agree to the <a routerLink="/contract">Terms and Conditions</a></label>
+    </div>
+    <div *ngIf="form.get('accept')?.invalid && form.get('accept')?.touched">
+      <small class="text-danger" *ngIf="form.get('accept')?.errors?.['required']">You must accept the terms and
+        conditions.</small>
+    </div>
+  </div>
+  <button type="submit" class="auth-button" [disabled]="form.invalid || isLoading">
+    <ng-container *ngIf="!isLoading">
+      <span class="material-icons">person_add</span>
+      Register
+    </ng-container>
+    <ng-container *ngIf="isLoading">
+      <div class="spinner"></div>
+    </ng-container>
+  </button>
+</form>
+<br>
+<div>
+  <a class="auth-link" routerLink="/auth">Already have an account? login here</a>
+</div>
