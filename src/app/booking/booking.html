@@ -1,0 +1,193 @@
+<div class="booking-container">
+  <header class="booking-header">
+    <h1>Booking Management</h1>
+    <p>Manage your bookings and appointments</p>
+  </header>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+    <button (click)="error = null" class="close-btn">&times;</button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
+
+  <!-- Booking Form -->
+  <section class="booking-form-section">
+    <h2>{{ isEditing ? 'Edit Booking' : 'Create New Booking' }}</h2>
+    
+    <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()" class="booking-form">
+      <div class="form-row">
+        <div class="form-group" style="display: none;">
+          <label for="user">Customer Name *</label>
+          <input
+            type="text"
+            id="user"
+            formControlName="user"
+            class="form-control"
+            [class.error]="getFieldError('user')"
+            placeholder="Enter customer name"
+          />
+          <span class="error-text" *ngIf="getFieldError('user')">
+            {{ getFieldError('user') }}
+          </span>
+        </div>
+
+        <div class="form-group" style="display: none;">
+          <label for="email">Customer Email *</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+            [class.error]="getFieldError('email')"
+            placeholder="Enter customer email"
+          />
+          <span class="error-text" *ngIf="getFieldError('email')">
+            {{ getFieldError('email') }}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="listing">Listing *</label>
+          <select
+            id="listing"
+            formControlName="listing"
+            class="form-control"
+            [class.error]="getFieldError('listing')"
+          >
+            <option value="" disabled>Select a listing</option>
+            <option *ngFor="let listing of listings" [value]="listing.id">
+              {{ listing.name }}
+            </option>
+          </select>
+          <span class="error-text" *ngIf="getFieldError('listing')">
+            {{ getFieldError('listing') }}
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="arrival">Arrival Date *</label>
+          <input
+            type="date"
+            id="arrival"
+            formControlName="arrival"
+            class="form-control"
+            [class.error]="getFieldError('arrival')"
+          />
+          <span class="error-text" *ngIf="getFieldError('arrival')">
+            {{ getFieldError('arrival') }}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="departure">Departure Date *</label>
+          <input
+            type="date"
+            id="departure"
+            formControlName="departure"
+            class="form-control"
+            [class.error]="getFieldError('departure')"
+          />
+          <span class="error-text" *ngIf="getFieldError('departure')">
+            {{ getFieldError('departure') }}
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmation">Confirmation *</label>
+          <select
+            id="confirmation"
+            formControlName="confirmation"
+            class="form-control"
+            [class.error]="getFieldError('confirmation')"
+          >
+            <option value="0">Not Confirmed</option>
+            <option value="1">Confirmed</option>
+          </select>
+          <span class="error-text" *ngIf="getFieldError('confirmation')">
+            {{ getFieldError('confirmation') }}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="loading || bookingForm.invalid"
+        >
+          {{ isEditing ? 'Update Booking' : 'Create Booking' }}
+        </button>
+        
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="resetForm()"
+          *ngIf="isEditing"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Bookings List -->
+  <section class="bookings-list-section">
+    <h2>Existing Bookings</h2>
+    
+    <div *ngIf="bookings.length === 0 && !loading" class="no-bookings">
+      <p>No bookings found. Create your first booking above.</p>
+    </div>
+
+    <div class="bookings-grid" *ngIf="bookings.length > 0">
+      <div *ngFor="let booking of bookings" class="booking-card">
+        <div class="booking-header">
+          <h3>{{ booking.user }}</h3>
+          <span class="status-badge" [class]="booking.confirmation === '1' ? 'status-confirmed' : 'status-not-confirmed'">
+            {{ booking.confirmation === '1' ? 'Confirmed' : 'Not Confirmed' }}
+          </span>
+        </div>
+        
+        <div class="booking-details">
+          <div class="detail-item">
+            <strong>Listing:</strong> {{ getListingName(booking.listing) }}
+          </div>
+          <div class="detail-item">
+            <strong>Arrival:</strong> 
+            {{ booking.arrival | date:'mediumDate' }}
+          </div>
+          <div class="detail-item">
+            <strong>Departure:</strong> 
+            {{ booking.departure | date:'mediumDate' }}
+          </div>
+        </div>
+        
+        <div class="booking-actions">
+          <button
+            class="btn btn-sm btn-outline"
+            (click)="editBooking(booking)"
+            [disabled]="loading"
+          >
+            Edit
+          </button>
+          <button
+            class="btn btn-sm btn-danger"
+            (click)="deleteBooking(booking.id!)"
+            [disabled]="loading"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
