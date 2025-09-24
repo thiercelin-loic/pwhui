@@ -43,14 +43,19 @@ export class Landing implements OnInit {
     date: '',
     arrival: '',
     departure: '',
-    confirmation: true
+    confirmation: '0'
   };
   currentWorkspace: any = null;
+
+  // Booking data
+  upcomingBookings: any[] = [];
 
   constructor(private router: Router, private http: HttpClient, private cdr: ChangeDetectorRef, public authService: AuthService) { }
 
   ngOnInit() {
+    this.authService.getMe().subscribe()
     this.fetchListings();
+    this.fetchUpcomingBookings();
     // Ensure workspaces are visible on startup
     this.showWorkspaces = true;
   }
@@ -58,16 +63,14 @@ export class Landing implements OnInit {
   fetchListings() {
     this.loading = true;
     this.error = null;
-    this.http.get<any[]>('http://localhost:3001/listings').subscribe({
+    this.http.get<any[]>('http://localhost:3002/listings').subscribe({
       next: (data) => {
-        this.allSpaces = [...data]; // Create a new array reference
+        this.allSpaces = [...data];
         this.loading = false;
-        console.log('Listings loaded:', this.allSpaces.length);
         this.cdr.detectChanges();
       },
       error: (error) => {
         this.error = 'Failed to load listings.';
-        console.error('Error loading listings:', error);
         this.loading = false;
         this.cdr.detectChanges();
       }
@@ -207,12 +210,7 @@ export class Landing implements OnInit {
       time: this.time,
       duration: this.duration
     }
-
-    // Apply filters to all spaces
     this.applyFilters();
-
-    console.log('Filters applied:', this.filters);
-    console.log('Filtered results:', this.filteredSpaces.length, 'spaces found');
   }
 
   applyFilters() {
@@ -320,26 +318,34 @@ export class Landing implements OnInit {
   closeBookingModal() {
     this.showBookingModal = false;
     this.currentWorkspace = null;
+    this.bookingForm = {
+      listing: 0,
+      user: '',
+      date: '',
+      arrival: '',
+      departure: '',
+      confirmation: '0'
+    };
   }
 
   submitBooking() {
     if (!this.currentWorkspace) {
       return;
     }
-
     const user = this.authService.getCurrentUser();
     this.bookingForm.listing = this.currentWorkspace.id;
-    this.bookingForm.user = user ? user.name : 'John Doe';
-
-    this.http.post('http://localhost:3001/bookings', this.bookingForm)
+    this.bookingForm.user = user ? user.username : 'John Doe';
+    const bookingPayload = {
+      ...this.bookingForm,
+      arrival: this.bookingForm.date ? `${this.bookingForm.date}T${this.bookingForm.arrival}` : this.bookingForm.arrival
+    };
+    this.http.post('http://localhost:3002/bookings', bookingPayload)
       .subscribe({
         next: (response: any) => {
-          console.log('Booking successful:', response);
           alert('Booking successful!');
           this.closeBookingModal();
         },
-        error: (error) => {
-          console.error('Error booking workspace:', error);
+        error: () => {
           alert('Failed to book workspace. Please try again.');
         }
       });
@@ -351,13 +357,10 @@ export class Landing implements OnInit {
   }
 
   submitWorkspace() {
-    // Validate form
     if (!this.publishForm.name || !this.publishForm.location || !this.publishForm.district || !this.publishForm.pricing) {
       alert('Please fill in all required fields');
       return;
     }
-
-    // Create workspace payload
     const workspaceData = {
       name: this.publishForm.name,
       description: this.publishForm.description,
@@ -367,17 +370,13 @@ export class Landing implements OnInit {
       availability: this.publishForm.availability,
       pricing: this.publishForm.pricing
     }
-
-    // Send data to the API
-    this.http.post('http://localhost:3001/listings', workspaceData)
+    this.http.post('http://localhost:3002/listings', workspaceData)
       .subscribe({
-        next: (response: any) => {
-          console.log('Workspace published:', response);
+        next: () => {
           alert('Workspace published successfully!');
           this.closePublishModal();
         },
-        error: (error) => {
-          console.error('Error publishing workspace:', error);
+        error: () => {
           alert('Failed to publish workspace. Please try again.');
         }
       });
@@ -494,6 +493,116 @@ export class Landing implements OnInit {
     } else {
       this.router.navigate(['/auth']);
     }
+  }
+
+  // Booking-related methods
+  fetchUpcomingBookings() {
+    if (!this.authService.isLoggedIn()) {
+      return;
+    }
+    this.http.get<any[]>('http://localhost:3002/bookings').subscribe({
+      next: (bookings) => {
+        const now = new Date();
+        const futureBookings = bookings.filter(booking => {
+          const bookingDate = new Date(booking.arrival);
+          return bookingDate > now;
+        });
+        this.upcomingBookings = futureBookings
+          .sort((a, b) => {
+            const dateA = new Date(a.arrival);
+            const dateB = new Date(b.arrival);
+            return dateA.getTime() - dateB.getTime();
+          })
+          .slice(0, 3);
+        this.upcomingBookings.forEach(booking => {
+          this.fetchWorkspaceForBooking(booking);
+        });
+        this.cdr.detectChanges();
+      },
+      error: () => {
+      }
+    });
+  }
+
+  fetchWorkspaceForBooking(booking: any) {
+    this.http.get<any>(`http://localhost:3002/listings/${booking.listing}`).subscribe({
+      next: (workspace) => {
+        booking.workspace = workspace;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        booking.workspace = {
+          name: 'Workspace',
+          location: 'Paris',
+          photo: 'https://images.pexels.com/photos/7688460/pexels-photo-7688460.jpeg'
+        };
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  getUpcomingBookings() {
+  return this.upcomingBookings;
+  }
+
+  getBookingStatusClass(status: string): string {
+    switch (status) {
+      case '1':
+        return 'booking-status-confirmed';
+      case '0':
+        return 'booking-status-pending';
+      default:
+        return 'booking-status-cancelled';
+    }
+  }
+
+  formatBookingDate(dateString: string): string {
+    if (!dateString) {
+      return 'Invalid date';
+    }
+    const date = new Date(dateString);
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    if (date.toDateString() === today.toDateString()) {
+      return 'Today';
+    } else if (date.toDateString() === tomorrow.toDateString()) {
+      return 'Tomorrow';
+    } else {
+      // Format as "Day, Month Date" (e.g., "Tue, Sep 24")
+      return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    }
+  }
+
+  calculateDuration(arrival: string, departure: string): string {
+    const arrivalTime = new Date('1970-01-01T' + arrival + ':00');
+    const departureTime = new Date('1970-01-01T' + departure + ':00');
+    const diffMs = departureTime.getTime() - arrivalTime.getTime();
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+    
+    if (diffHours > 0 && diffMinutes > 0) {
+      return `${diffHours}h ${diffMinutes}m`;
+    } else if (diffHours > 0) {
+      return `${diffHours}h`;
+    } else {
+      return `${diffMinutes}m`;
+    }
+  }
+
+  viewBookingDetails(booking: any) {
+    // Navigate to booking management page with specific booking
+    this.router.navigate(['/booking'], { 
+      queryParams: { id: booking.id } 
+    });
+  }
+
+  goToBookings(event?: Event) {
+    if (event) {
+      event.preventDefault();
+    }
+    this.router.navigate(['/booking']);
   }
 
 }

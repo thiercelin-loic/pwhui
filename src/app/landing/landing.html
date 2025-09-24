@@ -88,34 +88,86 @@
 
       <!-- Don't show any sections when loading -->
       <ng-container *ngIf="!loading && showWorkspaces">
-        <section class="popular-workspaces"
-          *ngIf="(isFiltered ? getDisplayedSpaces().slice(0,3) : getDisplayedSpaces().slice(0, 3)).length > 0">
+        <!-- Upcoming Bookings Section -->
+         <section class="popular-workspaces"
+        *ngIf="(isFiltered ? getDisplayedSpaces().slice(0,3) : getDisplayedSpaces().slice(0, 3)).length > 0">
+        <div class="section-header">
+          <h2>Popular Workspaces</h2>
+          <a href="#">See all</a>
+        </div>
+        <div class="cards-container">
+          <div class="card"
+            *ngFor="let space of (isFiltered ? getDisplayedSpaces().slice(0,3) : getDisplayedSpaces().slice(0, 3)); trackBy: trackBySpaceId">
+            <div class="card-image">
+              <div class="card-image-reflect-wrapper">
+                <img [src]="space.photo" [alt]="space.name" loading="lazy">
+                <div class="card-image-reflect-gradient"></div>
+              </div>
+              <div class="status-tag" [ngClass]="getPopularSpaceStatus(space).class">{{
+                getPopularSpaceStatus(space).text }}</div>
+            </div>
+            <div class="card-body">
+              <div class="card-title-price">
+                <h3>{{ space.name }}</h3>
+                <span class="price">€{{ space.pricing }}</span>
+              </div>
+              <p class="card-description">{{ space.description }}</p>
+              <div class="card-location-book">
+                <p class="location">{{ space.location }}</p>
+                <button class="see-workspaces-btn" (click)="bookWorkspace(space)">
+                  <span class="material-icons">event_available</span>
+                  Book Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+        <div class="section-separator" *ngIf="getUpcomingBookings().length > 0"></div>
+
+        <section class="upcoming-bookings" *ngIf="getUpcomingBookings().length > 0">
           <div class="section-header">
-            <h2>Popular Workspaces</h2>
-            <a href="#">See all</a>
+            <h2>Your Upcoming Bookings</h2>
+            <a href="#" (click)="goToBookings($event)">See all</a>
           </div>
           <div class="cards-container">
-            <div class="card"
-              *ngFor="let space of (isFiltered ? getDisplayedSpaces().slice(0,3) : getDisplayedSpaces().slice(0, 3)); trackBy: trackBySpaceId">
-              <div class="card-image">
+            <div class="booking-card" *ngFor="let booking of getUpcomingBookings(); trackBy: trackByBookingId">
+              <div class="booking-card-image">
                 <div class="card-image-reflect-wrapper">
-                  <img [src]="space.photo" [alt]="space.name" loading="lazy">
+                  <img
+                    [src]="booking.workspace?.photo || 'https://images.pexels.com/photos/7688460/pexels-photo-7688460.jpeg'"
+                    [alt]="booking.workspace?.name || 'Workspace'" loading="lazy">
                   <div class="card-image-reflect-gradient"></div>
                 </div>
-                <div class="status-tag" [ngClass]="getPopularSpaceStatus(space).class">{{
-                  getPopularSpaceStatus(space).text }}</div>
-              </div>
-              <div class="card-body">
-                <div class="card-title-price">
-                  <h3>{{ space.name }}</h3>
-                  <span class="price">€{{ space.pricing }}</span>
+                <div class="booking-status-tag" [ngClass]="getBookingStatusClass(booking.status)">
+                  {{ booking.status | titlecase }}
                 </div>
-                <p class="card-description">{{ space.description }}</p>
-                <div class="card-location-book">
-                  <p class="location">{{ space.location }}</p>
-                  <button class="see-workspaces-btn" (click)="bookWorkspace(space)">
-                    <span class="material-icons">event_available</span>
-                    Book Now
+              </div>
+              <div class="booking-card-body">
+                <div class="booking-card-header">
+                  <h3>{{ booking.workspace?.name || 'Workspace' }}</h3>
+                  <span class="booking-date">{{ formatBookingDate(booking.date) }}</span>
+                </div>
+                <p class="booking-workspace-location">{{ booking.workspace?.location || 'Location TBD' }}</p>
+                <div class="booking-details">
+                  <div class="booking-time">
+                    <span class="material-icons">schedule</span>
+                    {{ booking.arrival }} - {{ booking.departure }}
+                  </div>
+                  <div class="booking-duration">
+                    <span class="material-icons">timer</span>
+                    {{ calculateDuration(booking.arrival, booking.departure) }}
+                  </div>
+                </div>
+                <div class="booking-card-actions">
+                  <button class="view-booking-btn" (click)="viewBookingDetails(booking)">
+                    <span class="material-icons">visibility</span>
+                    View Details
+                  </button>
+                  <button class="manage-booking-btn" (click)="goToBookings($event)">
+                    <span class="material-icons">edit</span>
+                    Manage
                   </button>
                 </div>
               </div>
@@ -272,13 +324,6 @@
         <div class="section-separator"
           *ngIf="(isFiltered ? getDisplayedSpaces().slice(3,6) : availableSpaces).length > 0"></div>
 
-        <section class="upcoming-bookings" *ngIf="false">
-          <div class="section-header">
-            <h2>Your Upcoming Bookings</h2>
-            <a href="#">See all</a>
-          </div>
-
-        </section>
       </ng-container>
 
       <!-- Message when workspaces are hidden -->
