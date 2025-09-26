@@ -1,4 +1,4 @@
-<app-splash *ngIf="showSplash"></app-splash>
-<div *ngIf="!showSplash">
+<app-splash *ngIf="showSplash$ | async"></app-splash>
+<div *ngIf="!(showSplash$ | async)">
   <router-outlet></router-outlet>
 </div>

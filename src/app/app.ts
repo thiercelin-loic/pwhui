@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy, signal } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { Splash } from './splash/splash';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { InitService } from './init.service';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -15,17 +16,12 @@ import { Subscription } from 'rxjs';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App implements OnInit, OnDestroy {
-  protected readonly title = signal('pwhui');
-  protected showSplash = true;
+export class App implements OnInit {
+  protected showSplash$: Observable<boolean>;
 
-  constructor() {
-    setTimeout(() => {
-      this.showSplash = false;
-    }, 3000); // Simulate a 3-second loading time
+  constructor(private initService: InitService) {
+    this.showSplash$ = this.initService.isInitialized$.pipe(map(isInitialized => !isInitialized));
   }
 
   ngOnInit() {}
-
-  ngOnDestroy() {}
 }
