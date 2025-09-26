@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, shareReplay } from 'rxjs/operators';
 import { Booking } from './booking.model';
 import { Listing } from './listing.model';
 import { AuthService } from '../auth/auth.service';
@@ -11,6 +11,7 @@ import { AuthService } from '../auth/auth.service';
 })
 export class BookingService implements OnInit {
   private baseUrl = 'http://localhost:3002';
+  private listings$!: Observable<Listing[]>;
 
   constructor(
     private http: HttpClient,
@@ -39,13 +40,17 @@ export class BookingService implements OnInit {
   }
 
   getListings(): Observable<Listing[]> {
-    return this.http.get<any>(`${this.baseUrl}/listings`, this.getHttpOptions())
-      .pipe(
-        map(response => {
-          return Array.isArray(response) ? response : response.data || response.listings || [];
-        }),
-        catchError(this.handleError)
-      );
+    if (!this.listings$) {
+      this.listings$ = this.http.get<any>(`${this.baseUrl}/listings`, this.getHttpOptions())
+        .pipe(
+          map(response => {
+            return Array.isArray(response) ? response : response.data || response.listings || [];
+          }),
+          shareReplay(1),
+          catchError(this.handleError)
+        );
+    }
+    return this.listings$;
   }
 
   /**
