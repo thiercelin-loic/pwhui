@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { InitService } from '../init.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-splash',
   templateUrl: './splash.html',
-  styleUrl: './splash.css'
+  styleUrl: './splash.css',
+  standalone: true,
+  imports: [CommonModule]
 })
 export class Splash implements OnInit {
 
@@ -19,10 +24,12 @@ export class Splash implements OnInit {
   ];
 
   currentTip: string;
+  errorMessage$: Observable<string | null>;
 
-  constructor() { 
+  constructor(private initService: InitService) { 
     // Select a random tip when the component is created
     this.currentTip = this.getRandomTip();
+    this.errorMessage$ = this.initService.initializationError$;
   }
 
   ngOnInit(): void {
@@ -32,6 +39,10 @@ export class Splash implements OnInit {
   getRandomTip(): string {
     const randomIndex = Math.floor(Math.random() * this.tips.length);
     return this.tips[randomIndex];
+  }
+
+  retryInitialization(): void {
+    this.initService.initializeApp();
   }
 
 }

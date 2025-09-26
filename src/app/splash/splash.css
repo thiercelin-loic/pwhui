@@ -53,6 +53,65 @@ h1 {
     line-height: 1.4;
 }
 
+.error-container {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 100%;
+}
+
+.error-text {
+    font-size: 1em;
+    color: #ff3b3b;
+    opacity: 0.9;
+    margin: 0 0 15px 0;
+    text-align: center;
+    max-width: 90%;
+    line-height: 1.4;
+    display: inline-block;
+}
+
+.retry-button {
+    background: linear-gradient(to bottom right, #012340, darkgray 200%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.retry-button:hover {
+    background-color: #0056b3;
+}
+
+.refresh-logo {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s linear infinite;
+    vertical-align: middle;
+    margin-left: 8px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 @keyframes pulse {
     0% {
         transform: scale(1);

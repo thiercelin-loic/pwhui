@@ -1,5 +1,12 @@
 <div class="splash-container">
     <div class="icon"></div>
     <h1><b>ParisWorkHub</b></h1>
-    <p class="loading-text">{{ currentTip }}</p>
+    <p class="loading-text" *ngIf="!(errorMessage$ | async)">{{ currentTip }}</p>
+    <div *ngIf="(errorMessage$ | async) as errorMessage" class="error-container">
+        <p class="error-text">{{ errorMessage }}</p>
+        <br>
+        <button class="retry-button" (click)="retryInitialization()">
+            <i class="bi bi-arrow-clockwise"></i> <span>Try Again</span>
+        </button>
+    </div>
 </div>
