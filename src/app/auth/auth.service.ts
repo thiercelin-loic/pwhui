@@ -71,10 +71,11 @@ export class AuthService {
     if (!tokenCookie) {
       return null;
     }
-    
-    const cookieValue = tokenCookie.split('=')[1];
-    console.log('Cookie value:', cookieValue);
-    const userIdPart = cookieValue.split('&').find(part => part.startsWith('user'));
+
+    const userIdPart = tokenCookie
+      .split('&')[1]
+      .split('=')[1];
+
     return userIdPart || null;
   }
 }
