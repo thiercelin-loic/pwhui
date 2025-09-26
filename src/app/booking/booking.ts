@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { BookingService } from './booking.service';
 import { Booking } from './booking.model';
 import { AuthService } from '../auth/auth.service';
@@ -9,7 +10,7 @@ import { Listing } from './listing.model';
 @Component({
   selector: 'app-booking',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
   templateUrl: './booking.html',
   styleUrl: './booking.css'
 })
@@ -21,6 +22,8 @@ export class BookingComponent implements OnInit {
   editingBookingId: number | null = null;
   loading = false;
   error: string | null = null;
+  showDeleteModal = false;
+  bookingToDeleteId: number | null = null;
 
   constructor(
     private bookingService: BookingService,
@@ -108,6 +111,8 @@ export class BookingComponent implements OnInit {
 
   updateBooking(id: number, booking: Booking): void {
     this.loading = true;
+    this.error = null;
+
     this.bookingService.updateBooking(id, booking).subscribe({
       next: (updatedBooking) => {
         const index = this.bookings.findIndex(b => b.id === id);
@@ -118,7 +123,7 @@ export class BookingComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        this.error = 'Failed to update booking. Please try again.';
+        this.error = `Failed to update booking: ${error.message}`;
         this.loading = false;
         console.error('Error updating booking:', error);
       }
@@ -138,21 +143,36 @@ export class BookingComponent implements OnInit {
     // Assuming email is part of the booking object, otherwise it needs to be fetched
   }
 
-  deleteBooking(id: number): void {
-    if (confirm('Are you sure you want to delete this booking?')) {
-      this.loading = true;
-      this.bookingService.deleteBooking(id).subscribe({
-        next: () => {
-          this.bookings = this.bookings.filter(b => b.id !== id);
-          this.loading = false;
-        },
-        error: (error) => {
-          this.error = 'Failed to delete booking. Please try again.';
-          this.loading = false;
-          console.error('Error deleting booking:', error);
-        }
-      });
+  openDeleteModal(id: number): void {
+    this.bookingToDeleteId = id;
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal(): void {
+    this.showDeleteModal = false;
+    this.bookingToDeleteId = null;
+  }
+
+  confirmDelete(): void {
+    if (this.bookingToDeleteId) {
+      this.deleteBooking(this.bookingToDeleteId);
+      this.closeDeleteModal();
     }
+  }
+
+  deleteBooking(id: number): void {
+    this.loading = true;
+    this.bookingService.deleteBooking(id).subscribe({
+      next: () => {
+        this.bookings = this.bookings.filter(b => b.id !== id);
+        this.loading = false;
+      },
+      error: (error) => {
+        this.error = 'Failed to delete booking. Please try again.';
+        this.loading = false;
+        console.error('Error deleting booking:', error);
+      }
+    });
   }
 
   resetForm(): void {

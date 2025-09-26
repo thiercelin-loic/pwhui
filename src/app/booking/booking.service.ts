@@ -102,15 +102,19 @@ export class BookingService implements OnInit {
 
   /**
    * Update an existing booking
-   * API: PUT https://www.postman.com/lunar-eclipse-514860/booking/request/mxx9fae/update-booking
+   * API: PATCH https://www.postman.com/lunar-eclipse-514860/booking/request/7skmdrj/update-booking
    */
   updateBooking(id: number, booking: Booking): Observable<Booking> {
+    try {
+      this.validateBookingData({ ...booking, id });
+    } catch (error: any) {
+      return throwError(() => new Error(error.message));
+    }
+
     const bookingData = this.sanitizeBookingData(booking);
-    return this.http.put<any>(`${this.baseUrl}/bookings/${id}`, bookingData, this.getHttpOptions())
+    return this.http.patch<any>(`${this.baseUrl}/bookings/${id}`, bookingData, this.getHttpOptions())
       .pipe(
-        map(response => {
-          return response.data || response;
-        }),
+        map(response => response.data || response),
         catchError(this.handleError)
       );
   }
@@ -213,5 +217,20 @@ export class BookingService implements OnInit {
         }),
         catchError(this.handleError)
       );
+  }
+
+  /**
+   * Validate booking data
+   */
+  private validateBookingData(booking: Booking): void {
+    if (!booking.id || booking.id <= 0) {
+      throw new Error('Invalid booking ID.');
+    }
+    if (!booking.listing || !booking.arrival || !booking.departure) {
+      throw new Error('Missing required fields: listing, arrival, or departure.');
+    }
+    if (new Date(booking.arrival) >= new Date(booking.departure)) {
+      throw new Error('Arrival date must be before departure date.');
+    }
   }
 }

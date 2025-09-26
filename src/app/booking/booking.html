@@ -65,45 +65,79 @@
         <span class="material-icons">{{ isEditing ? 'update' : 'add' }}</span>
         {{ isEditing ? 'Update Booking' : 'Create Booking' }}
       </button>
-      <button type="button" class="btn btn-secondary" (click)="resetForm()" *ngIf="isEditing">
+      <button type="button" class="disconnect-button" (click)="resetForm()" *ngIf="isEditing">
+        <span class="material-icons">cancel</span>
         Cancel
       </button>
     </div>
+    <div *ngIf="error" class="alert alert-danger mt-3">
+      {{ error }}
+    </div>
   </form>
+
   <section class="bookings-list-section">
     <div *ngIf="bookings.length === 0 && !loading" class="no-bookings">
       <p>No bookings found. Create your first booking above.</p>
     </div>
     <div class="bookings-grid" *ngIf="bookings.length > 0">
       <div *ngFor="let booking of bookings" class="booking-card">
-        <div class="booking-header">
-          <h3>{{ booking.user }}</h3>
-          <span class="status-badge" [class]="booking.confirmation === '1' ? 'status-confirmed' : 'status-not-confirmed'">
-            {{ booking.confirmation === '1' ? 'Confirmed' : 'Not Confirmed' }}
-          </span>
-        </div>
-        <div class="booking-details">
-          <div class="detail-item">
-            <strong>Listing:</strong> {{ getListingName(booking.listing) }}
+        <div class="booking-card-body">
+          <div class="booking-header">
+            <h3>{{ booking.user }}</h3>
+            <span class="status-badge"
+              [class]="booking.confirmation === '1' ? 'status-confirmed' : 'status-not-confirmed'">
+              {{ booking.confirmation === '1' ? 'Confirmed' : 'Not Confirmed' }}
+            </span>
           </div>
-          <div class="detail-item">
-            <strong>Arrival:</strong>
-            {{ booking.arrival | date:'mediumDate' }}
+          <div class="booking-details">
+            <div class="detail-item">
+              <strong>Listing:</strong> {{ getListingName(booking.listing) }}
+            </div>
+            <div class="detail-item">
+              <strong>Arrival:</strong>
+              {{ booking.arrival | date:'mediumDate' }}
+            </div>
+            <div class="detail-item">
+              <strong>Departure:</strong>
+              {{ booking.departure | date:'mediumDate' }}
+            </div>
           </div>
-          <div class="detail-item">
-            <strong>Departure:</strong>
-            {{ booking.departure | date:'mediumDate' }}
+          <div class="booking-actions">
+            <button class="auth-button" (click)="editBooking(booking)" [disabled]="loading">
+              <span class="material-icons">edit</span>
+              Edit
+            </button>
+            <button class="btn-danger" (click)="openDeleteModal(booking.id!)" [disabled]="loading">
+              <span class="material-icons">delete</span>
+              Delete
+            </button>
           </div>
-        </div>
-        <div class="booking-actions">
-          <button class="btn btn-sm btn-outline" (click)="editBooking(booking)" [disabled]="loading">
-            Edit
-          </button>
-          <button class="btn btn-sm btn-danger" (click)="deleteBooking(booking.id!)" [disabled]="loading">
-            Delete
-          </button>
         </div>
       </div>
     </div>
   </section>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal-overlay" *ngIf="showDeleteModal" (click)="closeDeleteModal()"></div>
+<div class="publish-modal" *ngIf="showDeleteModal" (click)="$event.stopPropagation()">
+  <div class="modal-header">
+    <h2>Confirm Deletion</h2>
+    <button class="close-btn" (click)="closeDeleteModal()">
+      <span class="material-icons">close</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to delete this booking?</p>
+    <div class="modal-actions">
+      <button class="cancel-btn" type="button" (click)="closeDeleteModal()">
+        <span class="material-icons">close</span>
+        Cancel
+      </button>
+      <button class="delete-btn" (click)="confirmDelete()">
+        <span class="material-icons">delete</span>
+        Delete
+      </button>
+    </div>
+  </div>
 </div>
