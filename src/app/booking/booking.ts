@@ -40,13 +40,10 @@ export class BookingComponent implements OnInit {
   ngOnInit(): void {
     this.loadBookings();
     this.loadListings();
-    this.authService.getMe().subscribe(user => {
-      if (user) {
-        this.bookingForm.patchValue({ 
-          user: user.username,
-          email: user.email 
-        });
-      }
+    this.authService.getMe().subscribe();
+    this.bookingForm.patchValue({
+      user: this.authService.getUserId(),
+      email: 'x@x.com'
     });
   }
 
@@ -65,7 +62,7 @@ export class BookingComponent implements OnInit {
   loadBookings(): void {
     this.loading = true;
     this.error = null;
-    
+
     this.bookingService.getAllBookings().subscribe({
       next: (bookings) => {
         this.bookings = bookings;
@@ -82,7 +79,7 @@ export class BookingComponent implements OnInit {
   onSubmit(): void {
     if (this.bookingForm.valid) {
       const bookingData: Booking = this.bookingForm.getRawValue();
-      
+
       if (this.isEditing && this.editingBookingId) {
         this.updateBooking(this.editingBookingId, bookingData);
       } else {
