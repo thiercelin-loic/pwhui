@@ -255,6 +255,54 @@ body {
     margin: 20px auto;
 }
 
+/* Media Queries for Responsive Design */
+@media (max-width: 992px) {
+  .action-buttons {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .main-content {
+    padding: 20px;
+  }
+
+  .search-bar {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: -3vh;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .action-btn-shared {
+    width: 100%;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .booking-card-actions {
+    justify-content: center;
+  }
+  .view-booking-btn,
+  .manage-booking-btn {
+    flex: initial;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .booking-card-actions {
+    flex-direction: column;
+  }
+  .view-booking-btn,
+  .manage-booking-btn {
+    flex: initial;
+  }
+}
+
 /* Shared Action Button Styles */
 .action-btn-shared {
     display: inline-flex;
@@ -287,6 +335,10 @@ body {
 .action-btn-shared .material-icons {
     font-size: 16px;
     line-height: 1;
+}
+
+.see-workspaces-btn {
+    width: 30%;
 }
 
 /* Main Content Styles */
@@ -1123,25 +1175,27 @@ select {
 /* Removed slideInLeft animation for better performance */
 
 .auth-btn {
-    background: transparent;
-    color: #012340;
-    font-family: 'Karla-Regular', Arial, sans-serif;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(to bottom right, #012340, darkgray 200%);
+    color: #ffffff;
+    border: none;
     cursor: pointer;
     font-size: 14px;
     text-decoration: none;
     border-radius: 10px;
-    padding: 10px 20px;
+    padding: 8px 20px;
     text-align: center;
-    box-sizing: border-box;
+    font-family: "Karla-Regular", Arial, sans-serif;
+    height: 36px;
     transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
 }
 
 .auth-btn:hover {
-    background: #012340;
-    color: #ffffff;
+    background: linear-gradient(to bottom right, #001a2e, #4a4a4a);
+    transform: translateY(-1px);
 }
 
 .auth-btn:focus {

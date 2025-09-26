@@ -29,6 +29,10 @@
           <span class="material-icons">add_business</span>
           Publish Workspace
         </button>
+        <button class="action-btn-shared create-workspace-btn" (click)="goToBookings($event)">
+          <span class="material-icons">calendar_month</span>
+          See Bookings
+        </button>
       </div>
 
       <!-- Suggestions Container Outside Search Bar -->
@@ -85,41 +89,41 @@
       <!-- Don't show any sections when loading -->
       <ng-container *ngIf="!loading && showWorkspaces">
         <!-- Upcoming Bookings Section -->
-         <section class="popular-workspaces"
-        *ngIf="(isFiltered ? getDisplayedSpaces().slice(0,3) : getDisplayedSpaces().slice(0, 3)).length > 0">
-        <div class="section-header">
-          <h2>Popular Workspaces</h2>
-          <a href="#">See all</a>
-        </div>
-        <div class="cards-container">
-          <div class="card"
-            *ngFor="let space of (isFiltered ? getDisplayedSpaces().slice(0,3) : getDisplayedSpaces().slice(0, 3)); trackBy: trackBySpaceId">
-            <div class="card-image">
-              <div class="card-image-reflect-wrapper">
-                <img [src]="space.photo" [alt]="space.name" loading="lazy">
-                <div class="card-image-reflect-gradient"></div>
+        <section class="popular-workspaces"
+          *ngIf="(isFiltered ? getDisplayedSpaces().slice(0,3) : getDisplayedSpaces().slice(0, 3)).length > 0">
+          <div class="section-header">
+            <h2>Popular Workspaces</h2>
+            <a href="#">See all</a>
+          </div>
+          <div class="cards-container">
+            <div class="card"
+              *ngFor="let space of (isFiltered ? getDisplayedSpaces().slice(0,3) : getDisplayedSpaces().slice(0, 3)); trackBy: trackBySpaceId">
+              <div class="card-image">
+                <div class="card-image-reflect-wrapper">
+                  <img [src]="space.photo" [alt]="space.name" loading="lazy">
+                  <div class="card-image-reflect-gradient"></div>
+                </div>
+                <div class="status-tag" [ngClass]="getPopularSpaceStatus(space).class">{{
+                  getPopularSpaceStatus(space).text }}</div>
               </div>
-              <div class="status-tag" [ngClass]="getPopularSpaceStatus(space).class">{{
-                getPopularSpaceStatus(space).text }}</div>
-            </div>
-            <div class="card-body">
-              <div class="card-title-price">
-                <h3>{{ space.name }}</h3>
-                <span class="price">€{{ space.pricing }}</span>
-              </div>
-              <p class="card-description">{{ space.description }}</p>
-              <div class="card-location-book">
-                <p class="location">{{ space.location }}</p>
-                <button class="action-btn-shared see-workspaces-btn" (click)="bookWorkspace(space)">
-                  <span class="material-icons">event_available</span>
-                  Book Now
-                </button>
+              <div class="card-body">
+                <div class="card-title-price">
+                  <h3>{{ space.name }}</h3>
+                  <span class="price">€{{ space.pricing }}</span>
+                </div>
+                <p class="card-description">{{ space.description }}</p>
+                <div class="card-location-book">
+                  <p class="location">{{ space.location }}</p>
+                  <button class="action-btn-shared see-workspaces-btn" (click)="bookWorkspace(space)">
+                    <span class="material-icons">event_available</span>
+                    Book Now
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-      
+        </section>
+
         <div class="section-separator" *ngIf="getUpcomingBookings().length > 0"></div>
 
         <section class="upcoming-bookings" *ngIf="getUpcomingBookings().length > 0">
@@ -157,10 +161,6 @@
                   </div>
                 </div>
                 <div class="booking-card-actions">
-                  <button class="view-booking-btn" (click)="viewBookingDetails(booking)">
-                    <span class="material-icons">visibility</span>
-                    View Details
-                  </button>
                   <button class="manage-booking-btn" (click)="goToBookings($event)">
                     <span class="material-icons">edit</span>
                     Manage
@@ -196,7 +196,7 @@
                 <p class="card-description">{{ space.description }}</p>
                 <div class="card-location-book">
                   <p class="location">{{ space.location }}</p>
-                  <button class="see-workspaces-btn" (click)="bookWorkspace(space)">
+                  <button class="action-btn-shared see-workspaces-btn" (click)="bookWorkspace(space)">
                     <span class="material-icons">event_available</span>
                     Book Now
                   </button>
@@ -230,9 +230,9 @@
                 <p class="card-description">{{ space.description }}</p>
                 <div class="card-location-book">
                   <p class="location">{{ space.location }}</p>
-                  <button class="see-workspaces-btn" (click)="bookWorkspace(space)">
+                  <button class="action-btn-shared see-workspaces-btn" (click)="bookWorkspace(space)">
                     <span class="material-icons">event_available</span>
-                    Book Now
+                    Book
                   </button>
                 </div>
               </div>
@@ -266,9 +266,9 @@
                 <p class="card-description">{{ space.description }}</p>
                 <div class="card-location-book">
                   <p class="location">{{ space.location }}</p>
-                  <button class="see-workspaces-btn" (click)="bookWorkspace(space)">
+                  <button class="action-btn-shared see-workspaces-btn" (click)="bookWorkspace(space)">
                     <span class="material-icons">event_available</span>
-                    Book Now
+                    Book
                   </button>
                 </div>
               </div>
@@ -417,7 +417,8 @@
               <span class="material-icons">close</span>
               Cancel
             </button>
-            <button type="submit" class="see-workspaces-btn" [disabled]="!publishWorkspaceForm.form.valid">
+            <button type="submit" class="action-btn-shared see-workspaces-btn"
+              [disabled]="!publishWorkspaceForm.form.valid">
               <span class="material-icons">add_business</span>
               Publish Workspace
             </button>
@@ -430,7 +431,7 @@
     <div class="modal-overlay" *ngIf="showBookingModal" (click)="closeBookingModal()"></div>
     <div class="publish-modal" *ngIf="showBookingModal" (click)="$event.stopPropagation()">
       <div class="modal-header">
-        <h2>Book Workspace</h2>
+        <h2>Book This Workspace</h2>
         <button class="close-btn" (click)="closeBookingModal()">
           <span class="material-icons">close</span>
         </button>
@@ -459,7 +460,7 @@
               <span class="material-icons">close</span>
               Cancel
             </button>
-            <button type="submit" class="see-workspaces-btn" [disabled]="!bookForm.form.valid">
+            <button type="submit" class="action-btn-shared see-workspaces-btn" [disabled]="!bookForm.form.valid">
               <span class="material-icons">event_available</span>
               Book Now
             </button>
