@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
+import { BookingService } from '../booking/booking.service';
 
 @Component({
   selector: 'app-landing',
@@ -23,6 +24,7 @@ export class Landing implements OnInit {
   firstname = '';
   loading = true;
   error: string | null = null;
+  allSpaces: any[] = [];
 
   // Authentication and modal states
   showPublishModal = false;
@@ -50,10 +52,9 @@ export class Landing implements OnInit {
   // Booking data
   upcomingBookings: any[] = [];
 
-  constructor(private router: Router, private http: HttpClient, private cdr: ChangeDetectorRef, public authService: AuthService) { }
+  constructor(private router: Router, private http: HttpClient, private cdr: ChangeDetectorRef, public authService: AuthService, private bookingService: BookingService) { }
 
   ngOnInit() {
-    this.authService.getMe().subscribe()
     this.fetchListings();
     this.fetchUpcomingBookings();
     // Ensure workspaces are visible on startup
@@ -63,7 +64,7 @@ export class Landing implements OnInit {
   fetchListings() {
     this.loading = true;
     this.error = null;
-    this.http.get<any[]>('http://localhost:3002/listings').subscribe({
+    this.bookingService.getListings().subscribe({
       next: (data) => {
         this.allSpaces = [...data];
         this.loading = false;
@@ -115,8 +116,6 @@ export class Landing implements OnInit {
     }
   }
 
-
-  allSpaces: any[] = [];
 
   get availableSpaces() {
     const now = new Date();
@@ -347,6 +346,7 @@ export class Landing implements OnInit {
         },
         error: () => {
           alert('Failed to book workspace. Please try again.');
+          // console.log('Booking payload:', bookingPayload);
         }
       });
   }
