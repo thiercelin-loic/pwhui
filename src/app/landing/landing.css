@@ -255,10 +255,11 @@ body {
     margin: 20px auto;
 }
 
-/* See Workspaces Button */
-.see-workspaces-btn {
-    display: flex;
+/* Shared Action Button Styles */
+.action-btn-shared {
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     background: linear-gradient(to bottom right, #012340, darkgray 200%);
     color: #ffffff;
@@ -272,96 +273,18 @@ body {
     font-family: "Karla-Regular", Arial, sans-serif;
     height: 36px;
     transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
 }
 
-.see-workspaces-btn:hover {
+.action-btn-shared:hover {
     background: linear-gradient(to bottom right, #001a2e, #4a4a4a);
     transform: translateY(-1px);
 }
 
-.see-workspaces-btn:active {
+.action-btn-shared:active {
     transform: translateY(0);
 }
 
-.see-workspaces-btn .material-icons {
-    font-size: 16px;
-    line-height: 1;
-}
-
-/* Create Workspace Button */
-.create-workspace-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(to bottom right, #012340, darkgray 200%);
-    color: #ffffff;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    text-decoration: none;
-    border-radius: 10px;
-    padding: 8px 20px;
-    text-align: center;
-    font-family: "Karla-Regular", Arial, sans-serif;
-    height: 36px;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-}
-
-.create-workspace-btn:hover {
-    background: linear-gradient(to bottom right, #001a2e, #4a4a4a);
-    transform: translateY(-1px);
-}
-
-.create-workspace-btn:active {
-    transform: translateY(0);
-}
-
-.create-workspace-btn .material-icons {
-    font-size: 16px;
-    line-height: 1;
-}
-
-/* My Account Button */
-.my-account-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(to bottom right, #012340, darkgray 200%);
-    color: #ffffff;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    text-decoration: none;
-    border-radius: 10px;
-    padding: 8px 20px;
-    text-align: center;
-    font-family: "Karla-Regular", Arial, sans-serif;
-    height: 36px;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-}
-
-.my-account-btn:hover {
-    background: linear-gradient(to bottom right, #001a2e, #4a4a4a);
-    transform: translateY(-1px);
-}
-
-.my-account-btn:active {
-    transform: translateY(0);
-}
-
-.my-account-btn .material-icons {
+.action-btn-shared .material-icons {
     font-size: 16px;
     line-height: 1;
 }

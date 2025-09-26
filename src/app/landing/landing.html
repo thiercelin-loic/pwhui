@@ -21,11 +21,11 @@
       </div>
 
       <div class="action-buttons">
-        <button class="my-account-btn" (click)="goToProfile()">
+        <button class="action-btn-shared my-account-btn" (click)="goToProfile()">
           <span class="material-icons">account_circle</span>
           My Account
         </button>
-        <button class="create-workspace-btn" (click)="publishWorkspace()">
+        <button class="action-btn-shared create-workspace-btn" (click)="publishWorkspace()">
           <span class="material-icons">add_business</span>
           Publish Workspace
         </button>
@@ -50,7 +50,7 @@
               <p class="suggestion-card-description">{{ suggestion.description }}</p>
               <div class="suggestion-card-location-book">
                 <p class="suggestion-card-location">{{ suggestion.location }}</p>
-                <button class="see-workspaces-btn" (click)="bookWorkspace(suggestion)">
+                <button class="action-btn-shared see-workspaces-btn" (click)="bookWorkspace(suggestion)">
                   <span class="material-icons">event_available</span>
                   Book Now
                 </button>
@@ -110,7 +110,7 @@
               <p class="card-description">{{ space.description }}</p>
               <div class="card-location-book">
                 <p class="location">{{ space.location }}</p>
-                <button class="see-workspaces-btn" (click)="bookWorkspace(space)">
+                <button class="action-btn-shared see-workspaces-btn" (click)="bookWorkspace(space)">
                   <span class="material-icons">event_available</span>
                   Book Now
                 </button>
