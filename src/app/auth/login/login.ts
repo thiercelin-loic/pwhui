@@ -19,6 +19,7 @@ export class Login implements OnInit {
   email = [Validators.required, Validators.email];
   password = [Validators.required, Validators.minLength(6)];
   controls = { email: ['', this.email], password: ['', this.password] };
+  errorMessage: string | null = null;
 
   ngOnInit(): void {
     this.form = this.builder.group(this.controls);
@@ -31,13 +32,16 @@ export class Login implements OnInit {
         this.router.navigate(['/']);
       },
       error: (error) => {
-        alert('Login failed');
+        this.errorMessage = error?.error?.message || 'An unexpected error occurred. Please try again later.';
       }
     });
 
   denied = (): void => console.log('Form is invalid');
 
-  submit = (): void => this.form.valid
-    ? this.send()
-    : this.denied();
+  submit = (): void => {
+    this.errorMessage = null;
+    this.form.valid
+      ? this.send()
+      : this.denied();
+  }
 }

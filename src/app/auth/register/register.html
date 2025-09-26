@@ -86,6 +86,9 @@
         conditions.</small>
     </div>
   </div>
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+    {{ errorMessage }}
+  </div>
   <button type="submit" class="auth-button" [disabled]="form.invalid || isLoading">
     <ng-container *ngIf="!isLoading">
       <span class="material-icons">person_add</span>

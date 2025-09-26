@@ -21,6 +21,9 @@
     <label for="exampleInputPassword1" class="form-label">Password</label>
     <input type="password" class="form-control" id="exampleInputPassword1" formControlName="password">
   </div>
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+    {{ errorMessage }}
+  </div>
   <button type="submit" class="auth-button" [disabled]="form.invalid">
     <span class="material-icons">login</span>
     Connect

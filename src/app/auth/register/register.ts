@@ -22,6 +22,7 @@ export class Register implements OnInit {
   
   form!: FormGroup;
   isLoading = false;
+  errorMessage: string | null = null;
 
   firstname = [Validators.required, Validators.minLength(2)];
   lastname = [Validators.required, Validators.minLength(2)];
@@ -98,13 +99,16 @@ export class Register implements OnInit {
 
         },
         error: (error) => {
-          console.error('Registration failed', error);
+          this.errorMessage = error?.error?.message || 'An unexpected error occurred. Please try again later.';
           this.isLoading = false;
         }
       });
   }
 
-  submit = (): void => this.form.valid
-    ? this.send()
-    : this.denied();
+  submit = (): void => {
+    this.errorMessage = null;
+    this.form.valid
+      ? this.send()
+      : this.denied();
+  }
 }
