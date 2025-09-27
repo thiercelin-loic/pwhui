@@ -333,7 +333,7 @@ export class Landing implements OnInit {
     }
     const user = this.authService.getCurrentUser();
     this.bookingForm.listing = this.currentWorkspace.id;
-    this.bookingForm.user = user ? user.username : 'John Doe';
+    this.bookingForm.user = user ? user.username : 'guest';
     const bookingPayload = {
       ...this.bookingForm,
       arrival: this.bookingForm.date ? `${this.bookingForm.date}T${this.bookingForm.arrival}` : this.bookingForm.arrival
