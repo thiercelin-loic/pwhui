@@ -20,11 +20,8 @@ form {
   font-family: 'Karla-Light', Arial, sans-serif;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  max-width: 400px;
   width: 100%;
   position: relative; /* Changed from static to relative */
-  margin-bottom: 20px; /* Added margin-bottom */
-  flex-shrink: 0; /* Added flex-shrink */
 }
 
 h4 {
@@ -195,10 +192,7 @@ a {
   padding: 0;
   box-shadow: none;
   border: none;
-  margin-top: 0;
-  max-width: 800px;
   width: 100%;
-  flex: 2;
 }
 
 .bookings-list-section h2 {
@@ -350,23 +344,20 @@ a {
 }
 
 .booking-container {
-  display: flex;
-  flex-wrap: wrap; /* Added flex-wrap */
+  display: grid;
+  grid-template-columns: 1fr;
   align-items: flex-start;
   gap: 2rem;
   width: 100%;
   max-width: 1280px;
-  justify-content: center; /* Added justify-content */
+  margin: 0 auto;
+  padding: 20px;
 }
 
 /* Responsive Design */
-@media (max-width: 1200px) {
+@media (min-width: 992px) {
   .booking-container {
-    flex-direction: column;
-    align-items: center;
-  }
-  .bookings-list-section {
-    margin-top: 2rem;
+    grid-template-columns: 400px 1fr;
   }
 }
 
