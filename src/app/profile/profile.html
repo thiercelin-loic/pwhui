@@ -13,17 +13,6 @@
       <p><strong>Email:</strong> {{ user.email }}</p>
     </div>
 
-    <div *ngIf="bookings.length > 0" class="bookings-container">
-      <h2>My Bookings</h2>
-      <ul>
-        <li *ngFor="let booking of bookings">
-          <p><strong>Workspace:</strong> {{ booking.listing }}</p>
-          <p><strong>Date:</strong> {{ booking.date }}</p>
-          <p><strong>Time:</strong> {{ booking.arrival }} - {{ booking.departure }}</p>
-        </li>
-      </ul>
-    </div>
-
     <button (click)="logout()" class="disconnect-button">
       <span class="material-icons">logout</span>
       Logout
