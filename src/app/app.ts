@@ -5,6 +5,10 @@ import { CommonModule } from '@angular/common';
 import { InitService } from './init.service';
 import { Observable, map } from 'rxjs';
 
+/**
+ * The root component of the application.
+ * It handles the display of the splash screen during initialization.
+ */
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -17,6 +21,10 @@ import { Observable, map } from 'rxjs';
   styleUrl: './app.css'
 })
 export class App implements OnInit {
+  /**
+   * An observable that controls the visibility of the splash screen.
+   * The splash screen is shown until the application is initialized.
+   */
   protected showSplash$: Observable<boolean>;
 
   constructor(private initService: InitService) {
