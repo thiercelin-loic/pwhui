@@ -1,6 +1,36 @@
 # Pwhui
 
+This project is an Angular application for a property rental platform. It allows users to browse, book, and manage property rentals.
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.2.
+
+## Project Structure
+
+The project is organized into the following main directories:
+
+- `src/app`: Contains the main application logic, including components, services, and routing.
+- `src/app/auth`: Handles user authentication, including login and registration.
+- `src/app/booking`: Manages the booking process for properties.
+- `src/app/contract`: Displays contract information for rentals.
+- `src/app/landing`: The main landing page of the application.
+- `src/app/profile`: User profile management.
+- `src/app/splash`: The initial splash screen.
+- `public`: Contains static assets like `favicon.ico`.
+
+## Key Components
+
+- `app.ts`: The root component of the application.
+- `landing.ts`: The main landing page component.
+- `login.ts`: The user login component.
+- `register.ts`: The user registration component.
+- `booking.ts`: The property booking component.
+- `profile.ts`: The user profile component.
+
+## Services
+
+- `auth.service.ts`: Manages user authentication and session.
+- `booking.service.ts`: Handles the logic for booking properties.
+- `init.service.ts`: Initializes the application.
 
 ## Development server
 
