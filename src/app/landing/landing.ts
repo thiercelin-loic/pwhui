@@ -542,7 +542,7 @@ export class Landing implements OnInit {
   }
 
   getUpcomingBookings() {
-  return this.upcomingBookings;
+    return this.upcomingBookings;
   }
 
   getBookingStatusClass(status: string): string {
@@ -581,7 +581,7 @@ export class Landing implements OnInit {
     const diffMs = departureTime.getTime() - arrivalTime.getTime();
     const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
     const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-    
+
     if (diffHours > 0 && diffMinutes > 0) {
       return `${diffHours}h ${diffMinutes}m`;
     } else if (diffHours > 0) {
@@ -593,8 +593,8 @@ export class Landing implements OnInit {
 
   viewBookingDetails(booking: any) {
     // Navigate to booking management page with specific booking
-    this.router.navigate(['/booking'], { 
-      queryParams: { id: booking.id } 
+    this.router.navigate(['/booking'], {
+      queryParams: { id: booking.id }
     });
   }
 
@@ -602,7 +602,9 @@ export class Landing implements OnInit {
     if (event) {
       event.preventDefault();
     }
-    this.router.navigate(['/booking']);
+    this.authService.getCurrentUser()?.id
+      ? this.router.navigate(['/booking'])
+      : this.router.navigate(['/auth']);
   }
 
 }
