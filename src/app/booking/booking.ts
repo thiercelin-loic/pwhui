@@ -132,7 +132,7 @@ export class BookingComponent implements OnInit {
 
   editBooking(booking: Booking): void {
     this.isEditing = true;
-    this.editingBookingId = booking.id;
+    this.editingBookingId = booking.id ?? null;
     this.bookingForm.patchValue({
       user: booking.user,
       listing: booking.listing,
@@ -205,7 +205,10 @@ export class BookingComponent implements OnInit {
     return '';
   }
 
-  getListingName(id: number): string {
+  getListingName(id: number | undefined): string {
+    if (id === undefined) {
+      return 'N/A';
+    }
     const listing = this.listings.find(l => l.id === +id);
     return listing ? listing.name : 'N/A';
   }
