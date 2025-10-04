@@ -11,8 +11,8 @@ import { User } from './user.model';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3001/auth';
-  private usersUrl = 'http://localhost:3001/users';
+  private apiUrl = 'http://157.245.43.197:3001/auth';
+  private usersUrl = 'http://157.245.43.197:3001/users';
   private currentUser: User | null = null;
 
   constructor(private http: HttpClient) { }

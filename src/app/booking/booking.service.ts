@@ -10,7 +10,7 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root'
 })
 export class BookingService implements OnInit {
-  private baseUrl = 'http://localhost:3002';
+  private baseUrl = 'http://157.245.43.197:3002';
   private listings$!: Observable<Listing[]>;
 
   constructor(

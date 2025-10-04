@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
   }
 
   fetchBookings(): void {
-    this.http.get<any[]>('http://localhost:3002/bookings').subscribe({
+    this.http.get<any[]>('http://157.245.43.197:3002/bookings').subscribe({
       next: (data: any) => {
         this.bookings = data;
       },
