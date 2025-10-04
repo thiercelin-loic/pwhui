@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { User } from './user.model';
+import { AUTH_API_URL, USERS_API_URL } from '../api';
 
 /**
  * A service that handles user authentication and session management.
@@ -11,8 +12,8 @@ import { User } from './user.model';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://157.245.43.197:3001/auth';
-  private usersUrl = 'http://157.245.43.197:3001/users';
+  private apiUrl = AUTH_API_URL;
+  private usersUrl = USERS_API_URL;
   private currentUser: User | null = null;
 
   constructor(private http: HttpClient) { }
@@ -81,7 +82,7 @@ export class AuthService {
     }
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<User>(`${this.usersUrl}/me`, { headers }).pipe(
-      tap(user => {
+      tap((user: User) => {
         this.currentUser = user;
         if (user && user.id) {
           document.cookie = `token=${token}&user=${user.id};`;

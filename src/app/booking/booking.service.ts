@@ -5,12 +5,13 @@ import { catchError, map, shareReplay } from 'rxjs/operators';
 import { Booking } from './booking.model';
 import { Listing } from './listing.model';
 import { AuthService } from '../auth/auth.service';
+import { BOOKING_API_URL } from '../api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookingService implements OnInit {
-  private baseUrl = 'http://157.245.43.197:3002';
+  private baseUrl = BOOKING_API_URL;
   private listings$!: Observable<Listing[]>;
 
   constructor(
@@ -43,7 +44,7 @@ export class BookingService implements OnInit {
     if (!this.listings$) {
       this.listings$ = this.http.get<any>(`${this.baseUrl}/listings`, this.getHttpOptions())
         .pipe(
-          map(response => {
+          map((response: any) => {
             return Array.isArray(response) ? response : response.data || response.listings || [];
           }),
           shareReplay(1),

@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { BookingService } from './booking.service';
-import { Booking } from './booking';
+import { Booking } from './booking.model';
+import { BOOKING_API_URL } from '../api';
 
 describe('BookingService', () => {
   let service: BookingService;
   let httpMock: HttpTestingController;
-  const baseUrl = 'https://api.bookings.com';
+  const baseUrl = BOOKING_API_URL;
 
   const mockBooking: Booking = {
     id: '1',
@@ -96,7 +97,7 @@ describe('BookingService', () => {
 
   describe('createBooking', () => {
     it('should create a new booking', () => {
-      const newBooking: Booking = {
+      const newBooking: Partial<Booking> = {
         customerName: 'Jane Doe',
         customerEmail: 'jane@example.com',
         serviceType: 'Service A',
@@ -105,9 +106,9 @@ describe('BookingService', () => {
         status: 'pending'
       };
 
-      const createdBooking: Booking = { ...newBooking, id: '2' };
+      const createdBooking: Booking = { ...newBooking, id: '2' } as Booking;
 
-      service.createBooking(newBooking).subscribe(booking => {
+      service.createBooking(newBooking as Booking).subscribe(booking => {
         expect(booking).toEqual(createdBooking);
       });
 
@@ -121,7 +122,7 @@ describe('BookingService', () => {
     });
 
     it('should sanitize booking data before sending', () => {
-      const bookingWithEmptyFields: Booking = {
+      const bookingWithEmptyFields: Partial<Booking> = {
         customerName: 'Test User',
         customerEmail: 'test@example.com',
         serviceType: 'Consultation',
@@ -132,7 +133,7 @@ describe('BookingService', () => {
         id: undefined // undefined field
       };
 
-      service.createBooking(bookingWithEmptyFields).subscribe();
+      service.createBooking(bookingWithEmptyFields as Booking).subscribe();
 
       const req = httpMock.expectOne(`${baseUrl}/bookings`);
       expect(req.request.body.id).toBeUndefined();
