@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
 import { BookingService } from '../booking/booking.service';
+import { BOOKING_API_URL } from '../api';
 
 @Component({
   selector: 'app-landing',
@@ -338,7 +339,7 @@ export class Landing implements OnInit {
       ...this.bookingForm,
       arrival: this.bookingForm.date ? `${this.bookingForm.date}T${this.bookingForm.arrival}` : this.bookingForm.arrival
     };
-    this.http.post('http://localhost:3002/bookings', bookingPayload)
+    this.http.post(`${BOOKING_API_URL}/bookings`, bookingPayload)
       .subscribe({
         next: (response: any) => {
           alert('Booking successful!');
@@ -370,7 +371,7 @@ export class Landing implements OnInit {
       availability: this.publishForm.availability,
       pricing: this.publishForm.pricing
     }
-    this.http.post('http://localhost:3002/listings', workspaceData)
+    this.http.post(`${BOOKING_API_URL}/listings`, workspaceData)
       .subscribe({
         next: () => {
           alert('Workspace published successfully!');
@@ -500,7 +501,7 @@ export class Landing implements OnInit {
     if (!this.authService.isLoggedIn()) {
       return;
     }
-    this.http.get<any[]>('http://localhost:3002/bookings').subscribe({
+    this.http.get<any[]>(`${BOOKING_API_URL}/bookings`).subscribe({
       next: (bookings) => {
         const now = new Date();
         const futureBookings = bookings.filter(booking => {
@@ -525,7 +526,7 @@ export class Landing implements OnInit {
   }
 
   fetchWorkspaceForBooking(booking: any) {
-    this.http.get<any>(`http://localhost:3002/listings/${booking.listing}`).subscribe({
+    this.http.get<any>(`${BOOKING_API_URL}/listings/${booking.listing}`).subscribe({
       next: (workspace) => {
         booking.workspace = workspace;
         this.cdr.detectChanges();
