@@ -22,7 +22,7 @@
     width: 150px;
     height: 150px;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-    background: url('../icons/icon.webp');
+    background: url('../icons/icon.svg');
     border-radius: 20px;
     background-size: contain;
     background-repeat: no-repeat;

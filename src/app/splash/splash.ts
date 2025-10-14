@@ -42,7 +42,7 @@ export class Splash implements OnInit {
   }
 
   retryInitialization(): void {
-    this.initService.initializeApp();
+    this.initService.initialize();
   }
 
 }
