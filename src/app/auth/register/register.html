@@ -2,9 +2,6 @@
   <span class="material-icons">arrow_back</span>
   <p>Return to landing</p>
 </div>
-<div class="app-logo">
-  <img src="/favicon.ico" alt="App logo">
-</div>
 <form [formGroup]="form" (ngSubmit)="submit()">
   <h4>Sign up</h4>
   <div class="mb-3">
@@ -79,15 +76,17 @@
   <div class="mb-3">
     <div class="form-check">
       <input type="checkbox" class="form-check-input" id="termsCheck" formControlName="accept">
-      <label class="form-check-label ms-2" for="termsCheck">I agree to the <a routerLink="/contract">Terms and Conditions</a></label>
+      <label class="form-check-label ms-2" for="termsCheck">I have read and agree the <a routerLink="/contract">term of usages</a>.</label>
     </div>
     <div *ngIf="form.get('accept')?.invalid && form.get('accept')?.touched">
-      <small class="text-danger" *ngIf="form.get('accept')?.errors?.['required']">You must accept the terms and
-        conditions.</small>
+      <small class="text-danger" *ngIf="form.get('accept')?.errors?.['required']">You must accept the terms and conditions.</small>
     </div>
   </div>
-  <div *ngIf="errorMessage" class="alert alert-danger mt-3">
-    {{ errorMessage }}
+  <div *ngIf="error" class="alert alert-danger mt-3">
+    {{ error }}
+  </div>
+  <div *ngIf="registered" class="alert alert-primary mt-3">
+    You are now registered and will be redirected to the login page, please wait...
   </div>
   <button type="submit" class="auth-button" [disabled]="form.invalid || isLoading">
     <ng-container *ngIf="!isLoading">
