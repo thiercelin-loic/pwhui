@@ -96,7 +96,7 @@
     font-style: italic;
 }
 
-body {
+* {
     font-family: 'Karla-Regular', sans-serif;
     margin: 0;
     padding: 0;
