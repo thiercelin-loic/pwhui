@@ -1,4 +1,6 @@
-<app-splash *ngIf="showSplash$ | async"></app-splash>
-<div *ngIf="!(showSplash$ | async)">
-  <router-outlet></router-outlet>
+<app-start *ngIf="showStart$ | async"></app-start>
+<div *ngIf="!(showStart$ | async)">
+  <router-outlet>
+  </router-outlet>
+  <a routerLink="/auth">Auth</a>
 </div>
