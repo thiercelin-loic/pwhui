@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { User } from './user.model';
-import { AUTH_API_URL, USERS_API_URL } from '../api';
+import { AUTH_API_URL, USERS_API_URL } from '../server';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
