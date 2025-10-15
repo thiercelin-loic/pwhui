@@ -9,5 +9,4 @@ import { CommonModule } from '@angular/common';
   styleUrl: './contract.css'
 })
 export class Contract {
-  currentDate = new Date();
 }

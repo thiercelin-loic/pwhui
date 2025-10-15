@@ -6,8 +6,9 @@
   margin-right: auto;
 }
 
-img {
-  width: 100px;
-  border-radius: 25px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.logo {
+  height: 150px;
+  background-repeat: no-repeat;
+  background-image: url('../assets/icon.svg');
+  filter: grayscale(1);
 }
