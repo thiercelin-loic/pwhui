@@ -1,0 +1,66 @@
+.container {
+  background: linear-gradient(-45deg, transparent, var(--text) 125%),
+    url('store.jpg') fixed center center / cover no-repeat;
+  max-width: 100vw;
+}
+
+.introduction {
+  color: var(--background);
+  text-shadow: 6px 4px 4px #0e0e0e5e;
+}
+
+h5 {
+  font-family: 'Karla-Medium';
+}
+
+p,
+input {
+  font-family: 'Karla-Light';
+  margin: 0%;
+}
+
+input {
+  border-radius: 100px;
+  padding: 10px;
+  box-shadow: 6px 4px 4px #0e0e0e5e;
+}
+
+input::placeholder {
+  padding-left: 1%;
+}
+
+.search {
+  color: transparent;
+  background: url('store.svg') no-repeat center;
+}
+
+.notification {
+  color: transparent;
+  padding: 10px 20px;
+  border-radius: 25%;
+  cursor: pointer;
+  background: url('notification.svg') no-repeat center,
+    linear-gradient(315deg, var(--text), var(--secondary));
+  box-shadow: 6px 4px 4px #0e0e0e5e;
+}
+
+.notification:hover {
+  filter: contrast(1.5);
+}
+
+.input-group {
+  margin-top: 20vh;
+}
+
+.btn#search {
+  border-radius: 0 20px 20px 0;
+  box-shadow: 6px 4px 4px #0e0e0e5e;
+}
+
+.store {
+  margin-top: 5vh;
+  height: 100vh;
+  border-radius: 20px 20px 0 0;
+  background: var(--background);
+  box-shadow: 6px 4px 4px #0e0e0e5e;
+}
