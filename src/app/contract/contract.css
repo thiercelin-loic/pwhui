@@ -9,6 +9,5 @@
 .logo {
   height: 150px;
   background-repeat: no-repeat;
-  background-image: url('../assets/icon.svg');
   filter: grayscale(1);
 }
