@@ -1,0 +1,8 @@
+.cookie {
+  color: transparent;
+  filter: invert(0.9);
+  background: url('cookie.svg') no-repeat center;
+  margin-right: 10px;
+  width: 24px;
+  padding: 3%;
+}
