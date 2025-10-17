@@ -97,10 +97,14 @@
 }
 
 :root {
+  --light: #a4a4a4;
   --primary: #012340;
-  --secondary: #a4a4a4 200%;
+  --primary-gradient: linear-gradient(315deg, var(--primary), var(--light) 200%);
+  --secondary: #484848;
+  --secondary-gradient: linear-gradient(315deg, var(--secondary), var(--light) 200%);
   --text: #333;
   --background: #eef1f3;
+  --shadow: 6px 4px 4px #0e0e0e17;
 }
 
 body,
@@ -137,19 +141,16 @@ p {
 }
 
 .btn-primary {
-  background: linear-gradient(315deg, var(--primary), var(--secondary));
+  background: var(--primary-gradient);
 }
 
-.btn-primary:hover {
-  filter: contrast(1.5);
+.btn-primary:hover,
+.btn-secondary:hover {
+  filter: brightness(1.1);
 }
 
 .btn-secondary {
-  background: linear-gradient(315deg, var(--text), var(--secondary));
-}
-
-.btn-secondary:hover {
-  filter: contrast(1.5);
+  background: var(--secondary-gradient);
 }
 
 input {
