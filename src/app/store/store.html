@@ -1,9 +1,8 @@
 <div class="container">
-    <br>
-    <div class="row">
-        <div class="col">
-            <p class="introduction">{{today}} {{month}} {{year}}, {{hour}}:{{minute}}</p>
-            <h5 class="introduction">Welcome, John Doe</h5>
+    <div class="row introduction align-items-center">
+        <div class="col text-start">
+            <p class="introduction">{{today}} {{month}} {{year}}</p>
+            <h5 class="introduction">Welcome, John</h5>
         </div>
         <div class="col text-end">
             <span class="notification"></span>
@@ -13,11 +12,149 @@
     <div class="input-group">
         <input type="text" class="form-control" placeholder="Search a workplace"
             aria-label="Text input with segmented dropdown button">
-        <button type="button" class="btn btn-primary" id="search">
+        <button type="button" class="btn btn-secondary" id="search">
             <span class="search">__</span>
         </button>
     </div>
     <div class="store">
-        <h4>Popular Workspace</h4>
+        <h4><span class="popular"></span>Most Popular</h4>
+        <div class="listings row text-start">
+            <div class="col listing">
+                <p class="listing">
+                    Workplace
+                </p>
+                <p class="listing" id="location">
+                    Location
+                </p>
+                <p class="listing " id="price">0.00 €/h</p>
+            </div>
+            <div class="col listing">
+                <p class="listing">
+                    Workplace
+                </p>
+                <p class="listing" id="location">
+                    Location
+                </p>
+                <p class="listing" id="price">0.00 €/h</p>
+            </div>
+            <div class="col listing">
+                <p class="listing">
+                    Workplace
+                </p>
+                <p class="listing" id="location">
+                    Location
+                </p>
+                <p class="listing" id="price">0.00 €/h</p>
+            </div>
+            <div class="col listing">
+                <p class="listing">
+                    Workplace
+                </p>
+                <p class="listing" id="location">
+                    Location
+                </p>
+                <p class="listing" id="price">0.00 €/h</p>
+            </div>
+        </div>
+        <div class="statistics">
+            <div class="text-center">
+                <span class="map"></span>
+            </div>
+            <h2 class="statistics text-center">It's more than 80 workplace, throughout the city.</h2>
+        </div>
+        <h4><span class="idea"></span>Better places for your ideas</h4>
+        <div class="listings row text-start">
+            <div class="col listing">
+                <p class="listing">
+                    Workplace
+                </p>
+                <p class="listing" id="location">
+                    Location
+                </p>
+                <p class="listing " id="price">0.00 €/h</p>
+            </div>
+            <div class="col listing">
+                <p class="listing">
+                    Workplace
+                </p>
+                <p class="listing" id="location">
+                    Location
+                </p>
+                <p class="listing" id="price">0.00 €/h</p>
+            </div>
+            <div class="col listing">
+                <p class="listing">
+                    Workplace
+                </p>
+                <p class="listing" id="location">
+                    Location
+                </p>
+                <p class="listing" id="price">0.00 €/h</p>
+            </div>
+            <div class="col listing">
+                <p class="listing">
+                    Workplace
+                </p>
+                <p class="listing" id="location">
+                    Location
+                </p>
+                <p class="listing" id="price">0.00 €/h</p>
+            </div>
+        </div>
+        <div class="secondary">
+            <h4 class="secondary"><span class="living"></span>Feet under the table</h4>
+            <div class="listings row text-start">
+                <div class="col listing">
+                    <p class="listing">
+                        Workplace
+                    </p>
+                    <p class="listing" id="location">
+                        Location
+                    </p>
+                    <p class="listing " id="price">0.00 €/h</p>
+                </div>
+                <div class="col listing">
+                    <p class="listing">
+                        Workplace
+                    </p>
+                    <p class="listing" id="location">
+                        Location
+                    </p>
+                    <p class="listing" id="price">0.00 €/h</p>
+                </div>
+                <div class="col listing">
+                    <p class="listing">
+                        Workplace
+                    </p>
+                    <p class="listing" id="location">
+                        Location
+                    </p>
+                    <p class="listing" id="price">0.00 €/h</p>
+                </div>
+                <div class="col listing">
+                    <p class="listing">
+                        Workplace
+                    </p>
+                    <p class="listing" id="location">
+                        Location
+                    </p>
+                    <p class="listing" id="price">0.00 €/h</p>
+                </div>
+            </div>
+        </div>
     </div>
+    <ul class="nav justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Legals</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" aria-disabled="true">Paris<b>WorkHub</b></a>
+        </li>
+    </ul>
 </div>
