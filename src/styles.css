@@ -98,13 +98,27 @@
 
 :root {
   --light: #a4a4a4;
+  --gradient: linear-gradient(transparent, var(--text));
   --primary: #012340;
   --primary-gradient: linear-gradient(315deg, var(--primary), var(--light) 200%);
-  --secondary: #484848;
+  --secondary: #7d7d7d;
   --secondary-gradient: linear-gradient(315deg, var(--secondary), var(--light) 200%);
   --text: #333;
   --background: #eef1f3;
-  --shadow: 6px 4px 4px #0e0e0e17;
+  --background-gradient: radial-gradient(var(--background), var(--light) 200%);
+  --background-image: url('https://images.pexels.com/photos/9574945/pexels-photo-9574945.jpeg');
+  --shadow: 6px 4px 4px #0e0e0e2e;
+  --brightness: brightness(1.2);
+  --padding-sm: 10px;
+  --padding-md: 20px;
+  --padding-lg: 70px;
+  --margin-sm: 1vh;
+  --margin-md: 2vh;
+  --margin-lg: 20vh;
+  --border-radius: 20px;
+  --font-bold: 'Karla-Bold';
+  --font-light: 'Karla-Light';
+  --font-medium: 'Karla-Medium';
 }
 
 body,
@@ -122,13 +136,20 @@ body,
 }
 
 h4 {
-  padding: 20px;
   font-family: 'Karla-Bold';
   color: var(--primary);
+  padding-top: var(--padding-md);
 }
 
-p {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--text);
+  margin: 0;
 }
 
 .btn {
@@ -154,6 +175,54 @@ p {
 }
 
 input {
-  background: var(--background);
+  background: var(--background-gradient);
   color: var(--text);
+}
+
+@keyframes blink {
+  from,
+  to {
+    color: transparent;
+  }
+  50% {
+    color: inherit;
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes out {
+  from {
+    background-size: 175%;
+  }
+
+  10% {
+    background-size: 150%;
+  }
+
+  to {
+    background-size: 155%;
+  }
+}
+
+@keyframes slide {
+  from {
+    opacity: 0;
+    margin-top: 10vh;
+  }
+}
+
+.container {
+  max-width: 100vw;
+  min-height: 100vh;
+  background: linear-gradient(var(--text), transparent 200px), linear-gradient(to bottom, transparent, var(--secondary)),
+    var(--background-image) fixed center center / 155% no-repeat;
+  animation: out 10s 1s ease-out backwards;
 }
