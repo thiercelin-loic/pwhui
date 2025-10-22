@@ -1,8 +1,8 @@
-<div *ngIf="!cookie" class="modal fade" id="cookie" tabindex="-1" aria-labelledby="cookie" aria-hidden="true">
+<div class="modal fade" id="policy" tabindex="-1" aria-labelledby="policy" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <span class="cookie"></span>
+                <span class="policy"></span>
                 <h1 class="modal-title fs-5" ><b>About your privacy</b></h1>
             </div>
             <div class="modal-body">
@@ -22,10 +22,7 @@
                     settings.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="close()">
-                    Decline
-                </button>
-                <button type="button" class="btn btn-primary" (click)="consent()">
+                <button type="button" class="btn btn-primary"  data-bs-dismiss="modal"  (click)="consent()">
                     Consent
                 </button>
             </div>

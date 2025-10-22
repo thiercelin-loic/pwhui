@@ -1,19 +1,26 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { NgIf } from '@angular/common';
+import { PolicyService } from './policy.service';
 
 declare var bootstrap: any;
 
 @Component({
-  selector: 'app-preferences',
+  selector: 'app-policy',
   imports: [NgIf],
-  templateUrl: './preferences.html',
-  styleUrl: './preferences.css',
+  templateUrl: './policy.html',
+  styleUrl: './policy.css',
 })
-export class Preferences implements AfterViewInit {
+export class Policy implements AfterViewInit {
   cookie: boolean = false;
 
+  constructor(private policyService: PolicyService) {
+    this.policyService.openModal$.subscribe(() => {
+      this.advertise();
+    });
+  }
+
   advertise() {
-    const element = document.getElementById('cookie');
+    const element = document.getElementById('policy');
 
     if (element) {
       const modal = new bootstrap.Modal(element);
@@ -22,7 +29,7 @@ export class Preferences implements AfterViewInit {
   }
 
   discover(advertise: () => void) {
-    setTimeout(advertise, 3000)
+    setTimeout(advertise, 3000);
   }
 
   check(value: string) {
@@ -41,19 +48,7 @@ export class Preferences implements AfterViewInit {
     values.forEach((value) => this.check(value.trim()));
   }
 
-  close() {
-    const backdrop = document.querySelector('.modal-backdrop');
-    const element = document.getElementById('cookie');
-    const modal = bootstrap.Modal.getInstance(element);
-
-    if (element && modal && backdrop) {
-      modal.hide();
-      backdrop.remove();
-    }
-  }
-
   consent() {
-    this.close();
     this.cookie = true;
     document.cookie = 'consent=true; max-age=31536000';
   }
