@@ -3,10 +3,9 @@ import { RouterOutlet, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
 import { InitService } from './init.service';
-import { HttpClient } from '@angular/common/http';
 import { Start } from './start/start';
-import { Preferences } from './preferences/preferences';
-import {Store} from './store/store'
+import { Policy } from './policy/policy';
+import {Navigation} from "./navigation/navigation";
 
 @Component({
   selector: 'app-root',
@@ -14,10 +13,10 @@ import {Store} from './store/store'
   imports: [
     RouterOutlet,
     CommonModule,
-    RouterLink,
     Start,
-    Preferences,
-    Store
+    Policy,
+    Navigation,
+    Policy
 ],
   templateUrl: './app.html',
   styleUrl: './app.css'
