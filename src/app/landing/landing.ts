@@ -1,17 +1,23 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { path } from '../server';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-landing',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './landing.html',
   styleUrl: './landing.css'
 })
 export class Landing implements OnInit, OnDestroy {
+  constructor(private http: HttpClient) { }
+
   private option = { month: 'long' } as const;
   public date: Date = new Date();
   public today: number = this.date.getDate();
   public month: string = this.date.toLocaleString('default', this.option);
   public year: number = this.date.getFullYear();
+  public listings: any[] = [];
 
   private text: number = 0;
   private char: number = 0;
@@ -62,6 +68,16 @@ export class Landing implements OnInit, OnDestroy {
     );
   }
 
-  public ngOnInit() { this.write(); }
+  private get() {
+    this.http.get<any[]>(`${path.booking}/listings`).subscribe(data => {
+      this.listings = data;
+    });
+  }
+
+  public ngOnInit() {
+    this.write();
+    this.get();
+  }
+
   public ngOnDestroy() { clearInterval(this.interval); }
 }

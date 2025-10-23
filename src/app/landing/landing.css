@@ -1,126 +1,15 @@
-.introduction {
-  color: var(--background);
-}
-
-div.introduction {
-  padding: var(--padding-sm);
-  animation: fade 1s ease-in;
-}
-
-h4 {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-bold);
-}
-
-h4#secondary {
-  color: var(--background);
-  padding: var(--padding-sm);
-
-}
-
-h5 {
-  font-family: var(--font-bold);
-}
-
-.notification {
-  color: transparent;
-  padding: var(--padding-sm) var(--padding-md);
-  border-radius: 25%;
-  cursor: pointer;
-  background: url('notification.svg') no-repeat center, var(--secondary-gradient);
-  box-shadow: var(--shadow);
-  opacity: 0.9;
-}
-
-.notification:hover {
-  filter: var(--brightness);
-}
-
-p,
-input {
-  font-family: var(--font-light);
-}
-
-input {
-  border-radius: 100px;
-  padding: var(--padding-sm);
-  border: none;
-  box-shadow: var(--shadow);
-  animation: slide 0.5s 1s ease-in both;
-}
-
-input::placeholder {
-  padding-left: 1%;
-  animation: blink 1s step-end infinite;
-}
-
-.search {
-  color: transparent;
-  background: url('landing.svg') no-repeat center;
-}
-
-.input-group {
-  margin-top: var(--margin-lg);
-}
-
-.btn#search {
-  border-radius: 0 20px 20px 0;
-  box-shadow: var(--shadow);
-  animation: slide 0.5s 1s ease-in both;
-}
-
-.landing {
-  margin-top: var(--margin-md);
-  padding: var(--padding-md);
-  padding-top: 0;
-  border-radius: var(--border-radius);
-  background: var(--background-gradient);
-  box-shadow: var(--shadow);
-  animation: slide 0.5s 1s ease-in both;
-}
-
-.listings, .listings#secondary {
-  margin: var(--margin-sm) 0;
-}
-
 div.listing {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   box-shadow: var(--shadow);
-  border-radius: var(--border-radius);
-  background: var(--gradient),
-    url('https://www.thesocialhub.co/4b096c/contentassets/073207694d9149618d5178561aa67960/thesocialhub_barcelona_coworking_dda_firstfloor.jpg')
-      center center / cover no-repeat;
+  border-radius: var(--radius);
   margin: var(--margin-sm);
-  height: 32vw;
-  animation: fade 2s 1s ease-in both;
+  height: 35vh;
 }
 
 div.listing:hover {
   filter: var(--brightness);
-}
-
-.popular,
-.idea,
-.living {
-  display: inline-block;
-  width: 25px;
-  height: 3vh;
-  background-color: var(--primary);
-  mask: url('./popular.svg') no-repeat center;
-  mask-size: contain;
-}
-
-.idea {
-  mask: url('idea.svg') no-repeat center;
-}
-
-.living {
-  background-color: var(--background);
-  mask: url('living.svg') no-repeat center;
 }
 
 p.listing {
@@ -130,7 +19,6 @@ p.listing {
 }
 
 p.listing#location {
-  color: var(--background);
   font-family: var(--font-medium);
 }
 
@@ -140,39 +28,31 @@ p.listing#price {
   font-family: var(--font-light);
 }
 
-.statistics {
-  color: var(--background);
-  font-family: var(--font-medium);
+div.statistics {
+  background: var(--primary-gradient);
+  border-radius: var(--radius);
+  padding: var(--padding-lg);
+  box-shadow: var(--shadow);
+  margin: var(--margin-sm);
+  text-align: center;
+  animation: slide 0.5s 1s ease-in both;
 }
 
 h3.statistics {
   color: var(--background);
-  animation: fade 5s ease-in-out infinite alternateb;
-}
-
-div.statistics {
-  border-radius: var(--border-radius) var(--border-radius) 0 0;
-  background: var(--primary-gradient);
-  padding: var(--padding-md);
-}
-
-.listings#secondary {
-  padding: var(--padding-sm);
-  background: var(--primary-gradient);
-  border-radius: var(--border-radius);
-  animation: fade 4s 1s ease-in both;
-}
-
-.card-img-top {
-  height: 30vh;
-  object-fit: cover;
-  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  font-family: var(--font-medium);
+  animation: fade 3s ease-in-out infinite alternate;  
 }
 
 .card {
-  border-radius: var(--border-radius);
+  border-radius: var(--radius);
   box-shadow: var(--shadow);
-  animation: fade 3s 1s ease-in both;
+}
+
+.card-img-top {
+  height: 25vh;
+  object-fit: cover;
+  border-radius: var(--radius) var(--radius) 0 0;
 }
 
 .book {
