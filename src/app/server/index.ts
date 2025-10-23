@@ -1,5 +1,6 @@
-const API_HOST = 'http://localhost';
-
-export const AUTH_API_URL = `${API_HOST}:3001/auth`;
-export const USERS_API_URL = `${API_HOST}:3001/users`;
-export const BOOKING_API_URL = `${API_HOST}:3002`;
+const root = 'http://localhost';
+export const path = {
+    auth: `${root}:3001/auth`,
+    users: `${root}:3001/users`,
+    booking: `${root}:3002`
+}
