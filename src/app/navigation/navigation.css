@@ -5,13 +5,14 @@
   width: 100vw;
   background: var(--background);
   color: var(--text);
-  animation: fade 0.5s 1s ease-in both;
+  animation: slide 0.5s 1s ease-in both;
+
   box-shadow: 0px 0px 5px var(--text);
 }
 
 .col-sm:hover {
   cursor: pointer;
-  filter: var(--brightness); 
+  filter: var(--brightness);
 }
 
 .settings,
