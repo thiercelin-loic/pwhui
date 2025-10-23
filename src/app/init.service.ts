@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { AuthService } from './auth/auth.service';
 import { HttpClient } from '@angular/common/http';
-import { BOOKING_API_URL } from './server';
+import { path } from './server';
 
 @Injectable({
   providedIn: 'root'
@@ -15,14 +13,12 @@ export class InitService {
   initializationError$ = this.initializationError.asObservable();
 
   constructor(
-    private authService: AuthService,
     private http: HttpClient
   ) { }
 
   initialize(): void {
-    this.initializationError.next(null);
     const observables = [
-      this.http.get(`${BOOKING_API_URL}/listings`)
+      this.http.get(`${path.booking}/listings`)
     ];
 
     forkJoin(observables).subscribe({

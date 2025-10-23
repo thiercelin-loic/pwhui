@@ -3,11 +3,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { User } from './user.model';
-import { AUTH_API_URL, USERS_API_URL } from '../server';
+import { path } from '../server';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private url = { auth: AUTH_API_URL, users: USERS_API_URL };
   private current: User | null = null;
   constructor(private http: HttpClient) { }
 
@@ -24,7 +23,7 @@ export class AuthService {
 
   login(credentials: any): Observable<any> {
     return this.http.post(
-      `${this.url.auth}/login`,
+      `${path.auth}/login`,
       credentials
     ).pipe(tap((response: any) =>
       response.token && (
@@ -35,7 +34,7 @@ export class AuthService {
 
   register(user: any): Observable<any> {
     return this.http.post(
-      `${this.url.auth}/register`,
+      `${path.auth}/register`,
       user
     );
   }
@@ -53,7 +52,7 @@ export class AuthService {
 
     if (!token) { return of(null); }
     return this.http.get<User>(
-      `${this.url.users}/me`,
+      `${path.users}/me`,
       { headers }
     ).pipe(tap((user: User) => {
       this.current = user;
