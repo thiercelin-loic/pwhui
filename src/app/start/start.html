@@ -1,9 +1,8 @@
 <div class="container">
     <div class="icon"></div>
     <h1>Paris<b>WorkHub</b></h1>
-    <p class="loading-text" *ngIf="!(errorMessage$ | async)">{{ currentTip }}</p>
-    <div *ngIf="(errorMessage$ | async) as errorMessage" class="error-container">
-        <p class="error-text">{{ errorMessage }} <a class="retry" (click)="retryInitialization()">Try again</a></p>
-        <br>
+    <p class="loading-text" *ngIf="!(error | async)">{{ current }}</p>
+    <div *ngIf="(error | async) as error" class="error-container">
+        <p class="error-text">{{ error }} <a class="retry" (click)="retry()">Try again</a></p>
     </div>
 </div>

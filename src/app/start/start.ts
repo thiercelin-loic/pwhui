@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InitService } from '../init.service';
 import { Observable } from 'rxjs';
@@ -10,8 +10,13 @@ import { Observable } from 'rxjs';
   standalone: true,
   imports: [CommonModule]
 })
-export class Start implements OnInit {
-  tips = [
+export class Start {
+  constructor(private initService: InitService) {
+    this.current = this.pull();
+    this.error = this.initService.initializationError$;
+  }
+
+  private tips: string[] = [
     'To maximize your chances of finding availability, make bookings in advance',
     'Popular workspaces fill up quickly - book early for the best spots',
     'Check out our filter options to find workspaces that match your needs',
@@ -22,23 +27,12 @@ export class Start implements OnInit {
     'Some workspaces offer day passes and monthly memberships for frequent users'
   ];
 
-  currentTip: string;
-  errorMessage$: Observable<string | null>;
-
-  constructor(private initService: InitService) { 
-    this.currentTip = this.getRandomTip();
-    this.errorMessage$ = this.initService.initializationError$;
+  private pull(): string {
+    const index = Math.floor(Math.random() * this.tips.length);
+    return this.tips[index];
   }
 
-  ngOnInit(): void {
-  }
-
-  getRandomTip(): string {
-    const randomIndex = Math.floor(Math.random() * this.tips.length);
-    return this.tips[randomIndex];
-  }
-
-  retryInitialization(): void {
-    this.initService.initialize();
-  }
+  public current: string;
+  public error: Observable<string | null>;
+  public retry(): void { this.initService.initialize(); }
 }
