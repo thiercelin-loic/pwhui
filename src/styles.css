@@ -269,8 +269,7 @@ section {
 .home,
 .account,
 .settings,
-.cart,
-.detail {
+.cart {
   display: inline-block;
   width: 25px;
   height: 3vh;
@@ -305,10 +304,6 @@ section {
 
 .cart {
   mask: url('./icons/cart.svg') no-repeat center;
-}
-
-.detail {
-  mask: url('./icons/detail.svg') no-repeat center;
 }
 
 input.form-control:focus {
