@@ -1,5 +1,4 @@
 <div class="back-button" routerLink="/" title="Back to landing">
-  <span class="material-icons">arrow_back</span>
   <p>Return to landing</p>
 </div>
 <form [formGroup]="form" (ngSubmit)="submit()">
@@ -88,9 +87,8 @@
   <div *ngIf="registered" class="alert alert-primary mt-3">
     You are now registered and will be redirected to the login page, please wait...
   </div>
-  <button type="submit" class="auth-button" [disabled]="form.invalid || isLoading">
+  <button type="submit" class="btn btn-primary" [disabled]="form.invalid || isLoading">
     <ng-container *ngIf="!isLoading">
-      <span class="material-icons">person_add</span>
       Register
     </ng-container>
     <ng-container *ngIf="isLoading">
@@ -98,7 +96,6 @@
     </ng-container>
   </button>
 </form>
-<br>
 <div>
   <a class="auth-link" routerLink="/auth">Already have an account? login here</a>
 </div>

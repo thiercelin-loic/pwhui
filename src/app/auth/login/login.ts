@@ -31,7 +31,7 @@ export class Login implements OnInit {
 
   next = (response: any) => {
     document.cookie = `token=${(response).access_token}; path=/`;
-    this.router.navigate(['/']);
+    window.location.href = '/';
   }
 
   again = (error: any) => this.error

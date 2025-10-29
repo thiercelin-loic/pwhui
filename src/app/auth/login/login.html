@@ -1,5 +1,4 @@
 <div class="back-button" routerLink="/" title="Back to landing">
-  <span class="material-icons">arrow_back</span>
   <p>Return to landing</p>
 </div>
 <form [formGroup]="form" (ngSubmit)="submit()">
@@ -21,8 +20,7 @@
   <div *ngIf="error" class="alert alert-danger mt-3">
     {{ error }}
   </div>
-  <button type="submit" class="auth-button" [disabled]="form.invalid">
-    <span class="material-icons">login</span>
+  <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
     Connect
   </button>
 </form>
