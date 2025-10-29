@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { path } from './server';
+import { AuthService } from './auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,13 @@ export class InitService {
   initializationError$ = this.initializationError.asObservable();
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private auth: AuthService
   ) { }
 
   initialize(): void {
     const observables = [
-      this.http.get(`${path.booking}/listings`)
+      this.http.get(`${path.booking}/listings`),
     ];
 
     forkJoin(observables).subscribe({
