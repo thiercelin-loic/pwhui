@@ -7,10 +7,10 @@ import { path } from '../server';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private current: User | null = null;
+  private user: User | null = null;
   constructor(private http: HttpClient) { }
 
-  getToken(): string | null {
+  private getToken(): string | null {
     const token = document.cookie
       .split('; ')
       .find(row => row.startsWith('token='));
@@ -21,7 +21,7 @@ export class AuthService {
       .split('&')[0];
   }
 
-  login(credentials: any): Observable<any> {
+  public login(credentials: any): Observable<any> {
     return this.http.post(
       `${path.auth}/login`,
       credentials
@@ -32,19 +32,19 @@ export class AuthService {
     ))
   }
 
-  register(user: any): Observable<any> {
+  public register(user: any): Observable<any> {
     return this.http.post(
       `${path.auth}/register`,
       user
     );
   }
 
-  logout() {
-    this.current = null;
+  public logout() {
+    this.user = null;
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   }
 
-  getMe(): Observable<User | null> {
+  public getMe(): Observable<User | null> {
     const token = this.getToken();
     const name = 'Authorization';
     const value = `Bearer ${token}`;
@@ -55,16 +55,15 @@ export class AuthService {
       `${path.users}/me`,
       { headers }
     ).pipe(tap((user: User) => {
-      this.current = user;
+      this.user = user;
       user && user.id && (
         document.cookie
-        = `token=${token}&user=${user.id};`
+        = `token=${token}&id=${user.id}&user=${user.first_name};`
       );
     }));
-
   }
 
-  getId(): string | null {
+  public getId(): string | null {
     const token = document.cookie
       .split('; ')
       .find(row => row.startsWith('token='));
@@ -76,6 +75,6 @@ export class AuthService {
       || null;
   }
 
-  getCurrent(): User | null { return this.current; }
-  isLogged(): boolean { return !!this.getToken(); }
+  public get current(): User | null { return this.user; }
+  public isLogged(): boolean { return !!this.getToken(); }
 }
