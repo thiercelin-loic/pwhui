@@ -2,7 +2,7 @@
     <header class="row align-items-center">
         <div class="col text-start">
             <p>{{today}} {{month}} {{year}}</p>
-            <h5>Welcome, John</h5>
+            <h5>Welcome, {{authService.current?.first_name || 'book your ideal workspace'}}.</h5>
         </div>
         <div class="col text-end">
             <span class="notification"></span>
@@ -20,7 +20,8 @@
         <h4><span class="popular"></span>Most Popular</h4>
         <div class=" row text-start">
             <div class="col listing" *ngFor="let listing of listings | slice:0:4"
-                style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) fixed center center / cover no-repeat;">
+                style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) fixed center center / cover no-repeat;"
+                data-bs-toggle="modal" data-bs-target="#listing" (click)="selectListing(listing)">
                 <p class="listing">
                     {{listing.name}}
                 </p>
@@ -30,7 +31,8 @@
                 <p class="listing " id="price">{{listing.pricing}}€</p>
             </div>
             <div class="col listing" *ngFor="let listing of listings | slice:0:4"
-                style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) fixed center center / cover no-repeat;">
+                style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) fixed center center / cover no-repeat;"
+                data-bs-toggle="modal" data-bs-target="#listing" (click)="selectListing(listing)">
                 <p class="listing">
                     {{listing.name}}
                 </p>
@@ -42,39 +44,77 @@
         </div>
     </section>
     <div class="statistics text-center">
-        <h3 class="statistics">More than 80 workplaces throughout the city.</h3>
+        <h3 class="statistics">More than {{listings.length}} workplaces throughout the city.</h3>
     </div>
     <section>
-        <h4><span class="idea"></span>Better places for your ideas</h4>
-        <div class=" row row-cols-1 row-cols-md-3 g-3">
-            <div class="col" *ngFor="let listing of listings | slice:4:7">
+        <h4><span class="upcomming"></span>Upcomming booking</h4>
+        <div class="row row-cols-1 row-cols-md-3 g-3">
+            <div class="col" *ngFor="let booking of bookings">
                 <div class="card">
-                    <img [src]="listing.photo" class="card-img-top" alt="...">
+                    <img [src]="getListingById(booking.listing)?.photo" class="card-img-top" alt="{{getListingById(booking.listing)?.name}}">
                     <div class="card-body">
-                        <h5 class="listing">{{listing.name}}</h5>
-                        <p class="location">{{listing.location}}</p>
-                        <p class="price">{{listing.price}}€/h</p>
+                        <h5 class="listing">{{getListingById(booking.listing)?.name}}</h5>
+                        <p class="location">{{getListingById(booking.listing)?.location}}</p>
+                        <p class="price">{{booking.pricing}}€/h</p>
+                        <p class="dates">From: {{booking.arrival | date}}</p>
+                        <p class="dates">To: {{booking.departure | date}}</p>
                         <div class="text-center">
-                            <button class="btn btn-primary book">Booking</button>
+                            <button class="btn btn-primary book">Edit booking</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <section>
-        <h4><span class="popular"></span>Most Popular</h4>
-        <div class=" row text-start">
-            <div class="col listing" *ngFor="let listing of listings | slice:0:4"
-                style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) fixed center center / cover no-repeat;">
-                <p class="listing">
-                    {{listing.name}}
-                </p>
-                <p class="listing" id="location">
-                    {{listing.location}}
-                </p>
-                <p class="listing " id="price">{{listing.pricing}}€</p>
-            </div>
+        <div *ngIf="bookings.length === 0" class="text-start">
+            <p *ngIf="!authService.isLogged()">You need a account to book a workspace, <a routerLink="auth">login of
+                    signup here</a></p>
+            <p *ngIf="authService.isLogged()">You have no bookings yet.</p>
         </div>
     </section>
+    <br>
+</div>
+
+<div class="modal fade" id="listing" tabindex="-1" aria-labelledby="label" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content" *ngIf="selection">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col listing" id="detail"
+                        style="background: linear-gradient(transparent, var(--text)), url({{selection.photo}}) fixed center center / cover no-repeat;">
+                        <p class="listing"><b>{{selection.name}}</b></p>
+                        <p class="listing" id="description">{{selection.description}}</p>
+                        <p class="listing" id="location">{{selection.location}}</p>
+                        <p class="listing" id="price">{{selection.pricing}}€/h</p>
+                    </div>
+                    <form>
+                        <div class="row">
+                            <div class="row">
+                                <label for="arrival">Arrival</label>
+                                <input type="datetime-local" class="form-control" id="arrival" name="arrival"
+                                    [(ngModel)]="arrival" required>
+                            </div>
+                            <div class="row">
+                                <label for="departure">Departure</label>
+                                <input type="datetime-local" class="form-control" id="departure" name="departure"
+                                    [(ngModel)]="departure" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col ps-0">
+                            <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                        <div class="col pe-0">
+                            <button type="button" class="btn btn-primary w-100" (click)="book()"
+                                data-bs-dismiss="modal">Book</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

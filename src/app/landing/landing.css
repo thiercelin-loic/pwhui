@@ -10,6 +10,7 @@ div.listing {
 
 div.listing:hover {
   filter: var(--brightness);
+  cursor: pointer;
 }
 
 p.listing {
@@ -20,11 +21,12 @@ p.listing {
 
 p.listing#location {
   font-family: var(--font-medium);
+  color: var(--light);
 }
 
 p.listing#price {
   margin-bottom: 1rem;
-  color: var(--light);
+  color: var(--background);
   font-family: var(--font-light);
 }
 
@@ -33,7 +35,7 @@ div.statistics {
   border-radius: var(--radius);
   padding: var(--padding-lg);
   box-shadow: var(--shadow);
-  margin: var(--margin-sm);
+  margin: var(--margin-md) 0;
   text-align: center;
   animation: slide 0.5s 1s ease-in both;
 }
@@ -41,7 +43,7 @@ div.statistics {
 h3.statistics {
   color: var(--background);
   font-family: var(--font-medium);
-  animation: fade 3s ease-in-out infinite alternate;  
+  animation: fade 3s ease-in-out infinite alternate;
 }
 
 .card {
@@ -58,4 +60,60 @@ h3.statistics {
 .book {
   margin-top: var(--margin-sm);
   width: 100%;
+}
+
+p,
+input {
+  font-family: var(--font-light);
+}
+
+.input-group {
+  margin-top: var(--margin-lg);
+}
+
+input.form-control {
+  box-shadow: var(--shadow);
+  animation: fade 0.25s 1.5s ease-in both;
+  background: var(--background-gradient);
+  color: var(--text);
+  border-radius: var(--radius);
+  padding: var(--padding-sm) var(--padding-md);
+}
+
+div.modal-body {
+  padding: 0;
+}
+
+p.selection {
+  margin: var(--margin-sm);
+  color: var(--background);
+}
+
+input.selection {
+  animation: none;
+  background: var(--background);
+}
+
+#detail {
+  border-radius: 0 0 var(--radius) var(--radius);
+  margin: 0;
+  height: 60vh;
+}
+
+#detail:hover {
+  filter: none;
+  cursor: default;
+}
+
+form {
+  margin-top: var(--margin-md);
+}
+
+input#arrival, input#departure, label {
+  animation: none;
+  margin-top: var(--margin-sm);
+}
+
+input#arrival, input#departure {
+  background: #fff;
 }
