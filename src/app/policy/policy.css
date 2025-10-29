@@ -1,8 +1,3 @@
-.policy {
-  color: transparent;
-  filter: invert(0.9);
-  background: url('policy.svg') no-repeat center;
-  margin-right: 10px;
-  width: 24px;
-  padding: 3%;
+.cookie {
+  margin-right: 1vw;
 }

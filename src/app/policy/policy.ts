@@ -1,12 +1,10 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { PolicyService } from './policy.service';
 
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-policy',
-  imports: [NgIf],
   templateUrl: './policy.html',
   styleUrl: './policy.css',
 })
@@ -26,26 +24,20 @@ export class Policy implements AfterViewInit {
       const modal = new bootstrap.Modal(element);
       modal.show();
     }
+
+    console.log('Advertising our policy...');
   }
 
-  discover(advertise: () => void) {
-    setTimeout(advertise, 3000);
-  }
-
-  check(value: string) {
-    const target = 'consent=true';
-
-    if (value.includes(target)) {
-      this.cookie = true;
-    } else {
-      this.discover(this.advertise);
-    }
+  discover() {
+    setTimeout(() => this.advertise(), 3000);
   }
 
   ngAfterViewInit(): void {
-    const cookies = document.cookie;
-    const values = cookies.split(';');
-    values.forEach((value) => this.check(value.trim()));
+    if (document.cookie.includes('consent=true')) {
+      this.cookie = true;
+    } else {
+      this.discover();
+    }
   }
 
   consent() {
