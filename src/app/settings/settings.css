@@ -1,0 +1,19 @@
+p,
+input {
+  font-family: var(--font-light);
+}
+
+input.form-control {
+  box-shadow: var(--shadow);
+  animation: fade 0.25s 1.5s ease-in both;
+  background: var(--background-gradient);
+  color: var(--text);
+  border-radius: var(--radius);
+  padding: var(--padding-sm) var(--padding-md);
+}
+
+input.form-control:focus {
+  box-shadow: var(--shadow);
+  border: none;
+  filter: var(--brightness);
+}

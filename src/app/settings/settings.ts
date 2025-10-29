@@ -24,7 +24,8 @@ export class Settings {
   private interval: any;
   public placeholder: string = '';
   private tips: string[] = [
-    'Privacy policy',
+    'Two-Factor Authentication ',
+    'Change Password ',
   ];
 
   private erase() {
