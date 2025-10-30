@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { PolicyService } from '../policy/policy.service';
+import { ToastService } from '../toast/toast.service';
 
 @Component({
   selector: 'app-settings',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './settings.html',
   styleUrl: './settings.css',
 })
 export class Settings {
-  constructor(private policyService: PolicyService) { }
+  constructor(private policyService: PolicyService, public toast: ToastService) { }
   private option = { month: 'long' } as const;
   public date: Date = new Date();
   public today: number = this.date.getDate();
@@ -28,7 +30,7 @@ export class Settings {
     'Change Password ',
   ];
 
-  private erase() {
+  private erase(): void {
     this.interval = setInterval(() => {
       if (this.placeholder.length > 0) {
         this.placeholder = this.placeholder.slice(0, -1);
@@ -41,7 +43,7 @@ export class Settings {
     }, this.erasing);
   }
 
-  private type() {
+  private type(): void {
     const current = this.tips[this.text];
 
     if (this.char < current.length) {
@@ -60,11 +62,10 @@ export class Settings {
     );
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.write();
   }
 
-  public ngOnDestroy() { clearInterval(this.interval); }
-
-  public openPolicy() {this.policyService.open();}
+  public ngOnDestroy(): void { clearInterval(this.interval); }
+  public openPolicy(): void { this.policyService.open(); }
 }

@@ -5,7 +5,12 @@
       <h5>Settings</h5>
     </div>
     <div class="col text-end">
-      <span class="notification"></span>
+      <span class="notification" role="button" title="Notifications"
+            data-bs-toggle="modal" data-bs-target="#sessionToastsModal">
+        <ng-container *ngIf="(toast.history$ | async) as history">
+          <span class="badge" *ngIf="history.length > 0">{{history.length}}</span>
+        </ng-container>
+      </span>
     </div>
   </header>
   <div class="input-group">
@@ -21,6 +26,14 @@
       <p>Understand how your personal data are used.</p>
       <br>
       <button class="btn btn-primary" (click)="openPolicy()">Read</button>
+    </div>
+  </section>
+  <section>
+    <h4><span class="account"></span>Account</h4>
+    <div class="setting">
+      <p>Manage your account</p>
+      <br>
+      <button class="btn btn-warning" (click)="openPolicy()">Disconnect</button>
     </div>
   </section>
 </div>
