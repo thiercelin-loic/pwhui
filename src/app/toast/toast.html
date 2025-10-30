@@ -1,0 +1,51 @@
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+  <div style="box-shadow: var(--primary) 0 0 100px;" *ngFor="let toast of toasts" class="toast show" role="alert" aria-live="assertive" aria-atomic="true"
+    [class]="toast.classname">
+    <div class="toast-header">
+      <strong class="me-auto">Guide</strong>
+      <button type="button" class="btn-close" (click)="remove(toast)" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      {{ toast.message }}
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="sessionToastsModal" tabindex="-1" aria-labelledby="sessionToastsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sessionToastsLabel">Notifications</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="(history$ | async) as history">
+          <div *ngIf="history.length === 0" class="text-muted">No notifications yet.</div>
+          <div *ngFor="let t of history" class="mb-2">
+            <div class="toast show w-100" role="alert" aria-live="assertive" aria-atomic="true" [class]="t.classname">
+              <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+              </div>
+              <div class="toast-body">
+                {{ t.message }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col ps-0">
+              <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Close</button>
+            </div>
+            <div class="col pe-0">
+              <button type="button" class="btn btn-primary w-100" (click)="clear()">Clear</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
