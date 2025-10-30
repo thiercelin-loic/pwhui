@@ -9,6 +9,10 @@
   box-shadow: 0px 0px 5px var(--text);
 }
 
+.col-sm {
+  width: 30vw;
+}
+
 .col-sm:hover {
   cursor: pointer;
   filter: var(--brightness);
