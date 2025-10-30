@@ -6,6 +6,7 @@ import { InitService } from './init.service';
 import { Start } from './start/start';
 import { Policy } from './policy/policy';
 import {Navigation} from "./navigation/navigation";
+import {ToastComponent} from "./toast/toast";
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ import {Navigation} from "./navigation/navigation";
     Start,
     Policy,
     Navigation,
-    Policy
+    Policy,
+    ToastComponent
 ],
   templateUrl: './app.html',
   styleUrl: './app.css'
