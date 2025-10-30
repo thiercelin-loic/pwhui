@@ -9,39 +9,30 @@ declare var bootstrap: any;
   styleUrl: './policy.css',
 })
 export class Policy implements AfterViewInit {
-  cookie: boolean = false;
-
-  constructor(private policyService: PolicyService) {
-    this.policyService.openModal$.subscribe(() => {
-      this.advertise();
-    });
+  constructor(private policy: PolicyService) {
+    this.policy.modal$.subscribe(() => this.advertise());
   }
 
-  advertise() {
+  private advertise(): void {
     const element = document.getElementById('policy');
 
     if (element) {
       const modal = new bootstrap.Modal(element);
       modal.show();
     }
-
-    console.log('Advertising our policy...');
   }
 
-  discover() {
+  private discover(): void {
     setTimeout(() => this.advertise(), 3000);
   }
 
-  ngAfterViewInit(): void {
-    if (document.cookie.includes('consent=true')) {
-      this.cookie = true;
-    } else {
+  public ngAfterViewInit(): void {
+    if (!document.cookie.includes('consent=true')) {
       this.discover();
     }
   }
 
-  consent() {
-    this.cookie = true;
+  public consent(): void {
     document.cookie = 'consent=true; max-age=31536000';
   }
 }

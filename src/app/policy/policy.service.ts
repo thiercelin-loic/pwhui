@@ -5,11 +5,9 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class PolicyService {
-  private openModalSource = new Subject<void>();
-
-  openModal$ = this.openModalSource.asObservable();
-
+  private modal = new Subject<void>();
+  modal$ = this.modal.asObservable();
   open() {
-    this.openModalSource.next();
+    this.modal.next();
   }
 }
