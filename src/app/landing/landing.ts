@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { path } from '../server';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth/auth.service';
+import { ToastService } from '../toast/toast.service';
+import { Bookings, Listings } from './landing.model';
+import { path } from '../server';
 
 @Component({
   selector: 'app-landing',
@@ -13,27 +15,27 @@ import { AuthService } from '../auth/auth.service';
   styleUrl: './landing.css'
 })
 export class Landing implements OnInit, OnDestroy {
-  constructor(private http: HttpClient, public authService: AuthService) { }
-
+  constructor(private http: HttpClient, public auth: AuthService, public toast: ToastService) { }
   private option = { month: 'long' } as const;
+
   public date: Date = new Date();
   public today: number = this.date.getDate();
   public month: string = this.date.toLocaleString('default', this.option);
   public year: number = this.date.getFullYear();
-  public listings: any[] = [];
-  public bookings: any[] = [];
-  public selection: any;
+
+  public listings: Listings[] = [];
+  public bookings: Bookings[] = [];
+  public selection: Listings = {} as Listings;
   public arrival!: Date;
   public departure!: Date;
 
+  public placeholder: string = '';
   private text: number = 0;
   private char: number = 0;
-
   private typing: number = 50;
   private erasing: number = 50;
   private delay: number = 2000;
-  private interval: any;
-  public placeholder: string = '';
+  private interval: number = 0;
   private tips: string[] = [
     'Coworking near Eiffel Tower',
     'Quiet workspace in Le Marais',
@@ -43,7 +45,7 @@ export class Landing implements OnInit, OnDestroy {
     'Salle de réunion proche du Louvre'
   ];
 
-  private erase() {
+  private erase(): void {
     this.interval = setInterval(() => {
       if (this.placeholder.length > 0) {
         this.placeholder = this.placeholder.slice(0, -1);
@@ -56,7 +58,7 @@ export class Landing implements OnInit, OnDestroy {
     }, this.erasing);
   }
 
-  private type() {
+  private type(): void {
     const current = this.tips[this.text];
 
     if (this.char < current.length) {
@@ -75,59 +77,63 @@ export class Landing implements OnInit, OnDestroy {
     );
   }
 
-  private getListings() {
-    this.http.get<any[]>(`${path.booking}/listings`).subscribe(data => {
-      this.listings = data;
-    });
+  private getListings(): void {
+    this.http.get<Listings[]>(`${path.booking}/listings`)
+      .subscribe(data => { this.listings = data; });
   }
 
-  private getBookings() {
-    const userId = this.authService.current?.id;
+  private getBookings(): void {
+    const userId = this.auth.current?.id;
     if (userId) {
-      this.http.get<any[]>(`${path.booking}/bookings`).subscribe(data => {
-        this.bookings = data.filter(booking => booking.user === userId);
+      this.http.get<Bookings[]>(`${path.booking}/bookings`).subscribe(data => {
+        const now = new Date();
+        this.bookings = data
+          .filter(booking => booking.user === userId && new Date(booking.arrival) > now)
+          .sort((a, b) => new Date(a.arrival).getTime() - new Date(b.arrival).getTime());
       });
     } else {
       this.bookings = [];
     }
   }
 
-  public selectListing(listing: any) {
+  public selectListing(listing: Listings): void {
     this.selection = listing;
   }
 
-  public book() {
+  public book(): void {
     const booking = {
       listing: this.selection.id,
-      user: this.authService.current?.id,
+      user: this.auth.current?.id,
       arrival: this.arrival,
       departure: this.departure,
       confirmation: false
     };
-    
+
     if (this.arrival && this.departure && this.selection) {
-      if (this.authService.current?.id) {
-        this.http.post(`${path.booking}/bookings`, booking).subscribe(() => { });
-        this.getBookings();
+      if (this.auth.current?.id) {
+        this.http.post<Bookings>(`${path.booking}/bookings`, booking).subscribe(() => {
+          this.getBookings();
+          this.toast.show({ message: 'Booking successful!' });
+        });
       } else {
-        alert('Please log in to make a booking.');
+  this.toast.show({ message: 'Please log in to make a booking.', classname: 'bg-danger text-light' });
       }
     } else {
-      alert('Please select a listing and specify both start and end dates.');
+  this.toast.show({ message: 'Please select a listing and specify both start and end dates.', classname: 'bg-danger text-light' });
     }
   }
 
-  public getListingById(id: number) {
+  public getListingById(id: number): Listings | undefined {
     return this.listings.find(listing => listing.id === id);
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.write();
     this.getListings();
-    this.authService.getMe().subscribe(() => {
+    this.auth.getMe().subscribe(() => {
       this.getBookings();
     });
   }
 
-  public ngOnDestroy() { clearInterval(this.interval); }
+  public ngOnDestroy(): void { clearInterval(this.interval); }
 }

@@ -26,8 +26,8 @@ p.listing#location {
 
 p.listing#price {
   margin-bottom: 1rem;
-  color: var(--background);
-  font-family: var(--font-light);
+  color: var(--light);
+  font-family: var(--font-bold);
 }
 
 div.statistics {
@@ -44,17 +44,6 @@ h3.statistics {
   color: var(--background);
   font-family: var(--font-medium);
   animation: fade 3s ease-in-out infinite alternate;
-}
-
-.card {
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-.card-img-top {
-  height: 25vh;
-  object-fit: cover;
-  border-radius: var(--radius) var(--radius) 0 0;
 }
 
 .book {
@@ -109,11 +98,14 @@ form {
   margin-top: var(--margin-md);
 }
 
-input#arrival, input#departure, label {
+input#arrival,
+input#departure,
+label {
   animation: none;
   margin-top: var(--margin-sm);
 }
 
-input#arrival, input#departure {
+input#arrival,
+input#departure {
   background: #fff;
 }

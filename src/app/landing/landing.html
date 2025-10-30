@@ -2,10 +2,15 @@
     <header class="row align-items-center">
         <div class="col text-start">
             <p>{{today}} {{month}} {{year}}</p>
-            <h5>Welcome, {{authService.current?.first_name || 'book your ideal workspace'}}.</h5>
+            <h5>Welcome, {{auth.current?.first_name || 'book your ideal workspace'}}.</h5>
         </div>
         <div class="col text-end">
-            <span class="notification"></span>
+            <span class="notification" role="button" title="Notifications"
+                  data-bs-toggle="modal" data-bs-target="#sessionToastsModal">
+                <ng-container *ngIf="(toast.history$ | async) as history">
+                    <span class="badge" *ngIf="history.length > 0">{{history.length}}</span>
+                </ng-container>
+            </span>
         </div>
     </header>
 
@@ -49,26 +54,22 @@
     <section>
         <h4><span class="upcomming"></span>Upcomming booking</h4>
         <div class="row row-cols-1 row-cols-md-3 g-3">
-            <div class="col" *ngFor="let booking of bookings">
+            <div class="col" *ngFor="let booking of bookings | slice:0:3">
                 <div class="card">
                     <img [src]="getListingById(booking.listing)?.photo" class="card-img-top" alt="{{getListingById(booking.listing)?.name}}">
                     <div class="card-body">
                         <h5 class="listing">{{getListingById(booking.listing)?.name}}</h5>
                         <p class="location">{{getListingById(booking.listing)?.location}}</p>
-                        <p class="price">{{booking.pricing}}€/h</p>
-                        <p class="dates">From: {{booking.arrival | date}}</p>
-                        <p class="dates">To: {{booking.departure | date}}</p>
-                        <div class="text-center">
-                            <button class="btn btn-primary book">Edit booking</button>
-                        </div>
+                        <p class="price text-end">From: {{booking.arrival | date}}</p>
+                        <p class="price text-end">To: {{booking.departure | date}}</p>
                     </div>
                 </div>
             </div>
         </div>
         <div *ngIf="bookings.length === 0" class="text-start">
-            <p *ngIf="!authService.isLogged()">You need a account to book a workspace, <a routerLink="auth">login of
+            <p *ngIf="!auth.isLogged()">You need a account to book a workspace, <a routerLink="auth">login of
                     signup here</a></p>
-            <p *ngIf="authService.isLogged()">You have no bookings yet.</p>
+            <p *ngIf="auth.isLogged()">You have no bookings yet.</p>
         </div>
     </section>
     <br>
