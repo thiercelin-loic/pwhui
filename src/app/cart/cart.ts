@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { path } from '../server';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth/auth.service';
+import { ToastService } from '../toast/toast.service';
+import { Bookings, Listings } from '../landing/landing.model';
+import { path } from '../server';
 
 @Component({
   selector: 'app-cart',
@@ -16,36 +18,34 @@ export class Cart implements OnInit {
   public today: number = this.date.getDate();
   public month: string = this.date.toLocaleString('default', this.option);
   public year: number = this.date.getFullYear();
-  public bookings: any[] = [];
-  public listings: any[] = [];
+  public bookings: Bookings[] = [] ;
+  public listings: Listings[] = [];
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private auth: AuthService, public toast: ToastService) { }
 
   ngOnInit(): void {
-    this.authService.getMe().subscribe(() => {
+    this.auth.getMe().subscribe(() => {
       this.getBookings();
     });
     this.getListings();
   }
 
-  private getListings() {
-    this.http.get<any[]>(`${path.booking}/listings`).subscribe(data => {
+  private getListings(): void {
+    this.http.get<Listings[]>(`${path.booking}/listings`).subscribe(data => {
       this.listings = data;
     });
   }
 
-  private getBookings() {
-    const userId = this.authService.current?.id;
-    if (userId) {
-      this.http.get<any[]>(`${path.booking}/bookings`).subscribe(data => {
-        this.bookings = data.filter(booking => booking.user === userId);
+  private getBookings(): void {
+    const id = this.auth.current?.id;
+    if (id) {
+      this.http.get<Bookings[]>(`${path.booking}/bookings`).subscribe(data => {
+        this.bookings = data.filter(booking => booking.user === id);
       });
-    } else {
-      this.bookings = [];
     }
   }
 
-  public getListingById(id: number) {
+  public getListingById(id: number): Listings | undefined {
     return this.listings.find(listing => listing.id === id);
   }
 }

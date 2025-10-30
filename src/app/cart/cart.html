@@ -5,7 +5,12 @@
             <h5>Cart</h5>
         </div>
         <div class="col text-end">
-            <span class="notification"></span>
+            <span class="notification" role="button" title="Notifications"
+                  data-bs-toggle="modal" data-bs-target="#sessionToastsModal">
+                <ng-container *ngIf="(toast.history$ | async) as history">
+                    <span class="badge" *ngIf="history.length > 0">{{history.length}}</span>
+                </ng-container>
+            </span>
         </div>
     </header>
     <section>
@@ -17,12 +22,8 @@
                     <div class="card-body">
                         <h5 class="listing">{{getListingById(booking.listing)?.name}}</h5>
                         <p class="location">{{getListingById(booking.listing)?.location}}</p>
-                        <p class="price">{{booking.pricing}}€/h</p>
                         <p class="dates">From: {{booking.arrival | date}}</p>
                         <p class="dates">To: {{booking.departure | date}}</p>
-                        <div class="text-center">
-                            <button class="btn btn-primary book">Cancel booking</button>
-                        </div>
                     </div>
                 </div>
             </div>
