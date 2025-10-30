@@ -15,7 +15,6 @@ import { Subscription } from 'rxjs';
 export class Login implements OnInit {
   constructor(
     private builder: FormBuilder,
-    private router: Router,
     private service: AuthService
   ) { }
 

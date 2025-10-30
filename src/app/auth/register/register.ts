@@ -16,7 +16,7 @@ export class Register implements OnInit {
   constructor(
     private builder: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private auth: AuthService
   ) { }
 
   form!: FormGroup;
@@ -94,7 +94,7 @@ export class Register implements OnInit {
 
   send() {
     this.isLoading = true;
-    this.authService
+    this.auth
       .register({
         email: this.form.value.email,
         first_name: this.form.value.firstname,
