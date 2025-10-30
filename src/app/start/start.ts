@@ -11,9 +11,9 @@ import { Observable } from 'rxjs';
   imports: [CommonModule]
 })
 export class Start {
-  constructor(private initService: InitService) {
+  constructor(private init: InitService) {
     this.current = this.pull();
-    this.error = this.initService.initializationError$;
+    this.error = this.init.initializationError$;
   }
 
   private tips: string[] = [
@@ -34,5 +34,5 @@ export class Start {
 
   public current: string;
   public error: Observable<string | null>;
-  public retry(): void { this.initService.initialize(); }
+  public retry(): void { this.init.initialize(); }
 }
