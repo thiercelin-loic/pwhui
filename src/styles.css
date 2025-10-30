@@ -127,15 +127,21 @@
 }
 
 :root {
-  --light: #a4a4a4;
+  --light: #cdcdcd;
   --gradient: linear-gradient(transparent, var(--text));
   --primary: #012340;
-  --primary-gradient: linear-gradient(315deg, var(--primary), var(--light) 200%);
+  --primary-gradient: linear-gradient(45deg, var(--primary), var(--light) 200%);
+  --primary-gradient-invert: linear-gradient(45deg, var(--light) -200%, var(--primary));
   --secondary: #808080;
-  --secondary-gradient: linear-gradient(315deg, var(--secondary), var(--light) 200%);
+  --secondary-gradient: linear-gradient(45deg, var(--secondary), var(--light) 200%);
+  --warning: #cc4b00;
+  --warning-gradient: linear-gradient(45deg, var(--warning), var(--light) 200%);
+  --danger: #a20000;
+  --danger-gradient: linear-gradient(45deg, var(--danger), var(--light) 200%);
   --text: #333;
   --background: #eef1f3;
   --background-gradient: linear-gradient(45deg, var(--background), var(--light) 200%);
+  --background-gradient-invert: linear-gradient(45deg, var(--light) -200%, var(--background));
   --background-image: url('https://images.pexels.com/photos/9574945/pexels-photo-9574945.jpeg');
   --shadow: 6px 4px 4px #0e0e0e2e;
   --brightness: brightness(1.2);
@@ -153,7 +159,7 @@
 
 body,
 .modal-content {
-  background: var(--background);
+  background: var(--background-gradient);
   scroll-behavior: smooth;
 }
 
@@ -162,7 +168,11 @@ body,
   color: var(--primary);
 }
 
+.modal-header {
+  background: var(--background-gradient);
+}
 .modal-body {
+  background: var(--background-gradient);
   font-family: 'Karla-Light';
 }
 
@@ -181,22 +191,31 @@ h4 {
 }
 
 .btn-primary,
-.btn-secondary {
+.btn-secondary,
+.btn-warning {
   border: none;
+  width: 100%;
+  color: var(--background);
 }
 
 .btn-primary {
-  width: 100%;
   background: var(--primary-gradient);
 }
 
 .btn-primary:hover,
-.btn-secondary:hover {
+.btn-secondary:hover,
+.btn-warning:hover {
   filter: brightness(1.1);
+  color: var(--background);
+
 }
 
 .btn-secondary {
   background: var(--secondary-gradient);
+}
+
+.btn-warning {
+  background: var(--warning-gradient);
 }
 
 .container {
@@ -223,15 +242,34 @@ p {
 .notification {
   color: transparent;
   padding: var(--padding-sm) var(--padding-md);
-  border-radius: var(--radius);
+  border-radius: 10px;
   cursor: pointer;
   background: url('./icons/notification.svg') no-repeat center, var(--secondary-gradient);
   box-shadow: var(--shadow);
   opacity: 0.9;
+  position: relative;
 }
 
 .notification:hover {
   filter: var(--brightness);
+}
+
+/* Badge over the notification icon */
+.badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 7px;
+  border-radius: var(--radius);
+  background: var(--danger-gradient);
+  color: #fff;
+  font-family: var(--font-medium);
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
+  box-shadow: var(--shadow);
 }
 
 h5 {
@@ -260,6 +298,7 @@ section {
   border-radius: 0 20px 20px 0;
   box-shadow: var(--shadow);
   animation: fade 0.25s 1.5s ease-in both;
+  width: 50px;
 }
 
 .popular,
@@ -310,4 +349,37 @@ input.form-control:focus {
   box-shadow: none;
   border: none;
   filter: var(--brightness);
+}
+
+.toast {
+  box-shadow: var(--shadow);
+  font-family: var(--font-light);
+  background: var(--primary-gradient-invert);
+  border:none;
+  border-radius: 5px;
+  animation: fade 0.5s ease-in both;
+}
+
+.toast-header {
+  background: var(--background-gradient-invert);
+  color: var(--text);
+  font-family: var(--font-bold);
+}
+
+.card {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  background: var(--primary-gradient-invert);
+  border: none;
+  color: var(--background);
+}
+
+.card-img-top {
+  height: 25vh;
+  object-fit: cover;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.card-body {
+  border-radius: 0 0 var(--radius) var(--radius);
 }
