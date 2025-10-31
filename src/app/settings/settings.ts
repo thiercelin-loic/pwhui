@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PolicyService } from '../policy/policy.service';
 import { ToastService } from '../toast/toast.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-settings',
@@ -10,7 +11,11 @@ import { ToastService } from '../toast/toast.service';
   styleUrl: './settings.css',
 })
 export class Settings {
-  constructor(private policyService: PolicyService, public toast: ToastService) { }
+  constructor(
+    private policyService: PolicyService,
+    public toast: ToastService,
+    private auth: AuthService
+  ) { }
   private option = { month: 'long' } as const;
   public date: Date = new Date();
   public today: number = this.date.getDate();
@@ -68,4 +73,15 @@ export class Settings {
 
   public ngOnDestroy(): void { clearInterval(this.interval); }
   public openPolicy(): void { this.policyService.open(); }
+
+  // Disconnect the current user by clearing auth state and returning to home
+  public disconnect(): void {
+    try {
+      this.auth.logout();
+      this.toast.show({ message: 'You have been disconnected', classname: 'bg-warning text-dark', delay: 3000 });
+    } finally {
+      // Use a hard redirect to ensure full app state reset
+      window.location.href = '/';
+    }
+  }
 }
