@@ -3,14 +3,17 @@
         <span class="home"></span>
         <small>Home</small>
     </div>
-    <div class="col-sm" routerLink="cart">
-        <span class="cart"></span>
-        <small>Cart</small>
-    </div>
-    <div class="col-sm" routerLink="auth">
-        <span class="account"></span>
-        <small>Account</small>
-    </div>
+        @if (!isLogged) {
+            <div class="col-sm" routerLink="auth">
+                <span class="account"></span>
+                <small>Login/Signup</small>
+            </div>
+        } @else {
+            <div class="col-sm" routerLink="cart">
+                <span class="cart"></span>
+                <small>Cart</small>
+            </div>
+        }
     <div class="col-sm" routerLink="settings">
         <span class="settings"></span>
         <small>Settings</small>

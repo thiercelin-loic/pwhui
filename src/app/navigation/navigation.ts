@@ -7,4 +7,15 @@ import { RouterLink } from '@angular/router';
   templateUrl: './navigation.html',
   styleUrl: './navigation.css'
 })
-export class Navigation {}
+export class Navigation {
+  // Lightweight auth check to avoid service coupling here
+  get isLogged(): boolean {
+    try {
+      return document.cookie
+        .split('; ')
+        .some((row) => row.startsWith('token='));
+    } catch {
+      return false;
+    }
+  }
+}

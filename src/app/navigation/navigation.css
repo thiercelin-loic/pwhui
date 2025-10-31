@@ -2,7 +2,7 @@
   position: fixed;
   bottom: 0%;
   padding: var(--padding-sm);
-  width: 100vw;
+  width: 100%;
   background: var(--background);
   color: var(--text);
   animation: slide 0.5s 1s ease-in both;
@@ -10,7 +10,9 @@
 }
 
 .col-sm {
-  width: 30vw;
+  text-align: center;
+  width: 33.33%;
+  float: left;
 }
 
 .col-sm:hover {
