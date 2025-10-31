@@ -5,8 +5,8 @@
             <h5>Welcome, {{auth.current?.first_name || 'book your ideal workspace'}}.</h5>
         </div>
         <div class="col text-end">
-            <span class="notification" role="button" title="Notifications"
-                  data-bs-toggle="modal" data-bs-target="#sessionToastsModal">
+            <span class="notification" role="button" title="Notifications" data-bs-toggle="modal"
+                data-bs-target="#sessionToastsModal">
                 <ng-container *ngIf="(toast.history$ | async) as history">
                     <span class="badge" *ngIf="history.length > 0">{{history.length}}</span>
                 </ng-container>
@@ -35,28 +35,19 @@
                 </p>
                 <p class="listing " id="price">{{listing.pricing}}€</p>
             </div>
-            <div class="col listing" *ngFor="let listing of listings | slice:0:4"
-                style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) fixed center center / cover no-repeat;"
-                data-bs-toggle="modal" data-bs-target="#listing" (click)="selectListing(listing)">
-                <p class="listing">
-                    {{listing.name}}
-                </p>
-                <p class="listing" id="location">
-                    {{listing.location}}
-                </p>
-                <p class="listing " id="price">{{listing.pricing}}€</p>
-            </div>
         </div>
+        
     </section>
     <div class="statistics text-center">
         <h3 class="statistics">More than {{listings.length}} workplaces throughout the city.</h3>
     </div>
-    <section>
-        <h4><span class="upcomming"></span>Upcomming booking</h4>
+    <section id="bookings">
+        <h4><span class="upcomming"></span>Upcomming Booking</h4>
         <div class="row row-cols-1 row-cols-md-3 g-3">
             <div class="col" *ngFor="let booking of bookings | slice:0:3">
                 <div class="card">
-                    <img [src]="getListingById(booking.listing)?.photo" class="card-img-top" alt="{{getListingById(booking.listing)?.name}}">
+                    <img [src]="getListingById(booking.listing)?.photo" class="card-img-top"
+                        alt="{{getListingById(booking.listing)?.name}}">
                     <div class="card-body">
                         <h5 class="listing">{{getListingById(booking.listing)?.name}}</h5>
                         <p class="location">{{getListingById(booking.listing)?.location}}</p>
@@ -72,6 +63,35 @@
             <p *ngIf="auth.isLogged()">You have no bookings yet.</p>
         </div>
     </section>
+    <section id="more">
+        <h4 id="more"><span class="living"></span>Discovers Them</h4>
+        <div class=" row text-start">
+            <div class="col listing" *ngFor="let listing of listings | slice:0:4"
+                style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) fixed center center / cover no-repeat;"
+                data-bs-toggle="modal" data-bs-target="#listing" (click)="selectListing(listing)">
+                <p class="listing">
+                    {{listing.name}}
+                </p>
+                <p class="listing" id="location">
+                    {{listing.location}}
+                </p>
+                <p class="listing " id="price">{{listing.pricing}}€</p>
+            </div>
+        </div>
+        <div class=" row text-start">
+            <div class="col listing" *ngFor="let listing of listings | slice:0:4"
+                style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) fixed center center / cover no-repeat;"
+                data-bs-toggle="modal" data-bs-target="#listing" (click)="selectListing(listing)">
+                <p class="listing">
+                    {{listing.name}}
+                </p>
+                <p class="listing" id="location">
+                    {{listing.location}}
+                </p>
+                <p class="listing " id="price">{{listing.pricing}}€</p>
+            </div>
+        </div>
+    </section>
     <br>
 </div>
 
@@ -83,11 +103,12 @@
                     <div class="col listing" id="detail"
                         style="background: linear-gradient(transparent, var(--text)), url({{selection.photo}}) fixed center center / cover no-repeat;">
                         <p class="listing"><b>{{selection.name}}</b></p>
-                        <p class="listing" id="description">{{selection.description}}</p>
                         <p class="listing" id="location">{{selection.location}}</p>
                         <p class="listing" id="price">{{selection.pricing}}€/h</p>
                     </div>
                     <form>
+                        <p class="listing" id="description">{{selection.description}}</p>
+                        <hr>
                         <div class="row">
                             <div class="row">
                                 <label for="arrival">Arrival</label>
@@ -107,7 +128,8 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col ps-0">
-                            <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-secondary w-100"
+                                data-bs-dismiss="modal">Cancel</button>
                         </div>
                         <div class="col pe-0">
                             <button type="button" class="btn btn-primary w-100" (click)="book()"
