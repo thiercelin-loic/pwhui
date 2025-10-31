@@ -1,83 +1,108 @@
+/* Auth screens redesigned to follow global tokens and patterns from src/styles.css */
+
 :host {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  padding: 20px;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.55) 100%),
-    url('https://images.pexels.com/photos/19691833/pexels-photo-19691833.jpeg') no-repeat center
-      center fixed;
-  background-size: cover;
   flex-direction: column;
+  min-height: 100vh;
+  padding: var(--padding-md);
+  /* Same layered background + subtle zoom animation as the app container */
+  background:
+    linear-gradient(var(--primary), transparent 200px),
+    linear-gradient(to bottom, transparent, var(--secondary)),
+    var(--background-image) fixed center center / 155% no-repeat;
+  /* Remove background animation for auth */
+  animation: none;
+}
+
+span.logo {
+  background: url('auth.svg') no-repeat center center / contain;
+  width: 120px;
+  height: 120px;
+  margin: var(--margin-md) 0;
 }
 
 form {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 30px;
-  margin-top: 10vh;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  color: #333;
-  font-family: 'Karla-Light', Arial, sans-serif;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  width: 80vw;
-  position: static;
-}
-
-h4 {
-  font-family: 'Karla-Regular', Arial, sans-serif;
-}
-
-p.lead {
-  color: lightgray;
-  text-align: center;
-  margin-top: 10px;
   width: 100%;
+  max-width: 520px;
+  /* Center the card without extra top offset */
+  margin: var(--margin-md) auto;
+  padding: var(--padding-md);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  background: var(--background-gradient);
+  color: var(--text);
+  font-family: var(--font-light), Arial, sans-serif;
 }
 
-a {
-  text-align: center;
-  display: inline;
-  color: lightgray;
-  text-decoration: none;
+/* Headings inherit global h4 styles (font, color). Just ensure spacing */
+h4 {
+  margin: 0 0 var(--margin-md) 0;
 }
 
-a:hover {
-  filter: brightness(2);
+/* Helper/lead text inside the form */
+p.lead,
+.form-text {
+  color: var(--secondary);
+  text-align: end;
+  margin-top: var(--margin-sm);
+  width: 100%;
+  font-family: var(--font-light);
 }
 
-.auth-link {
-  text-align: center;
-  display: block;
-  margin-top: 5vh;
-  margin-bottom: 20vh;
-  color: lightgray;
-  text-decoration: none;
-}
-
+/* Inputs already styled globally via input.form-control */
 .btn {
   width: 100%;
 }
 
-.auth-link:hover {
-  color: white;
+/* Make auth inputs match the white background used in details modal */
+form .form-control,
+form input.form-control,
+form select.form-control,
+form textarea.form-control {
+  background: #fff;
+  color: var(--text);
+  /* Remove input fade animation from global styles */
+  animation: none;
 }
 
-.auth-button {
-  background: linear-gradient(#012340, gray 200%);
-  color: #ffffff;
-  border: 1px solid #012340;
-  cursor: pointer;
-  font-size: 14px;
+form .form-control:focus {
+  background: #fff;
+}
+
+/* Link below the form */
+.auth-link {
+  text-align: center;
+  display: block;
+  margin-top: var(--margin-md);
+  margin-bottom: var(--margin-lg);
+  color: var(--background);
   text-decoration: none;
-  border-radius: 10px;
-  width: auto;
+  font-family: var(--font-medium);
+}
+
+.auth-link:hover {
+  filter: var(--brightness);
+}
+
+input {
+  margin: 0;
+}
+/* Optional explicit auth button style if used outside Bootstrap classes */
+.auth-button {
+  background: var(--primary-gradient);
+  color: var(--background);
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-sm);
+  text-decoration: none;
+  border-radius: var(--radius);
   padding: 8px 20px;
   text-align: center;
   box-sizing: border-box;
   height: 36px;
-  transition: all 0.2s ease;
+  transition: filter 0.2s ease, transform 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -90,43 +115,36 @@ a:hover {
 }
 
 .auth-button:hover:not(:disabled) {
-  background: linear-gradient(#001a2e, #4a4a4a 200%);
-  border-color: #001a2e;
+  filter: var(--brightness);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(1, 35, 64, 0.3);
 }
 
-a {
-  color: #012340;
-}
-
+/* Back button (if present in the template) */
 .back-button {
   position: absolute;
   top: 20px;
   left: 20px;
-  font-size: 14px;
-  color: lightgray;
+  font-size: var(--font-sm);
+  color: var(--background);
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   text-decoration: none;
   cursor: pointer;
-  padding: 5px 15px;
+  padding: 6px 14px;
   border-radius: 8px;
 }
 
 .back-button:hover {
-  background: #33333377;
-}
-
-.back-button:hover {
-  color: white;
+  background: #00000033;
+  filter: var(--brightness);
 }
 
 .back-button p {
   margin: 0;
 }
 
+/* Loading spinner used inside submit buttons */
 .spinner {
   border: 3px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
@@ -142,5 +160,17 @@ a {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+/* Responsiveness */
+@media (max-width: 480px) {
+  form {
+    padding: var(--padding-sm);
+    max-width: 92vw;
+  }
+
+  .auth-link {
+    margin-bottom: var(--margin-md);
   }
 }

@@ -76,6 +76,6 @@ export class AuthService {
       || null;
   }
 
-  public get current(): User | null { return this.user; }
+  public get current(): User | null { return this.user }
   public isLogged(): boolean { return !!this.getToken(); }
 }
