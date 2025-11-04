@@ -1,89 +1,164 @@
-# Pwhui
+# PWHUI
 
-This project is an Angular application for a property rental platform. It allows users to browse, book, and manage property rentals.
+A modern Angular application built with Angular 20, featuring authentication, cart management, policy handling, and more.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.2.
+## 🚀 Features
 
-## Project Structure
+- **Authentication System**: Complete login and registration flow with route guards
+- **Shopping Cart**: Cart management functionality
+- **Contract Management**: Contract viewing and handling
+- **Policy Management**: Policy service with dedicated interface
+- **Settings**: User settings configuration
+- **Toast Notifications**: Global notification system
+- **Responsive Navigation**: Modern navigation component
 
-The project is organized into the following main directories:
+## 📋 Prerequisites
 
-- `src/app`: Contains the main application logic, including components, services, and routing.
-- `src/app/auth`: Handles user authentication, including login and registration.
-- `src/app/booking`: Manages the booking process for properties.
-- `src/app/contract`: Displays contract information for rentals.
-- `src/app/landing`: The main landing page of the application.
-- `src/app/profile`: User profile management.
-- `src/app/splash`: The initial splash screen.
-- `public`: Contains static assets like `favicon.ico`.
+Before you begin, ensure you have the following installed:
 
-## Key Components
+- Node.js (LTS version recommended)
+- npm or yarn
+- Angular CLI (`npm install -g @angular/cli`)
 
-- `app.ts`: The root component of the application.
-- `landing.ts`: The main landing page component.
-- `login.ts`: The user login component.
-- `register.ts`: The user registration component.
-- `booking.ts`: The property booking component.
-- `profile.ts`: The user profile component.
+## 🛠️ Installation
 
-## Services
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/thiercelin-loic/pwhui.git
+   cd pwhui
+   ```
 
-- `auth.service.ts`: Manages user authentication and session.
-- `booking.service.ts`: Handles the logic for booking properties.
-- `init.service.ts`: Initializes the application.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-## Development server
+## 🏃 Development
 
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Start the development server:
 
 ```bash
-ng generate component component-name
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+
+## 🧪 Testing
+
+Run unit tests:
 
 ```bash
-ng generate --help
+npm test
 ```
 
-## Building
+This executes the unit tests via [Karma](https://karma-runner.github.io).
 
-To build the project run:
+## 🏗️ Build
+
+Build the project for production:
 
 ```bash
-ng build
+npm run build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+## 🐳 Docker
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+The project includes Docker support with both development and production configurations.
+
+### Development:
+```bash
+./docker/developement.sh
+```
+
+### Production:
+```bash
+./docker/production.sh
+```
+
+## 🎨 Code Quality
+
+Run linting:
 
 ```bash
-ng test
+npm run lint
 ```
 
-## Running end-to-end tests
+The project uses ESLint with Angular-specific rules and Prettier for code formatting.
 
-For end-to-end (e2e) testing, run:
+## 📁 Project Structure
 
-```bash
-ng e2e
+```
+src/
+├── app/
+│   ├── auth/           # Authentication module (login, register)
+│   ├── cart/           # Shopping cart functionality
+│   ├── contract/       # Contract management
+│   ├── landing/        # Landing page
+│   ├── navigation/     # Navigation component
+│   ├── policy/         # Policy management
+│   ├── server/         # Server-related code
+│   ├── settings/       # User settings
+│   ├── start/          # Start/home page
+│   └── toast/          # Toast notification system
+├── fonts/              # Custom fonts
+├── icons/              # Icon assets
+├── index.html          # Main HTML file
+├── main.ts             # Application entry point
+└── styles.css          # Global styles
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 🔧 Technologies
 
-## Additional Resources
+- **Framework**: Angular 20.2.0
+- **Language**: TypeScript 5.9.2
+- **Testing**: Jasmine & Karma
+- **Linting**: ESLint with Angular ESLint
+- **Code Formatting**: Prettier
+- **Server**: Nginx (for production deployment)
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 📝 Available Scripts
+
+| Script | Description |
+|--------|-------------|
+| `npm start` | Start development server |
+| `npm run build` | Build for production |
+| `npm test` | Run unit tests |
+| `npm run watch` | Build in watch mode |
+| `npm run lint` | Run ESLint |
+
+## 🔐 Authentication
+
+The application includes a complete authentication system with:
+- Login and registration pages
+- Auth guards for protected routes
+- Auth service for managing user sessions
+- Custom auth models
+
+## 🌐 Deployment
+
+The project includes:
+- Dockerfile for containerization
+- Nginx configuration for production deployment
+- Separate development and production Docker scripts
+
+## 📄 License
+
+CC BY-NC 4.0
+
+## 👤 Author
+
+**thiercelin-loic**
+
+## 🤝 Contributing
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+Built with ❤️ using Angular
