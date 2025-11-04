@@ -1,7 +1,7 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, inject } from '@angular/core';
 import { PolicyService } from './policy.service';
 
-declare var bootstrap: any;
+declare const bootstrap: { Modal: new (arg0: HTMLElement | null, arg1?: object) => { show: () => void; }; };
 
 @Component({
   selector: 'app-policy',
@@ -9,7 +9,9 @@ declare var bootstrap: any;
   styleUrl: './policy.css',
 })
 export class Policy implements AfterViewInit {
-  constructor(private policy: PolicyService) {
+  private policy = inject(PolicyService);
+
+  constructor() {
     this.policy.modal$.subscribe(() => this.advertise());
   }
 
