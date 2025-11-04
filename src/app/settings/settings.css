@@ -3,12 +3,16 @@ input {
   font-family: var(--font-light);
 }
 
-input.form-control {
+input.form-control,
+.suggestions .card {
   box-shadow: var(--shadow);
+  border-radius: var(--radius);
+}
+
+input.form-control {
   animation: fade 0.25s 1.5s ease-in both;
   background: var(--background-gradient);
   color: var(--text);
-  border-radius: var(--radius);
   padding: var(--padding-sm) var(--padding-md);
 }
 
@@ -16,4 +20,55 @@ input.form-control:focus {
   box-shadow: var(--shadow);
   border: none;
   filter: var(--brightness);
+}
+
+section {
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.btn-primary {
+  margin: 0 var(--margin-sm);
+}
+
+.suggestions,
+.input-group {
+  position: relative;
+  z-index: 3;
+}
+
+.suggestions {
+  width: 95%;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: slide .5s ease-in-out;
+}
+
+.suggestions,
+.suggestions .list-group-item {
+  cursor: pointer;
+}
+
+.suggestions .card {
+  background: var(--background);
+}
+
+.suggestions .list-group-item {
+  background: transparent;
+}
+
+.suggestions .list-group-item:hover {
+  background: #fff;
+  border-radius: var(--radius);
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 2;
+  animation: fade .5s ease-in-out;
 }

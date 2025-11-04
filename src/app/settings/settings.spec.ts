@@ -1,9 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Settings } from './settings';
 import { AuthService } from '../auth/auth.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 class MockAuthService {
-  logout(): void { /* noop */ }
+  logout(): void {  }
+  isLogged(): boolean { return true; }
 }
 
 describe('Settings', () => {
@@ -12,7 +15,7 @@ describe('Settings', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Settings],
+      imports: [Settings, HttpClientTestingModule, RouterTestingModule],
       providers: [{ provide: AuthService, useClass: MockAuthService }]
     })
     .compileComponents();

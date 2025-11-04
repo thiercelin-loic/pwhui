@@ -5,8 +5,8 @@
       <h5>Settings</h5>
     </div>
     <div class="col text-end">
-      <span class="notification" role="button" title="Notifications"
-            data-bs-toggle="modal" data-bs-target="#sessionToastsModal">
+      <span class="notification" role="button" title="Notifications" data-bs-toggle="modal"
+        data-bs-target="#sessionToastsModal">
         <ng-container *ngIf="(toast.history$ | async) as history">
           <span class="badge" *ngIf="history.length > 0">{{history.length}}</span>
         </ng-container>
@@ -15,25 +15,44 @@
   </header>
   <div class="input-group">
     <input type="text" class="form-control" aria-label="Text input with segmented dropdown button"
-      [placeholder]="placeholder">
+      [placeholder]="placeholder" [(ngModel)]="query" (input)="onSearch()">
     <button type="button" class="btn btn-secondary" id="search">
       <span class="search">__</span>
     </button>
   </div>
+  <div class="backdrop" *ngIf="suggestions.length > 0"></div>
+  <div class="suggestions" *ngIf="suggestions.length > 0">
+    <div class="card">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" *ngFor="let suggestion of suggestions" (click)="selectSuggestion(suggestion)"
+          (keyup.enter)="selectSuggestion(suggestion)" tabindex="0">
+          <p>{{suggestion}}</p>
+        </li>
+      </ul>
+    </div>
+  </div>
   <section>
-    <h4><span class="cookie"></span>Privacy Policy</h4>
-    <div class="setting">
-      <p>Understand how your personal data are used.</p>
-      <br>
-      <button class="btn btn-primary" (click)="openPolicy()">Read</button>
+    <div id="terms-and-conditions">
+      <h4><span class="cookie"></span>Terms and Conditions</h4>
+      <div class="setting">
+        <p>Understanding the terms of use and how this application legally operates is essential.</p>
+        <br>
+        <div class="d-flex justify-content-start">
+          <button class="btn btn-primary" (click)="openPolicy()" id="privacy-policy">Privacy Policy</button>
+          <button class="btn btn-primary" routerLink="/contract" id="contract">Contract</button>
+        </div>
+      </div>
     </div>
     <hr>
-    <h4><span class="account"></span>Account</h4>
-    <div class="setting">
-      <p>Manage your account</p>
-      <br>
-      <button class="btn btn-secondary" (click)="disconnect()">Disconnect</button>
+    <div id="account">
+      <h4><span class="account"></span>Account</h4>
+      <div class="setting">
+        <p>Manage your account</p>
+        <br>
+        <button class="btn btn-danger" (click)="disconnect()" [disabled]="!auth.isLogged()"
+          id="disconnect">Disconnect</button>
+      </div>
     </div>
+    <hr>
   </section>
-    
 </div>
