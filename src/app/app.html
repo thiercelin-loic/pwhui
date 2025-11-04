@@ -1,5 +1,5 @@
 <app-start *ngIf="showStart$ | async"></app-start>
-<div *ngIf="!(showStart$ | async)" class="content-wrapper">
+<div *ngIf="(showStart$ | async) === false" class="content-wrapper">
   <router-outlet>
   </router-outlet>
   <app-policy></app-policy>

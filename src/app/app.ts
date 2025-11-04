@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
 import { InitService } from './init.service';
@@ -24,9 +24,11 @@ import {ToastComponent} from "./toast/toast";
   styleUrl: './app.css'
 })
 export class App {
+  private initService = inject(InitService);
+
   protected showStart$: Observable<boolean>;
 
-  constructor(private initService: InitService) {
+  constructor() {
     this.showStart$ = this.initService.isInitialized$.pipe(map(isInitialized => !isInitialized));
   }
 }
