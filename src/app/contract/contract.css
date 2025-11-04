@@ -1,16 +1,26 @@
+.container,
+h3,
+p,
+ul,
+li {
+  font-family: var(--font-medium), Arial, sans-serif;
+}
+
 .container {
-  font-family: 'Karla-Medium', Arial, sans-serif;
-  padding: 2rem 2rem 4rem;
+  padding-top: 5rem;
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
 
-.logo {
-  background-repeat: no-repeat;
-  filter: grayscale(1);
-  width: 100px;
-  height: 100px;
-  margin-bottom: 5%;
-  background:url('contract.svg') no-repeat center center / contain;
+h3 {
+  color: var(--primary);
+}
+
+p,
+ul,
+li {
+  line-height: 1.5rem;
+  margin-bottom: 1rem;
+  font-family: var(--font-light), Arial, sans-serif;
 }
