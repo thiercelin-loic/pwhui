@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, of } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { BehaviorSubject, forkJoin } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { path } from './server';
 
@@ -7,14 +7,12 @@ import { path } from './server';
   providedIn: 'root'
 })
 export class InitService {
+  private http = inject(HttpClient);
+
   private isInitialized = new BehaviorSubject<boolean>(false);
   isInitialized$ = this.isInitialized.asObservable();
   private initializationError = new BehaviorSubject<string | null>(null);
   initializationError$ = this.initializationError.asObservable();
-
-  constructor(
-    private http: HttpClient,
-  ) { }
 
   initialize(): void {
     const observables = [
