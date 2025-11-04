@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -13,21 +13,19 @@ import { AuthService } from '../auth.service';
   imports: [ReactiveFormsModule, CommonModule, RouterLink]
 })
 export class Register implements OnInit {
-  constructor(
-    private builder: FormBuilder,
-    private router: Router,
-    private auth: AuthService
-  ) { }
+  private builder = inject(FormBuilder);
+  private router = inject(Router);
+  private auth = inject(AuthService);
 
   form!: FormGroup;
   isLoading = false;
   error: string | null = null;
-  registered: boolean = false;
+  registered = false;
 
   firstname = [Validators.required, Validators.minLength(2)];
   lastname = [Validators.required, Validators.minLength(2)];
   email = [Validators.required, Validators.email];
-  phone = [Validators.required, Validators.pattern(/^[\+]?[1-9][\d]{0,15}$/)];
+  phone = [Validators.required, Validators.pattern(/^[+]?[1-9][\d]{0,15}$/)];
   password = [Validators.required, Validators.minLength(8)];
   confirm = [Validators.required];
   birth = [Validators.required, this.majority];
@@ -47,7 +45,9 @@ export class Register implements OnInit {
   }
 
   majority(control: AbstractControl): ValidationErrors | null {
-    !control.value && null;
+    if (!control.value) {
+      return null;
+    }
 
     const today = new Date();
     const birth = new Date(control.value);
@@ -55,11 +55,9 @@ export class Register implements OnInit {
     let age = today.getFullYear() - birth.getFullYear();
     const month = today.getMonth() - birth.getMonth();
 
-    month < 0 || (
-      month === 0
-      && today.getDate()
-      < birth.getDate()
-    ) && age--;
+    if (month < 0 || (month === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
 
     return age >= 18
       ? null
@@ -74,7 +72,7 @@ export class Register implements OnInit {
       : { mismatch: true };
   }
 
-  next() {
+  next = () => {
     this.registered = true;
     setTimeout(() => {
       this.isLoading = false;
@@ -82,13 +80,15 @@ export class Register implements OnInit {
     }, 3000);
   }
 
-  again(error: any) {
-    this.error = error?.error?.message 
+  again = (error: { error?: { message?: string } }) => {
+    this.error = error?.error?.message
     || 'An unexpected error occurred. Please try again later.';
     this.isLoading = false;
   }
 
-  denied = (): void => console.log('Form is invalid');
+  denied = (): void => {
+    console.log('Form is invalid');
+  }
 
   observable = { next: this.next, error: this.again };
 
@@ -105,8 +105,10 @@ export class Register implements OnInit {
 
   submit() {
     this.error = null;
-    this.form.valid
-      ? this.send()
-      : this.denied();
+    if (this.form.valid) {
+      this.send();
+    } else {
+      this.denied();
+    }
   }
 }
