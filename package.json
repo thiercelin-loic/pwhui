@@ -1,6 +1,7 @@
 {
   "name": "pwhui",
   "version": "1.0.0",
+  "license": "CC BY-NC 4.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -21,7 +22,6 @@
       }
     ]
   },
-  "private": true,
   "dependencies": {
     "@angular/common": "^20.2.0",
     "@angular/compiler": "^20.2.0",
