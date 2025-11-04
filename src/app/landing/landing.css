@@ -17,24 +17,25 @@ p.listing {
   color: var(--background);
   font-family: var(--font-bold);
   text-shadow: var(--shadow);
-  font-size: var(--font-lg);
+  font-size: var(--font-md);
+}
+
+p.listing#location,
+p.listing#price {
+  font-size: var(--font-sm);
+  color: var(--light);
 }
 
 p.listing#location {
-  font-size: var(--font-sm);
   font-family: var(--font-medium);
-  color: var(--light);
 }
 
 p.listing#price {
-  font-size: var(--font-sm);
   margin-bottom: 1rem;
-  color: var(--light);
   font-family: var(--font-bold);
 }
 
 p.listing#description {
-  font-size: var(--font-sm);
   color: var(--secondary);
   padding: 1%;
   text-shadow: none;
@@ -95,15 +96,15 @@ form {
 }
 
 input#arrival,
-input#departure,
+input#departure {
+  animation: none;
+  margin: var(--margin-md) 0 0 0;
+  background: #fff;
+}
+
 label {
   animation: none;
   margin: var(--margin-md) 0 0 0;
-}
-
-input#arrival,
-input#departure {
-  background: #fff;
 }
 
 section#bookings {
@@ -118,4 +119,47 @@ section#more {
 h4#more {
   color: var(--background);
   font-family: var(--font-medium);
+}
+
+.input-group {
+    position: relative;
+    z-index: 100;
+}
+
+.suggestions {
+    position: absolute;
+    z-index: 100;
+    animation: fade .5s ease-in-out;
+    width: 95%;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+}
+
+.suggestions .card {
+    background: var(--background);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.suggestions .list-group-item {
+    cursor: pointer;
+    background: transparent;
+}
+
+.suggestions .list-group-item:hover {
+    background: var(--light);
+    border-radius: var(--radius);
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 99;
+    animation: fade .5s ease-in-out;
 }

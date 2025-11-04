@@ -16,17 +16,31 @@
 
     <div class="input-group">
         <input type="text" class="form-control" [placeholder]="placeholder"
-            aria-label="Text input with segmented dropdown button">
+            aria-label="Text input with segmented dropdown button" [(ngModel)]="query" (input)="onSearch()">
         <button type="button" class="btn btn-secondary" id="search">
             <span class="search">__</span>
         </button>
+    </div>
+    <div class="backdrop" *ngIf="suggestions.length > 0"></div>
+    <div class="suggestions" *ngIf="suggestions.length > 0">
+        <div class="card">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" *ngFor="let suggestion of suggestions" (click)="selectListing(suggestion)"
+                    (keyup.enter)="selectListing(suggestion)"
+                    data-bs-toggle="modal" data-bs-target="#listing" tabindex="0">
+                    <p>{{suggestion.name}}</p>
+                    <p>{{suggestion.location}}</p>
+                </li>
+            </ul>
+        </div>
     </div>
     <section>
         <h4><span class="popular"></span>Most Popular</h4>
         <div class=" row text-start">
             <div class="col listing" *ngFor="let listing of listings | slice:0:4"
-                style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) fixed center center / cover no-repeat;"
-                data-bs-toggle="modal" data-bs-target="#listing" (click)="selectListing(listing)">
+                style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) center / cover no-repeat;"
+                data-bs-toggle="modal" data-bs-target="#listing" (click)="selectListing(listing)"
+                (keyup.enter)="selectListing(listing)" tabindex="0">
                 <p class="listing">
                     {{listing.name}}
                 </p>
@@ -36,7 +50,7 @@
                 <p class="listing " id="price">{{listing.pricing}}€</p>
             </div>
         </div>
-        
+
     </section>
     <div class="statistics text-center">
         <h3 class="statistics">More than {{listings.length}} workplaces throughout the city.</h3>
@@ -49,7 +63,7 @@
                     <img [src]="getListingById(booking.listing)?.photo" class="card-img-top"
                         alt="{{getListingById(booking.listing)?.name}}">
                     <div class="card-body">
-                        <h5 class="listing">{{getListingById(booking.listing)?.name}}</h5>
+                        <p class="listing">{{getListingById(booking.listing)?.name}}</p>
                         <p class="location">{{getListingById(booking.listing)?.location}}</p>
                         <p class="price text-end">From: {{booking.arrival | date}}</p>
                         <p class="price text-end">To: {{booking.departure | date}}</p>
@@ -67,8 +81,9 @@
         <h4 id="more"><span class="living"></span>Discovers Them</h4>
         <div class=" row text-start">
             <div class="col listing" *ngFor="let listing of listings | slice:0:4"
-                style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) fixed center center / cover no-repeat;"
-                data-bs-toggle="modal" data-bs-target="#listing" (click)="selectListing(listing)">
+                style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) center / cover no-repeat;"
+                data-bs-toggle="modal" data-bs-target="#listing" (click)="selectListing(listing)"
+                (keyup.enter)="selectListing(listing)" tabindex="0">
                 <p class="listing">
                     {{listing.name}}
                 </p>
@@ -80,8 +95,9 @@
         </div>
         <div class=" row text-start">
             <div class="col listing" *ngFor="let listing of listings | slice:0:4"
-                style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) fixed center center / cover no-repeat;"
-                data-bs-toggle="modal" data-bs-target="#listing" (click)="selectListing(listing)">
+                style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) center / cover no-repeat;"
+                data-bs-toggle="modal" data-bs-target="#listing" (click)="selectListing(listing)"
+                (keyup.enter)="selectListing(listing)" tabindex="0">
                 <p class="listing">
                     {{listing.name}}
                 </p>

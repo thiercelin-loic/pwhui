@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -15,27 +15,32 @@ import { path } from '../server';
   styleUrl: './landing.css'
 })
 export class Landing implements OnInit, OnDestroy {
-  constructor(private http: HttpClient, public auth: AuthService, public toast: ToastService) { }
+  private http = inject(HttpClient);
+  auth = inject(AuthService);
+  toast = inject(ToastService);
+
   private option = { month: 'long' } as const;
 
   public date: Date = new Date();
-  public today: number = this.date.getDate();
-  public month: string = this.date.toLocaleString('default', this.option);
-  public year: number = this.date.getFullYear();
+  public today = this.date.getDate();
+  public month = this.date.toLocaleString('default', this.option);
+  public year = this.date.getFullYear();
 
   public listings: Listings[] = [];
   public bookings: Bookings[] = [];
   public selection: Listings = {} as Listings;
   public arrival!: Date;
   public departure!: Date;
+  public query = '';
+  public suggestions: Listings[] = [];
 
-  public placeholder: string = '';
-  private text: number = 0;
-  private char: number = 0;
-  private typing: number = 50;
-  private erasing: number = 50;
-  private delay: number = 2000;
-  private interval: number = 0;
+  public placeholder = '';
+  private text = 0;
+  private char = 0;
+  private typing = 50;
+  private erasing = 50;
+  private delay = 2000;
+  private interval = 0;
   private tips: string[] = [
     'Coworking near Eiffel Tower',
     'Quiet workspace in Le Marais',
@@ -98,7 +103,10 @@ export class Landing implements OnInit, OnDestroy {
 
   public selectListing(listing: Listings): void {
     this.selection = listing;
+    this.query = '';
+    this.suggestions = [];
   }
+  
 
   public book(): void {
     const booking = {
@@ -125,6 +133,16 @@ export class Landing implements OnInit, OnDestroy {
 
   public getListingById(id: number): Listings | undefined {
     return this.listings.find(listing => listing.id === id);
+  }
+
+  public onSearch(): void {
+    if (this.query.length > 2) {
+      this.suggestions = this.listings.filter(listing =>
+        listing.name.toLowerCase().includes(this.query.toLowerCase())
+      );
+    } else {
+      this.suggestions = [];
+    }
   }
 
   public ngOnInit(): void {
