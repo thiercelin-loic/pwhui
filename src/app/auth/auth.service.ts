@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -7,7 +7,8 @@ import { path } from '../server';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  constructor(private http: HttpClient) { }
+  private http = inject(HttpClient);
+
   private user: User | null = null;
 
   private getToken(): string | null {
@@ -21,15 +22,14 @@ export class AuthService {
       .split('&')[0];
   }
 
-  public login(credentials: Login): Observable<Login> {
-    return this.http.post<Login>(
+  public login(credentials: Login): Observable<{ access_token: string }> {
+    return this.http.post<{ access_token: string }>(
       `${path.auth}/login`,
       credentials
-    ).pipe(tap((response: any) => {
-      console.log(response);
-      response.access_token && (
-        document.cookie = `token=${response.access_token};`
-      );
+    ).pipe(tap((response: { access_token: string }) => {
+      if (response.access_token) {
+        document.cookie = `token=${response.access_token};`;
+      }
     }))
   }
 
