@@ -98,10 +98,10 @@ src/
 │   ├── landing/        # Landing page
 │   ├── navigation/     # Navigation component
 │   ├── policy/         # Policy management
-│   ├── server/         # Server-related code
 │   ├── settings/       # User settings
 │   ├── start/          # Start/home page
 │   └── toast/          # Toast notification system
+├── server/             # Server-related code
 ├── fonts/              # Custom fonts
 ├── icons/              # Icon assets
 ├── index.html          # Main HTML file
