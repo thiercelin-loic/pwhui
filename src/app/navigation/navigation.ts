@@ -8,7 +8,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './navigation.css'
 })
 export class Navigation {
-  // Lightweight auth check to avoid service coupling here
+  
   get isLogged(): boolean {
     try {
       return document.cookie

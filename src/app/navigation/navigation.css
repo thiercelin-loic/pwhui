@@ -1,10 +1,14 @@
+.row,
+small {
+  color: var(--text);
+}
+
 .row {
   position: fixed;
   bottom: 0%;
   padding: var(--padding-sm);
   width: 100%;
   background: var(--background);
-  color: var(--text);
   animation: slide 0.5s 1s ease-in both;
   box-shadow: 0px 0px 5px var(--text);
 }
@@ -15,13 +19,13 @@
   float: left;
 }
 
-.col-sm:hover {
+.col-sm:hover,
+small {
   cursor: pointer;
-  filter: var(--brightness);
 }
 
 small {
   display: block;
-  color: var(--text);
   font-family: var(--font-bold);
+  filter: none;
 }
