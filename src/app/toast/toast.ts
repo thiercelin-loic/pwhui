@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ToastService } from './toast.service';
 import { Toast } from './toast.model';
 import { Observable, Subscription } from 'rxjs';
@@ -9,13 +9,19 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './toast.html',
+  styleUrls: ['./toast.css'],
 })
 export class ToastComponent implements OnInit, OnDestroy {
+  private toastService = inject(ToastService);
+
   toasts: Toast[] = [];
   private subscription: Subscription = Subscription.EMPTY;
   history$!: Observable<Toast[]>;
 
-  constructor(private toastService: ToastService) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.history$ = this.toastService.history$;
   }
 
