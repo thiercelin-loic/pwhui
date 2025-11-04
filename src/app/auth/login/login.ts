@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { Subscription } from 'rxjs';
 
@@ -13,10 +13,8 @@ import { Subscription } from 'rxjs';
   imports: [ReactiveFormsModule, CommonModule, RouterLink]
 })
 export class Login implements OnInit {
-  constructor(
-    private builder: FormBuilder,
-    private service: AuthService
-  ) { }
+  private builder = inject(FormBuilder);
+  private service = inject(AuthService);
 
   form!: FormGroup;
   email = [Validators.required, Validators.email];
@@ -28,12 +26,12 @@ export class Login implements OnInit {
     this.form = this.builder.group(this.controls);
   }
 
-  next = (response: any) => {
-    document.cookie = `token=${(response).access_token}; path=/`;
+  next = (response: { access_token: string }) => {
+    document.cookie = `token=${response.access_token}; path=/`;
     window.location.href = '/';
   }
 
-  again = (error: any) => this.error
+  again = (error: Error) => this.error
     = error?.message
     || 'An unexpected error occurred. Please try again later.';
 
@@ -43,11 +41,15 @@ export class Login implements OnInit {
     .login(this.form.value)
     .subscribe(this.observers);
 
-  denied = (): void => console.log('Form is invalid');
+  denied = (): void => {
+    console.log('Form is invalid')
+  };
   submit = (): void => {
     this.error = null;
-    this.form.valid
-      ? this.send()
-      : this.denied();
+    if (this.form.valid) {
+      this.send()
+    } else {
+      this.denied();
+    }
   }
 }
