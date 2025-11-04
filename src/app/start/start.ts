@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InitService } from '../init.service';
 import { Observable } from 'rxjs';
@@ -11,7 +11,9 @@ import { Observable } from 'rxjs';
   imports: [CommonModule]
 })
 export class Start {
-  constructor(private init: InitService) {
+  private init = inject(InitService);
+
+  constructor() {
     this.current = this.pull();
     this.error = this.init.initializationError$;
   }

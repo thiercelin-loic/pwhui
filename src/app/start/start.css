@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+  height: 100vh;
 }
 
 @keyframes pulse {
@@ -36,29 +37,36 @@
   animation: pulse 2s ease-in-out infinite;
 }
 
+h1,
+.loading-text,
+.error-text {
+  text-shadow: var(--shadow);
+  font-family: var(--font-medium);
+}
+
 h1 {
   font-size: 2.5em;
   margin: 0;
   color: var(--background);
-  text-shadow: var(--shadow);
   padding: var(--padding-sm);
   border-radius: 10px;
-  font-family: var(--font-medium);
 }
 
-.loading-text {
+.loading-text,
+.error-text {
   position: absolute;
   bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 1em;
-  color: #fff;
   margin: 0;
   text-align: center;
   max-width: 90%;
   line-height: 1.4;
-  text-shadow: var(--shadow);
-  font-family: var(--font-medium);
+}
+
+.loading-text {
+  color: #fff;
 }
 
 .error-container {
@@ -71,16 +79,11 @@ h1 {
 }
 
 .error-text {
-  font-size: 1em;
   color: var(--background);
   padding: 10px;
   margin: 0 0 15px 0;
-  text-align: center;
-  max-width: 90%;
-  line-height: 1.4;
   display: inline-block;
-  text-shadow: var(--shadow);
-  font-family: var(--font-medium);
+  bottom: 25px;
 }
 
 a.retry {
