@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth/auth.service';
 import { ToastService } from '../toast/toast.service';
 import { Bookings, Listings } from './landing.model';
-import { path } from '../server';
+import { path } from '../../server';
 
 @Component({
   selector: 'app-landing',

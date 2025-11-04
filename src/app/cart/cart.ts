@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth/auth.service';
 import { ToastService } from '../toast/toast.service';
 import { Bookings, Listings } from '../landing/landing.model';
-import { path } from '../server';
+import { path } from '../../server';
 
 @Component({
   selector: 'app-cart',

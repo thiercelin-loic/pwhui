@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, forkJoin } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { path } from './server';
+import { path } from '../server';
 
 @Injectable({
   providedIn: 'root'
