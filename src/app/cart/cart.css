@@ -1,38 +1,25 @@
+p,
+input,
+.dates {
+  font-family: var(--font-light);
+}
+
+p.listing {
+  font-family: var(--font-bold);
+}
+
 .card {
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-  }
-  
-  .card-img-top {
-    height: 25vh;
-    object-fit: cover;
-    border-radius: var(--radius) var(--radius) 0 0;
-  }
-  
-  .book {
-    margin-top: var(--margin-sm);
-    width: 100%;
-  }
-  
-  p,
-  input {
-    font-family: var(--font-light);
-  }
-  
-  h5.listing {
-    font-family: var(--font-bold);
-  }
-  
-  p.location {
-    font-family: var(--font-medium);
-    color: var(--light);
-  }
-  
-  p.price {
-    font-family: var(--font-light);
-  }
-  
-  .dates {
-    font-family: var(--font-light);
-  }
-  
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.card-img-top {
+  height: 25vh;
+  object-fit: cover;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.book {
+  margin-top: var(--margin-sm);
+  width: 100%;
+}

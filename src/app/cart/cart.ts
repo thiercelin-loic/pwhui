@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth/auth.service';
@@ -13,6 +13,10 @@ import { path } from '../server';
   styleUrl: './cart.css'
 })
 export class Cart implements OnInit {
+  private http = inject(HttpClient);
+  private auth = inject(AuthService);
+  toast = inject(ToastService);
+
   private option = { month: 'long' } as const;
   public date: Date = new Date();
   public today: number = this.date.getDate();
@@ -20,8 +24,6 @@ export class Cart implements OnInit {
   public year: number = this.date.getFullYear();
   public bookings: Bookings[] = [] ;
   public listings: Listings[] = [];
-
-  constructor(private http: HttpClient, private auth: AuthService, public toast: ToastService) { }
 
   ngOnInit(): void {
     this.auth.getMe().subscribe(() => {

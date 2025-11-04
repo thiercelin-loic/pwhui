@@ -20,10 +20,10 @@
                 <div class="card">
                     <img [src]="getListingById(booking.listing)?.photo" class="card-img-top" alt="{{getListingById(booking.listing)?.name}}">
                     <div class="card-body">
-                        <h5 class="listing">{{getListingById(booking.listing)?.name}}</h5>
+                        <p class="listing">{{getListingById(booking.listing)?.name}}</p>
                         <p class="location">{{getListingById(booking.listing)?.location}}</p>
-                        <p class="dates">From: {{booking.arrival | date}}</p>
-                        <p class="dates">To: {{booking.departure | date}}</p>
+                        <p class="dates text-end">From: {{booking.arrival | date}}</p>
+                        <p class="dates text-end">To: {{booking.departure | date}}</p>
                     </div>
                 </div>
             </div>
