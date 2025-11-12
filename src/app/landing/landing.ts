@@ -88,12 +88,12 @@ export class Landing implements OnInit, OnDestroy {
   }
 
   private getBookings(): void {
-    const userId = this.auth.current?.id;
-    if (userId) {
+    const id = this.auth.current?.id;
+    if (id) {
       this.http.get<Bookings[]>(`${path.booking}/bookings`).subscribe(data => {
         const now = new Date();
         this.bookings = data
-          .filter(booking => booking.user === userId && new Date(booking.arrival) > now)
+          .filter(booking => booking.user === id && new Date(booking.arrival) > now)
           .sort((a, b) => new Date(a.arrival).getTime() - new Date(b.arrival).getTime());
       });
     } else {
@@ -106,7 +106,7 @@ export class Landing implements OnInit, OnDestroy {
     this.query = '';
     this.suggestions = [];
   }
-  
+
 
   public book(): void {
     const booking = {
@@ -124,10 +124,10 @@ export class Landing implements OnInit, OnDestroy {
           this.toast.show({ message: 'Booking successful!' });
         });
       } else {
-  this.toast.show({ message: 'Please log in to make a booking.', classname: 'bg-danger text-light' });
+        this.toast.show({ message: 'Please log in to make a booking.', classname: 'bg-danger text-light' });
       }
     } else {
-  this.toast.show({ message: 'Please select a listing and specify both start and end dates.', classname: 'bg-danger text-light' });
+      this.toast.show({ message: 'Please select a listing and specify both start and end dates.', classname: 'bg-danger text-light' });
     }
   }
 

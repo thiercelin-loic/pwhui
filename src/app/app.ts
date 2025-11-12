@@ -5,8 +5,9 @@ import { Observable, map } from 'rxjs';
 import { InitService } from './init.service';
 import { Start } from './start/start';
 import { Policy } from './policy/policy';
-import {Navigation} from "./navigation/navigation";
-import {ToastComponent} from "./toast/toast";
+import { Navigation } from "./navigation/navigation";
+import { ToastComponent } from "./toast/toast";
+import { BookingService } from './booking.service'
 
 @Component({
   selector: 'app-root',
@@ -19,12 +20,13 @@ import {ToastComponent} from "./toast/toast";
     Navigation,
     Policy,
     ToastComponent
-],
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
   private initService = inject(InitService);
+  private booking = inject(BookingService);
 
   protected showStart$: Observable<boolean>;
 

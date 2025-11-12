@@ -13,7 +13,6 @@ import { CommonModule } from '@angular/common';
 })
 export class ToastComponent implements OnInit, OnDestroy {
   private toastService = inject(ToastService);
-
   toasts: Toast[] = [];
   private subscription: Subscription = Subscription.EMPTY;
   history$!: Observable<Toast[]>;

@@ -12,7 +12,3 @@
     filter: invert(1);
     font-family: var(--font-medium);
 }
-
-.toast {
-    margin: 5% 0;
-}
