@@ -1,0 +1,30 @@
+input {
+  margin: 0%;
+  background: #fff;
+  animation: none;
+}
+
+#button-addon2 {
+  width: 75px;
+}
+
+ .in{
+  background: var(--primary-gradient-invert);
+  color: var(--background);
+  border-radius: var(--radius);
+  margin-bottom: var(--margin-sm);
+  padding: var(--padding-sm);
+}
+
+.row{
+  margin: var(--margin-sm);
+}
+
+.modal-footer {
+  padding: var(--padding-sm);
+}
+
+.input-group.mb-3 {
+  margin: 0;
+  padding: 0;
+}
