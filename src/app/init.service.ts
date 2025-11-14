@@ -17,6 +17,7 @@ export class InitService {
   initialize(): void {
     const observables = [
       this.http.get(`${path.booking}/listings`),
+      this.http.get(`${path.chat}/inbox`),
     ];
 
     forkJoin(observables).subscribe({
