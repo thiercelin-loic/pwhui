@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth/auth.service';
 import { ToastService } from '../toast/toast.service';
 import { Bookings, Listings } from './landing.model';
+import { Conversation } from '../chat/chat.model';
 import { path } from '../../server';
 
 @Component({
@@ -88,12 +89,12 @@ export class Landing implements OnInit, OnDestroy {
   }
 
   private getBookings(): void {
-    const userId = this.auth.current?.id;
-    if (userId) {
+    const id = this.auth.current?.id;
+    if (id) {
       this.http.get<Bookings[]>(`${path.booking}/bookings`).subscribe(data => {
         const now = new Date();
         this.bookings = data
-          .filter(booking => booking.user === userId && new Date(booking.arrival) > now)
+          .filter(booking => booking.user === id && new Date(booking.arrival) > now)
           .sort((a, b) => new Date(a.arrival).getTime() - new Date(b.arrival).getTime());
       });
     } else {
@@ -106,7 +107,7 @@ export class Landing implements OnInit, OnDestroy {
     this.query = '';
     this.suggestions = [];
   }
-  
+
 
   public book(): void {
     const booking = {
@@ -121,18 +122,62 @@ export class Landing implements OnInit, OnDestroy {
       if (this.auth.current?.id) {
         this.http.post<Bookings>(`${path.booking}/bookings`, booking).subscribe(() => {
           this.getBookings();
+          this.createConversation(this.selection.id, this.selection.name);
           this.toast.show({ message: 'Booking successful!' });
         });
       } else {
-  this.toast.show({ message: 'Please log in to make a booking.', classname: 'bg-danger text-light' });
+        this.toast.show({ message: 'Please log in to make a booking.', classname: 'bg-danger text-light' });
       }
     } else {
-  this.toast.show({ message: 'Please select a listing and specify both start and end dates.', classname: 'bg-danger text-light' });
+      this.toast.show({ message: 'Please select a listing and specify both start and end dates.', classname: 'bg-danger text-light' });
     }
   }
 
   public getListingById(id: number): Listings | undefined {
     return this.listings.find(listing => listing.id === id);
+  }
+
+  private createConversation(listingId: number, listingName: string): void {
+    const userId = this.auth.current?.id;
+    if (!userId) return;
+
+    // Create a new conversation
+    const newConversation = {
+      listing: listingId.toString(),
+      participants: [userId], // Add listing owner when available from backend
+      subject: `Booking at ${listingName}`
+    };
+
+    // Create a new message thread
+    const newMessage = {
+      timestamp: new Date().toISOString(),
+      subject: `Booking at ${listingName}`,
+      sender: userId,
+      recipient: 'owner', // Placeholder - will be replaced when backend provides owner info
+      ping: [`Hi! I just made a booking at ${listingName}. Looking forward to it!`],
+      pong: []
+    };
+
+    // Post conversation to the chat service
+    this.http.post<Conversation>(`${path.chat}/inbox`, newConversation).subscribe({
+      next: (conversation: Conversation) => {
+        // Update message with conversation id
+        newMessage.subject = conversation.id;
+        
+        // Post initial message
+        this.http.post(`${path.chat}/messages`, { ...newMessage, id: userId }).subscribe({
+          next: () => {
+            console.log('Conversation and initial message created successfully');
+          },
+          error: (err) => {
+            console.error('Failed to create initial message:', err);
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Failed to create conversation:', err);
+      }
+    });
   }
 
   public onSearch(): void {
