@@ -148,7 +148,7 @@
   --padding-lg: 70px;
   --margin-sm: 1vh;
   --margin-md: 2vh;
-  --margin-lg: 20vh;
+  --margin-lg: 5vh;
   --radius: 15px;
   --font-bold: 'Karla-Bold';
   --font-light: 'Karla-Light';
@@ -323,7 +323,8 @@ section {
 .home,
 .account,
 .settings,
-.cart {
+.cart,
+.chat {
   display: inline-block;
   width: 25px;
   height: 25px;
@@ -364,6 +365,10 @@ section {
   mask: url('./icons/cart.svg') no-repeat center;
 }
 
+.chat {
+  mask: url('./icons/chat.svg') no-repeat center;
+}
+
 input.form-control {
   animation: fade 0.25s 1.5s ease-in both;
   background: var(--background-gradient);
@@ -380,6 +385,18 @@ input.form-control:focus {
 
 .input-group {
   margin-top: var(--margin-lg);
+}
+
+.input-group-text {
+  background: var(--primary-gradient);
+  border: none;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--background);
+  box-shadow: var(--shadow);
+}
+
+.input-group-text:hover {
+  filter: var(--brightness);
 }
 
 .toast {
