@@ -32,8 +32,10 @@ header.row {
   margin: 0;
   padding: 0;
 }
-#conversation {
+.conversation {
   box-shadow: var(--shadow);
+  width: 100%;
+  padding: var(--padding-md);
 }
 .listing {
   font-family: 'Karla-Bold';

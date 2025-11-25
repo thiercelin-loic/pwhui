@@ -16,8 +16,8 @@
     <section>
         <h4><span class="chat"></span>Inbox</h4>
         <div class="row" *ngFor="let conversation of conversations">
-            <button class="btn btn-primary text-start" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                id="conversation" (click)="selectConversation(conversation)">
+            <button class="conversation btn btn-primary text-start" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                (click)="selectConversation(conversation)">
                 <p class="listing">{{ getListingById(conversation.listing)?.name || conversation.listing }}</p>
                 <p class="preview">{{ getLastMessage(conversation) }}</p>
             </button>
