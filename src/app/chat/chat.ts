@@ -26,6 +26,7 @@ export class Chat implements OnInit {
   public year: number = this.date.getFullYear();
   public conversations: Conversation[] = [];
   public messages: Message[] = [];
+  public allMessages: Message[] = [];
   public listings: Listings[] = [];
   public selectedConversation: Conversation | null = null;
   public newMessage = '';
@@ -33,6 +34,7 @@ export class Chat implements OnInit {
   ngOnInit(): void {
     this.auth.getMe().subscribe(() => {
       this.getConversations();
+      this.getAllMessages();
     });
     this.getListings();
   }
@@ -40,6 +42,12 @@ export class Chat implements OnInit {
   private getListings(): void {
     this.http.get<Listings[]>(`${path.booking}/listings`).subscribe(data => {
       this.listings = data;
+    });
+  }
+
+  private getAllMessages(): void {
+    this.http.get<Message[]>(`${path.chat}/messages`).subscribe(data => {
+      this.allMessages = data;
     });
   }
 
@@ -56,12 +64,25 @@ export class Chat implements OnInit {
   public getMessages(conversationId: string): void {
     this.http.get<Message[]>(`${path.chat}/messages`).subscribe(data => {
       this.messages = data.filter(m => m.id === conversationId);
-      console.log(this.messages);
     });
   }
 
-  public getListingById(id: number): Listings | undefined {
-    return this.listings.find(listing => listing.id === id);
+  public getListingById(id: number | string): Listings | undefined {
+    return this.listings.find(listing => listing.id === Number(id));
+  }
+
+  public get isPingOwner(): boolean {
+    return this.selectedConversation?.participants[0] === this.auth.current?.id;
+  }
+
+  public getLastMessage(conversation: Conversation): string {
+    const message = this.allMessages.find(m => m.id === conversation.participants[0]);
+    if (!message) return conversation.subject;
+
+    const lastPing = message.ping.length > 0 ? message.ping[message.ping.length - 1] : null;
+    const lastPong = message.pong.length > 0 ? message.pong[message.pong.length - 1] : null;
+
+    return lastPong || lastPing || conversation.subject;
   }
 
   public selectConversation(conversation: Conversation): void {
@@ -109,12 +130,22 @@ export class Chat implements OnInit {
             } else {
               messageToUpdate.pong.push(this.newMessage);
             }
+
+            // Update allMessages as well to reflect changes in the list view
+            const messageInAll = this.allMessages.find(m => m.id === messageToUpdate.id);
+            if (messageInAll) {
+              if (isSender) {
+                messageInAll.ping.push(this.newMessage);
+              } else {
+                messageInAll.pong.push(this.newMessage);
+              }
+            }
+
             this.newMessage = ''; // Clear input
             this.toast.show({ message: 'Message sent successfully', classname: 'bg-success text-light' });
           },
-          error: (err) => {
+          error: () => {
             this.toast.show({ message: 'Failed to send message', classname: 'bg-danger text-light' });
-            console.error(err);
           }
         });
     }

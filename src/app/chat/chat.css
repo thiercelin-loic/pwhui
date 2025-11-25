@@ -17,7 +17,11 @@ input {
 }
 
 .row{
-  margin: var(--margin-sm);
+  margin: var(--margin-md);
+}
+
+header.row {
+  margin: 0;
 }
 
 .modal-footer {
@@ -27,4 +31,14 @@ input {
 .input-group.mb-3 {
   margin: 0;
   padding: 0;
+}
+#conversation {
+  box-shadow: var(--shadow);
+}
+.listing {
+  font-family: 'Karla-Bold';
+}
+
+.preview {
+  font-family: 'Karla-Light';
 }
