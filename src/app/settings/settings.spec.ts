@@ -5,7 +5,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 class MockAuthService {
-  logout(): void {  }
+  logout(): void { 
+    // mock
+  }
   isLogged(): boolean { return true; }
 }
 
