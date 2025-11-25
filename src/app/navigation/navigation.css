@@ -4,6 +4,9 @@ small {
 }
 
 .row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   position: fixed;
   bottom: 0%;
   padding: var(--padding-sm);
@@ -15,8 +18,7 @@ small {
 
 .col-sm {
   text-align: center;
-  width: 33.33%;
-  float: left;
+  flex: 1;
 }
 
 .col-sm:hover,
