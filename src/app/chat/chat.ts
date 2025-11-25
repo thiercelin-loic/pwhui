@@ -26,7 +26,7 @@ export class Chat implements OnInit {
   public year: number = this.date.getFullYear();
   public conversations: Conversation[] = [];
   public messages: Message[] = [];
-  public allMessages: Message[] = [];
+  public previews: Map<string, string> = new Map<string, string>();
   public listings: Listings[] = [];
   public selectedConversation: Conversation | null = null;
   public newMessage = '';
@@ -34,7 +34,6 @@ export class Chat implements OnInit {
   ngOnInit(): void {
     this.auth.getMe().subscribe(() => {
       this.getConversations();
-      this.getAllMessages();
     });
     this.getListings();
   }
@@ -45,25 +44,28 @@ export class Chat implements OnInit {
     });
   }
 
-  private getAllMessages(): void {
-    this.http.get<Message[]>(`${path.chat}/messages`).subscribe(data => {
-      this.allMessages = data;
-    });
-  }
-
   private getConversations(): void {
     const id = this.auth.current?.id
 
     if (id) {
       this.http.get<Conversation[]>(`${path.chat}/inbox`).subscribe(data => {
         this.conversations = data.filter(c => c.participants.includes(id));
+        this.conversations.forEach(c => {
+          const messageId = c.participants[0];
+          this.http.get<Message>(`${path.chat}/messages/${messageId}`).subscribe(message => {
+            const lastPing = message.ping.length > 0 ? message.ping[message.ping.length - 1] : null;
+            const lastPong = message.pong.length > 0 ? message.pong[message.pong.length - 1] : null;
+            const preview = lastPong || lastPing || c.subject;
+            this.previews.set(c.id, preview);
+          });
+        });
       });
     }
   }
 
   public getMessages(conversationId: string): void {
-    this.http.get<Message[]>(`${path.chat}/messages`).subscribe(data => {
-      this.messages = data.filter(m => m.id === conversationId);
+    this.http.get<Message>(`${path.chat}/messages/${conversationId}`).subscribe(data => {
+      this.messages = [data];
     });
   }
 
@@ -76,13 +78,7 @@ export class Chat implements OnInit {
   }
 
   public getLastMessage(conversation: Conversation): string {
-    const message = this.allMessages.find(m => m.id === conversation.participants[0]);
-    if (!message) return conversation.subject;
-
-    const lastPing = message.ping.length > 0 ? message.ping[message.ping.length - 1] : null;
-    const lastPong = message.pong.length > 0 ? message.pong[message.pong.length - 1] : null;
-
-    return lastPong || lastPing || conversation.subject;
+    return this.previews.get(conversation.id) || conversation.subject;
   }
 
   public selectConversation(conversation: Conversation): void {
@@ -131,14 +127,9 @@ export class Chat implements OnInit {
               messageToUpdate.pong.push(this.newMessage);
             }
 
-            // Update allMessages as well to reflect changes in the list view
-            const messageInAll = this.allMessages.find(m => m.id === messageToUpdate.id);
-            if (messageInAll) {
-              if (isSender) {
-                messageInAll.ping.push(this.newMessage);
-              } else {
-                messageInAll.pong.push(this.newMessage);
-              }
+            // Update previews to reflect changes in the list view
+            if (this.selectedConversation) {
+              this.previews.set(this.selectedConversation.id, this.newMessage);
             }
 
             this.newMessage = ''; // Clear input
