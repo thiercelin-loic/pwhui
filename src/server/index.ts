@@ -1,4 +1,4 @@
-const root = 'http://localhost';
+const root = 'http://parisworkhub.eu';
 export const path = {
     auth: `${root}:3001/auth`,
     users: `${root}:3001/users`,
