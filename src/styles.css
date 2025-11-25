@@ -137,7 +137,7 @@
   --danger: #a20000;
   --danger-gradient: linear-gradient(45deg, var(--danger), var(--light) 200%);
   --text: #333;
-  --background: #d3d3d3;
+  --background: #f0f0f0;
   --background-gradient: linear-gradient(45deg, var(--background), var(--light) 200%);
   --background-gradient-invert: linear-gradient(45deg, var(--light) -200%, var(--background));
   --background-image: url('https://images.pexels.com/photos/9574945/pexels-photo-9574945.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
@@ -438,4 +438,8 @@ input.form-control:focus {
     backdrop-filter: blur(5px);
     --bs-modal-margin: 1.75rem;
     --bs-modal-box-shadow: var(--bs-box-shadow);
+}
+
+.content-wrapper {
+  padding-bottom: 0;
 }
