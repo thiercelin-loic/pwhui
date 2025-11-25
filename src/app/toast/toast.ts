@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ToastService } from './toast.service';
 import { Toast } from './toast.model';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -15,14 +15,7 @@ export class ToastComponent implements OnInit, OnDestroy {
   private toastService = inject(ToastService);
   toasts: Toast[] = [];
   private subscription: Subscription = Subscription.EMPTY;
-  history$!: Observable<Toast[]>;
-
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-
-  constructor() {
-    this.history$ = this.toastService.history$;
-  }
+  history$ = this.toastService.history$;
 
   ngOnInit(): void {
     this.subscription = this.toastService.toast$.subscribe(toast => {
