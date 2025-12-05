@@ -1,0 +1,28 @@
+{
+  "/auth": {
+    "target": "http://localhost:3001",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/users": {
+    "target": "http://localhost:3001",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/booking": {
+    "target": "http://localhost:3002",
+    "secure": false,
+    "pathRewrite": {
+      "^/booking": ""
+    },
+    "changeOrigin": true
+  },
+  "/tell": {
+    "target": "http://localhost:3003",
+    "secure": false,
+    "pathRewrite": {
+      "^/tell": ""
+    },
+    "changeOrigin": true
+  }
+}
