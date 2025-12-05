@@ -73,9 +73,26 @@ The project includes Docker support with both development and production configu
 ```
 
 ### Production:
-```bash
-./docker/production.sh
-```
+
+The production setup includes automatic HTTPS configuration using Let's Encrypt.
+
+1. Edit `docker/production.sh` to set your domain and email:
+   ```bash
+   -e DOMAIN="your-domain.com" \
+   -e EMAIL="your-email@example.com" \
+   ```
+
+2. Run the production deployment script:
+   ```bash
+   ./docker/production.sh
+   ```
+
+The script will:
+- Build the Nginx image with Certbot support.
+- Start the container with port 80 and 443 exposed.
+- Automatically obtain a Let's Encrypt certificate for your domain.
+- Persist certificates in `/etc/letsencrypt` on the host machine.
+- Auto-renew certificates.
 
 ## 🎨 Code Quality
 
