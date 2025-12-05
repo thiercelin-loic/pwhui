@@ -1,7 +1,7 @@
-const root = 'http://parisworkhub.eu';
+const root = '';
 export const path = {
-    auth: `${root}:3001/auth`,
-    users: `${root}:3001/users`,
-    booking: `${root}:3002`,
-    chat: `${root}:3003`
+    auth: `${root}/auth`,
+    users: `${root}/users`,
+    booking: `${root}/booking`,
+    chat: `${root}/tell`
 }
