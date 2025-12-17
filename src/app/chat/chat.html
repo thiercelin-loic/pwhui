@@ -17,7 +17,8 @@
         <h4><span class="chat"></span>Inbox</h4>
         <div class="row" *ngFor="let conversation of conversations">
             <button class="conversation btn btn-primary text-start" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                (click)="selectConversation(conversation)">
+                (click)="selectConversation(conversation)"
+                [style.background]="'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(' + (getListingById(conversation.listing)?.photo) + ') center / cover no-repeat'">
                 <p class="listing">{{ getListingById(conversation.listing)?.name || conversation.listing }}</p>
                 <p class="preview">{{ getLastMessage(conversation) }}</p>
             </button>
