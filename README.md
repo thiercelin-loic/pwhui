@@ -1,181 +1,205 @@
-# PWHUI
+# ParisWorkHub - Workspace Booking Platform
 
-A modern Angular application built with Angular 20, featuring authentication, cart management, policy handling, and more.
+[![Angular](https://img.shields.io/badge/Angular-20-dd0031?style=flat&logo=angular)](https://angular.io/)
+[![NestJS](https://img.shields.io/badge/NestJS-Compatible-E0234E?style=flat&logo=nestjs)](https://nestjs.com/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat&logo=docker)](https://www.docker.com/)
+[![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](http://creativecommons.org/licenses/by-nc/4.0/)
 
-## 🚀 Features
+> **Live Demo:** [https://parisworkhub.eu](https://parisworkhub.eu)
 
-- **Authentication System**: Complete login and registration flow with route guards
-- **Shopping Cart**: Cart management functionality
-- **Contract Management**: Contract viewing and handling
-- **Policy Management**: Policy service with dedicated interface
-- **Settings**: User settings configuration
-- **Toast Notifications**: Global notification system
-- **Responsive Navigation**: Modern navigation component
-
-## 📋 Prerequisites
-
-Before you begin, ensure you have the following installed:
-
-- Node.js (LTS version recommended)
-- npm or yarn
-- Angular CLI (`npm install -g @angular/cli`)
-
-## 🛠️ Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/thiercelin-loic/pwhui.git
-   cd pwhui
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-## 🏃 Development
-
-Start the development server:
-
-```bash
-npm start
-```
-
-Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## 🧪 Testing
-
-Run unit tests:
-
-```bash
-npm test
-```
-
-This executes the unit tests via [Karma](https://karma-runner.github.io).
-
-## 🏗️ Build
-
-Build the project for production:
-
-```bash
-npm run build
-```
-
-The build artifacts will be stored in the `dist/` directory.
-
-## 🐳 Docker
-
-The project includes Docker support with both development and production configurations.
-
-### Development:
-```bash
-./docker/developement.sh
-```
-
-### Production:
-
-The production setup includes automatic HTTPS configuration using Let's Encrypt.
-
-1. Edit `docker/production.sh` to set your domain and email:
-   ```bash
-   -e DOMAIN="your-domain.com" \
-   -e EMAIL="your-email@example.com" \
-   ```
-
-2. Run the production deployment script:
-   ```bash
-   ./docker/production.sh
-   ```
-
-The script will:
-- Build the Nginx image with Certbot support.
-- Start the container with port 80 and 443 exposed.
-- Automatically obtain a Let's Encrypt certificate for your domain.
-- Persist certificates in `/etc/letsencrypt` on the host machine.
-- Auto-renew certificates.
-
-## 🎨 Code Quality
-
-Run linting:
-
-```bash
-npm run lint
-```
-
-The project uses ESLint with Angular-specific rules and Prettier for code formatting.
-
-## 📁 Project Structure
-
-```
-src/
-├── app/
-│   ├── auth/           # Authentication module (login, register)
-│   ├── cart/           # Shopping cart functionality
-│   ├── contract/       # Contract management
-│   ├── landing/        # Landing page
-│   ├── navigation/     # Navigation component
-│   ├── policy/         # Policy management
-│   ├── settings/       # User settings
-│   ├── start/          # Start/home page
-│   └── toast/          # Toast notification system
-├── server/             # Server-related code
-├── fonts/              # Custom fonts
-├── icons/              # Icon assets
-├── index.html          # Main HTML file
-├── main.ts             # Application entry point
-└── styles.css          # Global styles
-```
-
-## 🔧 Technologies
-
-- **Framework**: Angular 20.2.0
-- **Language**: TypeScript 5.9.2
-- **Testing**: Jasmine & Karma
-- **Linting**: ESLint with Angular ESLint
-- **Code Formatting**: Prettier
-- **Server**: Nginx (for production deployment)
-
-## 📝 Available Scripts
-
-| Script | Description |
-|--------|-------------|
-| `npm start` | Start development server |
-| `npm run build` | Build for production |
-| `npm test` | Run unit tests |
-| `npm run watch` | Build in watch mode |
-| `npm run lint` | Run ESLint |
-
-## 🔐 Authentication
-
-The application includes a complete authentication system with:
-- Login and registration pages
-- Auth guards for protected routes
-- Auth service for managing user sessions
-- Custom auth models
-
-## 🌐 Deployment
-
-The project includes:
-- Dockerfile for containerization
-- Nginx configuration for production deployment
-- Separate development and production Docker scripts
-
-## 📄 License
-
-CC BY-NC 4.0
-
-## 👤 Author
-
-**thiercelin-loic**
-
-## 🤝 Contributing
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+A modern Fullstack application built to manage coworking space reservations.
+This repository contains the **Frontend** architecture built with **Angular 20**, designed to consume a NestJS API.
 
 ---
 
-Built with ❤️ using Angular
+## 📸 Screenshots
+
+| **Home & Search** | **Booking Flow** | **Real-time Chat** |
+|:---:|:---:|:---:|
+| ![Home](./screenshots/home.png) | ![Booking](./screenshots/booking.png) | ![Chat](./screenshots/chat.png) |
+
+*(Screenshots are stored in the /screenshots folder)*
+
+---
+
+## 🚀 Key Features
+
+- **Authentication System**: Secure JWT login/registration with route guards.
+- **Dynamic Booking**: Complete cart management and date validation.
+- **Real-Time Messaging**: Chat interface powered by Redis.
+- **Policy & Contracts**: Dedicated interfaces for legal document management.
+- **Responsive Design**: Mobile-first approach using modern CSS.
+- **Toast Notifications**: Feedback system for user actions.
+
+---
+## 🧠 Engineering Highlights
+
+Beyond standard features, this project implements advanced patterns:
+
+* **Optimized Data Fetching:** Implementation of RxJS `shareReplay` operator to cache API responses and reduce server load.
+* **Automated DevOps Security:** Custom Nginx configuration handling ACME challenges for automatic **Let's Encrypt SSL** certificate generation and renewal within Docker containers.
+* **Strict Code Quality:** Enforced linting rules using **ESLint** with specific Angular configurations to maintain clean architecture.
+* **Smart UX Patterns:** Debounced search inputs and skeleton loaders for smoother user interactions.
+
+## 🛠️ Technical Stack
+
+- **Framework**: Angular 20
+- **Language**: TypeScript 5.9
+- **State Management**: RxJS
+- **Testing**: Jasmine & Karma
+- **DevOps**: Docker & Nginx (Auto-HTTPS with Let's Encrypt)
+
+---
+
+## 📂 Project Architecture
+
+The project follows a modular architecture based on Feature Modules and Standalone Components.
+
+    pwhui/
+    ├── src/
+    │   ├── app/
+    │   │   ├── auth/           # Authentication strategies & Guards
+    │   │   ├── cart/           # Booking workflow & State management
+    │   │   ├── chat/           # Real-time messaging interface
+    │   │   ├── contract/       # Legal data handling
+    │   │   ├── landing/        # Home page & Search interface
+    │   │   ├── navigation/     # Top navigation & Menu components
+    │   │   ├── policy/         # Business rules & Policy service
+    │   │   ├── settings/       # User settings & Profile management
+    │   │   ├── start/          # Onboarding & Welcome screens
+    │   │   ├── app.config.ts   # Application configuration
+    │   │   ├── app.routes.ts   # Route definitions
+    │   │   ├── app.ts          # Root component
+    │   │   ├── booking.service.ts  # Booking logic & API integration
+    │   │   └── init.service.ts     # Application initialization
+    │   ├── fonts/              # Custom typography assets
+    │   ├── icons/              # Optimized SVG icons
+    │   ├── server/             # Server-side rendering utilities
+    │   ├── index.html          # HTML entry point
+    │   ├── main.ts             # Application bootstrapping
+    │   └── styles.css          # Global styles
+    ├── docker/
+    │   ├── dependencies.sh     # Dependency installation script
+    │   ├── entrypoint.sh       # Container startup script
+    │   └── production.sh       # Production deployment automation
+    ├── public/                 # Static assets
+    ├── screenshots/            # Documentation images
+    ├── angular.json            # Angular workspace configuration
+    ├── Dockerfile              # Container build instructions
+    ├── nginx.conf              # Web server configuration
+    ├── proxy.conf.json         # Development API proxy
+    └── package.json            # Dependencies & Scripts
+
+---
+
+## 📦 Installation & Setup
+
+### Prerequisites
+- Node.js (LTS)
+- npm or yarn
+- Docker Desktop (optional but recommended)
+
+### Frontend (pwhui)
+
+1.  **Clone & Install**
+
+        git clone https://github.com/thiercelin-loic/pwhui.git
+        cd pwhui
+        npm install
+
+2.  **Environment Variables**
+    Create a `.env` file in the root of the `pwhui` directory based on the following example:
+
+        PORT=4200
+        NODE_ENV=development
+
+2.  **Development Mode**
+
+        npm start
+        # Navigate to http://localhost:4200/
+
+3.  **Docker Deployment**
+    The project includes production-ready Docker scripts handling Nginx and SSL certificates automatically.
+
+    **Production:**
+    1.  Configure `docker/production.sh` with your domain/email.
+    2.  Run the deployment:
+
+            ./docker/production.sh
+
+    *Features: Nginx reverse-proxy, Auto-renewing Let's Encrypt SSL certificates.*
+
+### Backend Microservices
+
+This project relies on several NestJS microservices. Clone and set up each of them separately.
+
+#### 1. Auth Service
+
+-   **Repository:** [https://github.com/thiercelin-loic/auth](https://github.com/thiercelin-loic/auth)
+-   **Installation:**
+
+        git clone https://github.com/thiercelin-loic/auth.git
+        cd auth
+        docker compose up
+
+-   **Environment Variables:**
+    Create a `.env` file in the root of the `auth` directory based on the following example:
+
+        MYSQL_HOST=database
+        MYSQL_PORT=3306
+        MYSQL_USERNAME=root
+        MYSQL_PASSWORD=password
+        MYSQL_DATABASE=auth
+        NODE_ENV=production
+        PORT=3000
+
+#### 2. Booking Service
+
+-   **Repository:** [https://github.com/thiercelin-loic/booking](https://github.com/thiercelin-loic/booking)
+-   **Installation:**
+
+        git clone https://github.com/thiercelin-loic/booking.git
+        cd booking
+        docker compose up
+
+-   **Environment Variables:**
+    Create a `.env` file in the root of the `booking` directory based on the following example:
+
+        MYSQL_HOST=database
+        MYSQL_PORT=3306
+        MYSQL_USERNAME=root
+        MYSQL_PASSWORD=password
+        MYSQL_DATABASE=booking
+        NODE_ENV=production
+        PORT=3000
+
+#### 3. Tell Service (Real-time Messaging)
+
+-   **Repository:** [https://github.com/thiercelin-loic/tell](https://github.com/thiercelin-loic/tell)
+-   **Installation:**
+
+        git clone https://github.com/thiercelin-loic/tell.git
+        cd tell
+        docker compose up
+---
+
+## 🧪 Quality & Testing
+
+- **Unit Tests:** `npm test` (Karma/Jasmine)
+- **Linting:** `npm run lint` (ESLint + Prettier)
+- **Build:** `npm run build` (Production optimized)
+
+---
+
+## 🤝 Credits & Acknowledgements
+
+* **UI Layout & Wireframes:** Based on the work of [Rizky Sentro](https://dribbble.com/rizkysentro).
+* **Integration & Logic:** Full implementation by **Loïc Thiercelin**.
+
+---
+
+## 👤 Author
+
+**Loïc Thiercelin**
+* LinkedIn: [linkedin.com/in/loïc-thiercelin](https://www.linkedin.com/in/loïc-thiercelin)
+* Website: [parisworkhub.eu](https://parisworkhub.eu)
