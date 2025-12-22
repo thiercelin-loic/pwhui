@@ -150,22 +150,19 @@ export class Landing implements OnInit, OnDestroy {
 
     // Create a new message thread
     const newMessage = {
-      timestamp: new Date().toISOString(),
-      subject: `Booking at ${listingName}`,
-      sender: userId,
-      recipient: 'owner', // Placeholder - will be replaced when backend provides owner info
-      ping: [`Hi! I just made a booking at ${listingName}. Looking forward to it!`],
-      pong: []
+      messages: [{
+          sender: userId,
+          content: `Hi! I just made a booking at ${listingName}. Looking forward to it!`,
+          timestamp: new Date()
+      }]
     };
 
     // Post conversation to the chat service
     this.http.post<Conversation>(`${path.chat}/inbox`, newConversation).subscribe({
       next: (conversation: Conversation) => {
-        // Update message with conversation id
-        newMessage.subject = conversation.id;
         
         // Post initial message
-        this.http.post(`${path.chat}/messages`, { ...newMessage, id: userId }).subscribe({
+        this.http.post(`${path.chat}/messages`, { ...newMessage, id: conversation.id }).subscribe({
           next: () => {
             console.log('Conversation and initial message created successfully');
           },
