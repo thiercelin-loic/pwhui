@@ -40,13 +40,10 @@
             </div>
             <div class="modal-body">
                 <ng-container *ngIf="messages.length > 0">
-                    <div class="text-end in" *ngFor="let msg of (isPingOwner ? messages[0].ping : messages[0].pong)">
-                        <b>{{auth.current?.first_name}}</b>
-                        <p>{{ msg }}</p>
-                    </div>
-                    <div class="text-start" *ngFor="let msg of (isPingOwner ? messages[0].pong : messages[0].ping)">
-                        <b>{{ isPingOwner ? 'Host' : 'Guest' }}</b>
-                        <p>{{ msg }}</p>
+                    <div *ngFor="let msg of messages[0].messages" 
+                         [ngClass]="{'text-end in': msg.sender === auth.current?.id, 'text-start out': msg.sender !== auth.current?.id}">
+                        <b>{{ msg.sender === auth.current?.id ? auth.current?.first_name : 'User' }}</b>
+                        <p>{{ msg.content }}</p>
                     </div>
                 </ng-container>
             </div>

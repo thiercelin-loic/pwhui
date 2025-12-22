@@ -8,7 +8,8 @@ input {
   width: 75px;
 }
 
- .in{
+.in,
+.out {
   background: var(--primary-gradient-invert);
   color: var(--background);
   border-radius: var(--radius);
@@ -16,7 +17,11 @@ input {
   padding: var(--padding-sm);
 }
 
-.row{
+.out {
+  background: var(--secondary-gradient-invert);
+}
+
+.row {
   margin: var(--margin-md);
 }
 

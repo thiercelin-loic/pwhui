@@ -51,11 +51,9 @@ export class Chat implements OnInit {
       this.http.get<Conversation[]>(`${path.chat}/inbox`).subscribe(data => {
         this.conversations = data.filter(c => c.participants.includes(id));
         this.conversations.forEach(c => {
-          const messageId = c.participants[0];
-          this.http.get<Message>(`${path.chat}/messages/${messageId}`).subscribe(message => {
-            const lastPing = message.ping.length > 0 ? message.ping[message.ping.length - 1] : null;
-            const lastPong = message.pong.length > 0 ? message.pong[message.pong.length - 1] : null;
-            const preview = lastPong || lastPing || c.subject;
+          this.http.get<Message>(`${path.chat}/messages/${c.id}`).subscribe(message => {
+            const lastMsg = message.messages.length > 0 ? message.messages[message.messages.length - 1] : null;
+            const preview = lastMsg ? lastMsg.content : c.subject;
             this.previews.set(c.id, preview);
           });
         });
@@ -73,17 +71,13 @@ export class Chat implements OnInit {
     return this.listings.find(listing => listing.id === Number(id));
   }
 
-  public get isPingOwner(): boolean {
-    return this.selectedConversation?.participants[0] === this.auth.current?.id;
-  }
-
   public getLastMessage(conversation: Conversation): string {
     return this.previews.get(conversation.id) || conversation.subject;
   }
 
   public selectConversation(conversation: Conversation): void {
     this.selectedConversation = conversation;
-    this.getMessages(conversation.participants[0]);
+    this.getMessages(conversation.id);
   }
 
   public sendMessage(): void {
@@ -96,24 +90,22 @@ export class Chat implements OnInit {
       this.toast.show({ message: 'You must be logged in to send messages', classname: 'bg-danger text-light' });
       return;
     }
-
-    // Determine if current user is sender or recipient
-    const isSender = this.selectedConversation.participants[0] === currentUserId;
     
     // Find the message object for this conversation
     const messageToUpdate = this.messages.find(
-      m => m.id === this.selectedConversation!.participants[0]
+      m => m.id === this.selectedConversation!.id
     );
 
     if (messageToUpdate) {
+      const newMessageItem = {
+        sender: currentUserId,
+        content: this.newMessage,
+        timestamp: new Date()
+      };
+
       // Prepare the update payload
       const updatePayload = {
-        ...messageToUpdate,
-        [isSender ? 'ping' : 'pong']: [
-          ...(isSender ? messageToUpdate.ping : messageToUpdate.pong),
-          this.newMessage
-        ],
-        timestamp: new Date()
+        messages: [newMessageItem]
       };
 
       // Send PATCH request to update the message
@@ -121,11 +113,7 @@ export class Chat implements OnInit {
         .subscribe({
           next: () => {
             // Update local messages array
-            if (isSender) {
-              messageToUpdate.ping.push(this.newMessage);
-            } else {
-              messageToUpdate.pong.push(this.newMessage);
-            }
+            messageToUpdate.messages.push(newMessageItem);
 
             // Update previews to reflect changes in the list view
             if (this.selectedConversation) {
