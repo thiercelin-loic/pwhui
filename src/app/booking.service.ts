@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { AuthService } from './auth/auth.service';
-import { ToastService } from './toast/toast.service';
-import { Bookings, Listings } from './landing/landing.model';
-import { path } from '../server';
+import { AuthService } from '@app/auth/auth.service';
+import { ToastService } from '@app/toast/toast.service';
+import { ListingService } from '@shared/services/listing.service';
+import { BookingDataService } from '@shared/services/booking-data.service';
+import { Bookings, Listings } from '@shared/models';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
@@ -11,48 +11,55 @@ import { of } from 'rxjs';
   providedIn: 'root'
 })
 export class BookingService {
-  private http = inject(HttpClient);
   private auth = inject(AuthService);
   private toast = inject(ToastService);
+  private listingService = inject(ListingService);
+  private bookingDataService = inject(BookingDataService);
+  
   private listings: Listings[] = [];
 
   constructor() {
+    this.initializeBookingNotifications();
+  }
+
+  private initializeBookingNotifications(): void {
     this.auth.getMe().pipe(
       switchMap(user => {
         if (user) {
-          return this.http.get<Listings[]>(`${path.booking}/listings`);
+          return this.listingService.getListings();
         }
         return of([]);
       }),
       switchMap(listings => {
         this.listings = listings;
-        if (this.auth.current?.id) {
-          return this.http.get<Bookings[]>(`${path.booking}/bookings`);
+        const userId = this.auth.current?.id;
+        if (userId) {
+          return this.bookingDataService.getUserUpcomingBookings(userId);
         }
         return of([]);
       })
     ).subscribe(bookings => {
-      if (this.auth.current?.id) {
-        const now = new Date();
-        const userBookings = bookings
-          .filter(booking => booking.user === this.auth.current?.id && new Date(booking.arrival) > now)
-          .sort((a, b) => new Date(a.arrival).getTime() - new Date(b.arrival).getTime());
-        userBookings.forEach(booking => this.getStatus(booking));
-      }
+      bookings.forEach(booking => this.checkBookingStatus(booking));
     });
   }
 
-  private getStatus(booking: Bookings): void {
+  private checkBookingStatus(booking: Bookings): void {
     const now = new Date();
-    const confirmation = booking.confirmation;
     const arrival = new Date(booking.arrival);
+    const listingName = this.listings.find(l => l.id === booking.listing)?.name;
 
-    if (confirmation) {
-      this.toast.show({ message: `Your booking at ${this.listings.find(l => l.id === booking.listing)?.name} is confirmed` });
+    if (booking.confirmation && listingName) {
+      this.toast.show({ 
+        message: `Your booking at ${listingName} is confirmed` 
+      });
     }
 
     if (now.toDateString() === arrival.toDateString() && now.getTime() < arrival.getTime()) {
-      this.toast.show({ message: `It's time to work at ${this.listings.find(l => l.id === booking.listing)?.name}` });
+      if (listingName) {
+        this.toast.show({ 
+          message: `It's time to work at ${listingName}` 
+        });
+      }
     }
   }
 }
