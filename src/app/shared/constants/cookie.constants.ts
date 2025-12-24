@@ -1,0 +1,6 @@
+export const COOKIE_CONSTANTS = {
+  CONSENT_KEY: 'consent',
+  CONSENT_VALUE: 'true',
+  CONSENT_MAX_AGE: 31536000,
+  POLICY_MODAL_DELAY: 3000
+} as const;
