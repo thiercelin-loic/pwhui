@@ -44,6 +44,7 @@ export class Login implements OnInit {
   denied = (): void => {
     console.log('Form is invalid')
   };
+  
   submit = (): void => {
     this.error = null;
     if (this.form.valid) {

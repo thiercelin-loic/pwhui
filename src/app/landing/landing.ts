@@ -1,13 +1,19 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../auth/auth.service';
-import { ToastService } from '../toast/toast.service';
+import { AuthService } from '@app/auth/auth.service';
+import { ToastService } from '@app/toast/toast.service';
 import { Bookings, Listings } from './landing.model';
-import { Conversation } from '../chat/chat.model';
-import { path } from '../../server';
+import { 
+  ListingService, 
+  BookingDataService, 
+  ConversationService,
+  DateFormatterService,
+  TypingAnimationService,
+  SearchService
+} from '@shared/services';
+import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@shared/constants';
 
 @Component({
   selector: 'app-landing',
@@ -16,16 +22,20 @@ import { path } from '../../server';
   styleUrl: './landing.css'
 })
 export class Landing implements OnInit, OnDestroy {
-  private http = inject(HttpClient);
+  private listingService = inject(ListingService);
+  private bookingDataService = inject(BookingDataService);
+  private conversationService = inject(ConversationService);
+  private dateFormatter = inject(DateFormatterService);
+  private typingAnimation = inject(TypingAnimationService);
+  private searchService = inject(SearchService);
+  
   auth = inject(AuthService);
   toast = inject(ToastService);
 
-  private option = { month: 'long' } as const;
-
-  public date: Date = new Date();
-  public today = this.date.getDate();
-  public month = this.date.toLocaleString('default', this.option);
-  public year = this.date.getFullYear();
+  public date: Date = this.dateFormatter.getCurrentDate();
+  public today = this.dateFormatter.getToday();
+  public month = this.dateFormatter.getMonth();
+  public year = this.dateFormatter.getYear();
 
   public listings: Listings[] = [];
   public bookings: Bookings[] = [];
@@ -34,15 +44,9 @@ export class Landing implements OnInit, OnDestroy {
   public departure!: Date;
   public query = '';
   public suggestions: Listings[] = [];
-
   public placeholder = '';
-  private text = 0;
-  private char = 0;
-  private typing = 50;
-  private erasing = 50;
-  private delay = 2000;
-  private interval = 0;
-  private tips: string[] = [
+
+  private readonly searchTips: string[] = [
     'Coworking near Eiffel Tower',
     'Quiet workspace in Le Marais',
     'Meeting room for 6 people near Gare du Nord',
@@ -51,55 +55,50 @@ export class Landing implements OnInit, OnDestroy {
     'Salle de réunion proche du Louvre'
   ];
 
-  private erase(): void {
-    this.interval = setInterval(() => {
-      if (this.placeholder.length > 0) {
-        this.placeholder = this.placeholder.slice(0, -1);
-      } else {
-        clearInterval(this.interval);
-        this.text = (this.text + 1) % this.tips.length;
-        this.char = 0;
-        this.write();
-      }
-    }, this.erasing);
+  ngOnInit(): void {
+    this.startTypingAnimation();
+    this.loadListings();
+    this.loadUserBookings();
   }
 
-  private type(): void {
-    const current = this.tips[this.text];
-
-    if (this.char < current.length) {
-      this.placeholder += current.charAt(this.char);
-      this.char++;
-    } else {
-      clearInterval(this.interval);
-      setTimeout(() => this.erase(), this.delay);
-    }
+  ngOnDestroy(): void {
+    this.typingAnimation.stopAnimation();
   }
 
-  private write(): void {
-    this.interval = setInterval(() =>
-      this.type(),
-      this.typing
+  private startTypingAnimation(): void {
+    this.typingAnimation.startAnimation(
+      this.searchTips,
+      (text) => { this.placeholder = text; }
     );
   }
 
-  private getListings(): void {
-    this.http.get<Listings[]>(`${path.booking}/listings`)
-      .subscribe(data => { this.listings = data; });
+  private loadListings(): void {
+    this.listingService.getListings().subscribe({
+      next: (data) => { this.listings = data; },
+      error: (error) => {
+        console.error('Failed to load listings', error);
+        this.toast.show({ 
+          message: 'Failed to load listings', 
+          classname: 'bg-danger text-light' 
+        });
+      }
+    });
   }
 
-  private getBookings(): void {
-    const id = this.auth.current?.id;
-    if (id) {
-      this.http.get<Bookings[]>(`${path.booking}/bookings`).subscribe(data => {
-        const now = new Date();
-        this.bookings = data
-          .filter(booking => booking.user === id && new Date(booking.arrival) > now)
-          .sort((a, b) => new Date(a.arrival).getTime() - new Date(b.arrival).getTime());
-      });
-    } else {
-      this.bookings = [];
-    }
+  private loadUserBookings(): void {
+    this.auth.getMe().subscribe(() => {
+      const userId = this.auth.current?.id;
+      if (userId) {
+        this.bookingDataService.getUserUpcomingBookings(userId).subscribe({
+          next: (data) => { this.bookings = data; },
+          error: (error) => {
+            console.error('Failed to load bookings', error);
+          }
+        });
+      } else {
+        this.bookings = [];
+      }
+    });
   }
 
   public selectListing(listing: Listings): void {
@@ -108,92 +107,103 @@ export class Landing implements OnInit, OnDestroy {
     this.suggestions = [];
   }
 
-
   public book(): void {
-    const booking = {
+    if (!this.validateBooking()) {
+      return;
+    }
+
+    const booking = this.createBookingPayload();
+
+    this.bookingDataService.createBooking(booking).subscribe({
+      next: () => {
+        this.loadUserBookings();
+        this.createConversationForBooking(this.selection.id, this.selection.name);
+        this.toast.show({ message: SUCCESS_MESSAGES.BOOKING_SUCCESS });
+      },
+      error: (error) => {
+        console.error('Booking failed', error);
+        this.toast.show({ 
+          message: 'Booking failed. Please try again.', 
+          classname: 'bg-danger text-light' 
+        });
+      }
+    });
+  }
+
+  private validateBooking(): boolean {
+    if (!this.auth.current?.id) {
+      this.toast.show({ 
+        message: ERROR_MESSAGES.LOGIN_REQUIRED, 
+        classname: 'bg-danger text-light' 
+      });
+      return false;
+    }
+
+    if (!this.arrival || !this.departure || !this.selection.id) {
+      this.toast.show({ 
+        message: ERROR_MESSAGES.BOOKING_INCOMPLETE, 
+        classname: 'bg-danger text-light' 
+      });
+      return false;
+    }
+
+    return true;
+  }
+
+  private createBookingPayload(): Partial<Bookings> {
+    return {
       listing: this.selection.id,
       user: this.auth.current?.id,
-      arrival: this.arrival,
-      departure: this.departure,
-      confirmation: false
+      arrival: this.arrival.toString(),
+      departure: this.departure.toString(),
+      confirmation: '' as string
     };
-
-    if (this.arrival && this.departure && this.selection) {
-      if (this.auth.current?.id) {
-        this.http.post<Bookings>(`${path.booking}/bookings`, booking).subscribe(() => {
-          this.getBookings();
-          this.createConversation(this.selection.id, this.selection.name);
-          this.toast.show({ message: 'Booking successful!' });
-        });
-      } else {
-        this.toast.show({ message: 'Please log in to make a booking.', classname: 'bg-danger text-light' });
-      }
-    } else {
-      this.toast.show({ message: 'Please select a listing and specify both start and end dates.', classname: 'bg-danger text-light' });
-    }
   }
 
-  public getListingById(id: number): Listings | undefined {
-    return this.listings.find(listing => listing.id === id);
-  }
-
-  private createConversation(listingId: number, listingName: string): void {
+  private createConversationForBooking(listingId: number, listingName: string): void {
     const userId = this.auth.current?.id;
     if (!userId) return;
 
-    // Create a new conversation
     const newConversation = {
       listing: listingId.toString(),
-      participants: [userId], // Add listing owner when available from backend
+      participants: [userId],
       subject: `Booking at ${listingName}`
     };
 
-    // Create a new message thread
     const newMessage = {
       messages: [{
-          sender: userId,
-          content: `Hi! I just made a booking at ${listingName}. Looking forward to it!`,
-          timestamp: new Date()
+        sender: userId,
+        content: `Hi! I just made a booking at ${listingName}. Looking forward to it!`,
+        timestamp: new Date()
       }]
     };
 
-    // Post conversation to the chat service
-    this.http.post<Conversation>(`${path.chat}/inbox`, newConversation).subscribe({
-      next: (conversation: Conversation) => {
-        
-        // Post initial message
-        this.http.post(`${path.chat}/messages`, { ...newMessage, id: conversation.id }).subscribe({
+    this.conversationService.createConversation(newConversation).subscribe({
+      next: (conversation) => {
+        this.conversationService.sendMessage(conversation.id, newMessage).subscribe({
           next: () => {
             console.log('Conversation and initial message created successfully');
           },
           error: (err) => {
-            console.error('Failed to create initial message:', err);
+            console.error(ERROR_MESSAGES.CONVERSATION_CREATION_FAILED, err);
           }
         });
       },
       error: (err) => {
-        console.error('Failed to create conversation:', err);
+        console.error(ERROR_MESSAGES.CONVERSATION_CREATION_FAILED, err);
       }
     });
   }
 
+  public getListingById(id: number): Listings | undefined {
+    return this.listingService.getListingById(this.listings, id);
+  }
+
   public onSearch(): void {
-    if (this.query.length > 2) {
-      this.suggestions = this.listings.filter(listing =>
-        listing.name.toLowerCase().includes(this.query.toLowerCase())
-      );
-    } else {
-      this.suggestions = [];
-    }
+    this.suggestions = this.searchService.filterItems(
+      this.listings,
+      this.query,
+      (listing) => listing.name
+    );
   }
-
-  public ngOnInit(): void {
-    this.write();
-    this.getListings();
-    this.auth.getMe().subscribe(() => {
-      this.getBookings();
-    });
-  }
-
-  public ngOnDestroy(): void { clearInterval(this.interval); }
 }

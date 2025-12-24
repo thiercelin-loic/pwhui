@@ -1,12 +1,16 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../auth/auth.service';
-import { ToastService } from '../toast/toast.service';
+import { AuthService } from '@app/auth/auth.service';
+import { ToastService } from '@app/toast/toast.service';
 import { Conversation, Message } from './chat.model';
-import { Listings } from '../landing/landing.model';
-import { path } from '../../server';
+import { Listings } from '@app/landing/landing.model';
+import { 
+  DateFormatterService,
+  ListingService,
+  ConversationService 
+} from '@shared/services';
+import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@shared/constants';
 
 @Component({
   selector: 'app-chat',
@@ -15,15 +19,17 @@ import { path } from '../../server';
   styleUrl: './chat.css',
 })
 export class Chat implements OnInit {
-  private http = inject(HttpClient);
+  private dateFormatter = inject(DateFormatterService);
+  private listingService = inject(ListingService);
+  private conversationService = inject(ConversationService);
+  
   auth = inject(AuthService);
   toast = inject(ToastService);
 
-  private option = { month: 'long' } as const;
-  public date: Date = new Date();
-  public today: number = this.date.getDate();
-  public month: string = this.date.toLocaleString('default', this.option);
-  public year: number = this.date.getFullYear();
+  public date: Date = this.dateFormatter.getCurrentDate();
+  public today: number = this.dateFormatter.getToday();
+  public month: string = this.dateFormatter.getMonth();
+  public year: number = this.dateFormatter.getYear();
   public conversations: Conversation[] = [];
   public messages: Message[] = [];
   public previews: Map<string, string> = new Map<string, string>();
@@ -33,42 +39,64 @@ export class Chat implements OnInit {
 
   ngOnInit(): void {
     this.auth.getMe().subscribe(() => {
-      this.getConversations();
+      this.loadConversations();
     });
-    this.getListings();
+    this.loadListings();
   }
 
-  private getListings(): void {
-    this.http.get<Listings[]>(`${path.booking}/listings`).subscribe(data => {
-      this.listings = data;
+  private loadListings(): void {
+    this.listingService.getListings().subscribe({
+      next: (data) => { this.listings = data; },
+      error: (error) => {
+        console.error('Failed to load listings', error);
+      }
     });
   }
 
-  private getConversations(): void {
-    const id = this.auth.current?.id
+  private loadConversations(): void {
+    const userId = this.auth.current?.id;
 
-    if (id) {
-      this.http.get<Conversation[]>(`${path.chat}/inbox`).subscribe(data => {
-        this.conversations = data.filter(c => c.participants.includes(id));
-        this.conversations.forEach(c => {
-          this.http.get<Message>(`${path.chat}/messages/${c.id}`).subscribe(message => {
-            const lastMsg = message.messages.length > 0 ? message.messages[message.messages.length - 1] : null;
-            const preview = lastMsg ? lastMsg.content : c.subject;
-            this.previews.set(c.id, preview);
-          });
-        });
+    if (userId) {
+      this.conversationService.getConversations().subscribe({
+        next: (data) => {
+          this.conversations = data.filter(c => c.participants.includes(userId));
+          this.loadMessagePreviews();
+        },
+        error: (error) => {
+          console.error('Failed to load conversations', error);
+        }
       });
     }
   }
 
+  private loadMessagePreviews(): void {
+    this.conversations.forEach(conversation => {
+      this.conversationService.getMessages(conversation.id).subscribe({
+        next: (message) => {
+          const lastMsg = message.messages.length > 0 
+            ? message.messages[message.messages.length - 1] 
+            : null;
+          const preview = lastMsg ? lastMsg.content : conversation.subject;
+          this.previews.set(conversation.id, preview);
+        },
+        error: (error) => {
+          console.error('Failed to load message preview', error);
+        }
+      });
+    });
+  }
+
   public getMessages(conversationId: string): void {
-    this.http.get<Message>(`${path.chat}/messages/${conversationId}`).subscribe(data => {
-      this.messages = [data];
+    this.conversationService.getMessages(conversationId).subscribe({
+      next: (data) => { this.messages = [data]; },
+      error: (error) => {
+        console.error('Failed to load messages', error);
+      }
     });
   }
 
   public getListingById(id: number | string): Listings | undefined {
-    return this.listings.find(listing => listing.id === Number(id));
+    return this.listingService.getListingById(this.listings, id);
   }
 
   public getLastMessage(conversation: Conversation): string {
@@ -81,52 +109,63 @@ export class Chat implements OnInit {
   }
 
   public sendMessage(): void {
-    if (!this.selectedConversation || !this.newMessage.trim()) {
+    if (!this.validateMessage()) {
       return;
     }
 
-    const currentUserId = this.auth.current?.id;
-    if (!currentUserId) {
-      this.toast.show({ message: 'You must be logged in to send messages', classname: 'bg-danger text-light' });
-      return;
-    }
-    
-    // Find the message object for this conversation
     const messageToUpdate = this.messages.find(
       m => m.id === this.selectedConversation!.id
     );
 
     if (messageToUpdate) {
       const newMessageItem = {
-        sender: currentUserId,
+        sender: this.auth.current!.id!,
         content: this.newMessage,
         timestamp: new Date()
       };
 
-      // Prepare the update payload
       const updatePayload = {
         messages: [newMessageItem]
       };
 
-      // Send PATCH request to update the message
-      this.http.patch(`${path.chat}/messages/${messageToUpdate.id}`, updatePayload)
-        .subscribe({
-          next: () => {
-            // Update local messages array
-            messageToUpdate.messages.push(newMessageItem);
-
-            // Update previews to reflect changes in the list view
-            if (this.selectedConversation) {
-              this.previews.set(this.selectedConversation.id, this.newMessage);
-            }
-
-            this.newMessage = ''; // Clear input
-            this.toast.show({ message: 'Message sent successfully', classname: 'bg-success text-light' });
-          },
-          error: () => {
-            this.toast.show({ message: 'Failed to send message', classname: 'bg-danger text-light' });
+      this.conversationService.updateMessage(messageToUpdate.id, updatePayload).subscribe({
+        next: () => {
+          messageToUpdate.messages.push(newMessageItem);
+          
+          if (this.selectedConversation) {
+            this.previews.set(this.selectedConversation.id, this.newMessage);
           }
-        });
+
+          this.newMessage = '';
+          this.toast.show({ 
+            message: SUCCESS_MESSAGES.MESSAGE_SENT, 
+            classname: 'bg-success text-light' 
+          });
+        },
+        error: () => {
+          this.toast.show({ 
+            message: ERROR_MESSAGES.MESSAGE_SEND_FAILED, 
+            classname: 'bg-danger text-light' 
+          });
+        }
+      });
     }
+  }
+
+  private validateMessage(): boolean {
+    if (!this.selectedConversation || !this.newMessage.trim()) {
+      return false;
+    }
+
+    const currentUserId = this.auth.current?.id;
+    if (!currentUserId) {
+      this.toast.show({ 
+        message: ERROR_MESSAGES.SEND_MESSAGE_LOGGED_OUT, 
+        classname: 'bg-danger text-light' 
+      });
+      return false;
+    }
+
+    return true;
   }
 }

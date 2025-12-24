@@ -1,10 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../auth/auth.service';
-import { ToastService } from '../toast/toast.service';
-import { Bookings, Listings } from '../landing/landing.model';
-import { path } from '../../server';
+import { AuthService } from '@app/auth/auth.service';
+import { ToastService } from '@app/toast/toast.service';
+import { Bookings, Listings } from '@app/landing/landing.model';
+import { 
+  DateFormatterService,
+  ListingService,
+  BookingDataService 
+} from '@shared/services';
 
 @Component({
   selector: 'app-cart',
@@ -13,41 +16,57 @@ import { path } from '../../server';
   styleUrl: './cart.css'
 })
 export class Cart implements OnInit {
-  private http = inject(HttpClient);
+  private dateFormatter = inject(DateFormatterService);
+  private listingService = inject(ListingService);
+  private bookingDataService = inject(BookingDataService);
   private auth = inject(AuthService);
+  
   toast = inject(ToastService);
 
-  private option = { month: 'long' } as const;
-  public date: Date = new Date();
-  public today: number = this.date.getDate();
-  public month: string = this.date.toLocaleString('default', this.option);
-  public year: number = this.date.getFullYear();
-  public bookings: Bookings[] = [] ;
+  public date: Date = this.dateFormatter.getCurrentDate();
+  public today: number = this.dateFormatter.getToday();
+  public month: string = this.dateFormatter.getMonth();
+  public year: number = this.dateFormatter.getYear();
+  public bookings: Bookings[] = [];
   public listings: Listings[] = [];
 
   ngOnInit(): void {
     this.auth.getMe().subscribe(() => {
-      this.getBookings();
+      this.loadBookings();
     });
-    this.getListings();
+    this.loadListings();
   }
 
-  private getListings(): void {
-    this.http.get<Listings[]>(`${path.booking}/listings`).subscribe(data => {
-      this.listings = data;
+  private loadListings(): void {
+    this.listingService.getListings().subscribe({
+      next: (data) => { this.listings = data; },
+      error: (error) => {
+        console.error('Failed to load listings', error);
+        this.toast.show({ 
+          message: 'Failed to load listings', 
+          classname: 'bg-danger text-light' 
+        });
+      }
     });
   }
 
-  private getBookings(): void {
-    const id = this.auth.current?.id;
-    if (id) {
-      this.http.get<Bookings[]>(`${path.booking}/bookings`).subscribe(data => {
-        this.bookings = data.filter(booking => booking.user === id);
+  private loadBookings(): void {
+    const userId = this.auth.current?.id;
+    if (userId) {
+      this.bookingDataService.getUserBookings(userId).subscribe({
+        next: (data) => { this.bookings = data; },
+        error: (error) => {
+          console.error('Failed to load bookings', error);
+          this.toast.show({ 
+            message: 'Failed to load bookings', 
+            classname: 'bg-danger text-light' 
+          });
+        }
       });
     }
   }
 
   public getListingById(id: number): Listings | undefined {
-    return this.listings.find(listing => listing.id === id);
+    return this.listingService.getListingById(this.listings, id);
   }
 }

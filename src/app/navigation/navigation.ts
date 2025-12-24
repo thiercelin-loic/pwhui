@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '@app/auth/auth.service';
 
 @Component({
   selector: 'app-navigation',
@@ -8,14 +9,9 @@ import { RouterLink } from '@angular/router';
   styleUrl: './navigation.css'
 })
 export class Navigation {
+  private auth = inject(AuthService);
   
   get isLogged(): boolean {
-    try {
-      return document.cookie
-        .split('; ')
-        .some((row) => row.startsWith('token='));
-    } catch {
-      return false;
-    }
+    return this.auth.isLogged();
   }
 }
