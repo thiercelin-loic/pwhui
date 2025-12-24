@@ -2,12 +2,12 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
-import { InitService } from './init.service';
-import { Start } from './start/start';
-import { Policy } from './policy/policy';
-import { Navigation } from "./navigation/navigation";
-import { ToastComponent } from "./toast/toast";
-import { BookingService } from './booking.service'
+import { InitService } from '@app/init.service';
+import { Start } from '@app/start/start';
+import { Policy } from '@app/policy/policy';
+import { Navigation } from '@app/navigation/navigation';
+import { ToastComponent } from '@app/toast/toast';
+import { BookingService } from '@app/booking.service'
 
 @Component({
   selector: 'app-root',
