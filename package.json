@@ -1,14 +1,18 @@
 {
   "name": "pwhui",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "license": "CC BY-NC 4.0",
   "scripts": {
     "ng": "ng",
+    "prestart": "bash docker/dependencies.sh",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "pretest": "bash docker/dependencies.sh",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "backend:start": "bash docker/dependencies.sh",
+    "backend:stop": "bash docker/down.sh"
   },
   "prettier": {
     "printWidth": 100,
