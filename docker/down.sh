@@ -1,0 +1,1 @@
+cd /home/$USER/auth && docker compose down && cd /home/$USER/booking && docker compose down && cd /home/$USER/tell && docker compose down

@@ -1,3 +1,4 @@
+source "$(dirname "$0")/dependencies.sh"
 cd /home/$USER/pwhui;
 docker build -t nginx .; 
 docker run --name pwhui -d \
