@@ -1,0 +1,105 @@
+{
+  "COMMON": {
+    "NOTIFICATIONS": "通知",
+    "SEARCH_PLACEHOLDER": "搜索工作空间...",
+    "FROM": "从",
+    "TO": "到",
+    "DATE": "日期",
+    "SEARCH_TIPS": {
+      "LANDING": [
+        "埃菲尔铁塔附近的联合办公",
+        "玛黑区的安静工作空间",
+        "北站附近可容纳6人的会议室",
+        "拉德芳斯的灵活办公桌/热桌",
+        "圣马丁运河附近带快速Wi-Fi的工作室",
+        "卢浮宫附近的会议室"
+      ],
+      "SETTINGS": [
+        "隐私政策",
+        "账户",
+        "条款和条件",
+        "合同",
+        "断开"
+      ]
+    }
+  },
+  "NAVIGATION": {
+    "HOME": "首页",
+    "LOGIN_SIGNUP": "登录/注册",
+    "PROFIL": "个人资料",
+    "CHAT": "聊天",
+    "SETTINGS": "设置"
+  },
+  "LANDING": {
+    "GREETING": "你好，{{name}}。",
+    "GREETING_DEFAULT": "发现工作地点",
+    "MOST_POPULAR": "最受欢迎",
+    "UPCOMING_BOOKING": "即将到来的预订",
+    "DISCOVERS_THEM": "发现它们",
+    "STATISTICS": "全城超过 {{count}} 个工作空间。",
+    "NO_BOOKINGS_NOT_LOGGED": "您需要一个帐户来预订工作空间，<a routerLink=\"auth\">在此登录或注册</a>",
+    "NO_BOOKINGS_LOGGED": "您还没有预订。"
+  },
+  "AUTH": {
+    "LOGIN": "登录",
+    "REGISTER": "注册",
+    "EMAIL_ADDRESS": "电子邮件地址",
+    "PASSWORD": "密码",
+    "CONFIRM_PASSWORD": "确认密码",
+    "FIRST_NAME": "名字",
+    "LAST_NAME": "姓氏",
+    "EMAIL_REQUIRED": "电子邮件是必需的。",
+    "EMAIL_INVALID": "无效的电子邮件格式。",
+    "PASSWORD_REQUIRED": "密码是必需的。",
+    "PASSWORD_MIN_LENGTH": "密码必须至少为8个字符。",
+    "PASSWORD_MISMATCH": "密码不匹配。",
+    "FIRST_NAME_REQUIRED": "名字是必需的。",
+    "LAST_NAME_REQUIRED": "姓氏是必需的。",
+    "EMAIL_HELP": "我们永远不会与任何人分享您的电子邮件。",
+    "CONNECT": "连接",
+    "REGISTER_NOW": "第一次来这里？现在注册",
+    "ALREADY_ACCOUNT": "已经有账户了？在这里登录"
+  },
+  "PROFIL": {
+    "TITLE": "个人资料",
+    "YOUR_BOOKINGS": "您的预订",
+    "NO_BOOKINGS": "您还没有预订。"
+  },
+  "SETTINGS": {
+    "TITLE": "设置",
+    "TERMS_AND_CONDITIONS": "条款和条件",
+    "TERMS_DESCRIPTION": "了解使用条款以及此应用程序的合法运作方式至关重要。",
+    "PRIVACY_POLICY": "隐私政策",
+    "CONTRACT": "合同",
+    "ACCOUNT": "账户",
+    "ACCOUNT_DESCRIPTION": "管理您的账户",
+    "LOGOUT": "登出",
+    "DELETE_ACCOUNT": "删除账户",
+    "DELETE_CONFIRMATION": "您确定要删除您的账户吗？此操作无法撤销。",
+    "LANGUAGE": "语言",
+    "LANGUAGE_DESCRIPTION": "选择您的首选语言"
+  },
+  "CHAT": {
+    "TITLE": "聊天",
+    "INBOX": "收件箱",
+    "NO_CONVERSATIONS": "您还没有对话。",
+    "NO_MESSAGES": "还没有消息。",
+    "TYPE_MESSAGE": "输入消息...",
+    "SEND": "发送"
+  },
+  "POLICY": {
+    "TITLE": "关于您的隐私",
+    "DESCRIPTION": "为了增强您的体验并确保我们应用程序的良好运行，我们使用cookie和类似技术。这些工具对于为您提供无缝和个性化的旅程至关重要，从记住您的设置到保持会话安全。收集的个人信息帮助我们了解您如何使用该应用程序，使我们能够不断改进其性能并增强您最喜欢的功能。您的信任很重要，我们致力于透明。我们的做法完全符合欧洲法律，特别是<a href=\"https://gdpr-info.eu/art-7-gdpr/\">欧盟通用数据保护条例(GDPR)第7条</a> — \"适用于同意的条件\"。继续使用我们的应用程序，即表示您同意我们使用这些cookie。",
+    "I_AGREE": "我同意",
+    "CLOSE": "关闭"
+  },
+  "TOAST": {
+    "SUCCESS": "成功",
+    "ERROR": "错误",
+    "WARNING": "警告",
+    "INFO": "信息",
+    "GUIDE": "指南",
+    "NO_NOTIFICATIONS": "还没有通知。",
+    "CLEAR": "清除"
+  }
+}

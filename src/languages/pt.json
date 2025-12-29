@@ -1,0 +1,105 @@
+{
+  "COMMON": {
+    "NOTIFICATIONS": "Notificações",
+    "SEARCH_PLACEHOLDER": "Pesquisar espaços de trabalho...",
+    "FROM": "De",
+    "TO": "Para",
+    "DATE": "Data",
+    "SEARCH_TIPS": {
+      "LANDING": [
+        "Coworking perto da Torre Eiffel",
+        "Espaço de trabalho tranquilo em Le Marais",
+        "Sala de reuniões para 6 pessoas perto de Gare du Nord",
+        "Mesa flexível / hotdesk em La Défense",
+        "Estúdio com Wi-Fi rápido perto do Canal Saint-Martin",
+        "Sala de reuniões perto do Louvre"
+      ],
+      "SETTINGS": [
+        "Política de privacidade",
+        "Conta",
+        "Termos e condições",
+        "Contrato",
+        "Desconectar"
+      ]
+    }
+  },
+  "NAVIGATION": {
+    "HOME": "Início",
+    "LOGIN_SIGNUP": "Entrar/Registrar",
+    "PROFIL": "Perfil",
+    "CHAT": "Chat",
+    "SETTINGS": "Configurações"
+  },
+  "LANDING": {
+    "GREETING": "Olá, {{name}}.",
+    "GREETING_DEFAULT": "descubra onde trabalhar",
+    "MOST_POPULAR": "Mais Populares",
+    "UPCOMING_BOOKING": "Próxima Reserva",
+    "DISCOVERS_THEM": "Descubra-os",
+    "STATISTICS": "Mais de {{count}} espaços de trabalho em toda a cidade.",
+    "NO_BOOKINGS_NOT_LOGGED": "Você precisa de uma conta para reservar um espaço de trabalho, <a routerLink=\"auth\">faça login ou cadastre-se aqui</a>",
+    "NO_BOOKINGS_LOGGED": "Você ainda não tem reservas."
+  },
+  "AUTH": {
+    "LOGIN": "Entrar",
+    "REGISTER": "Registrar",
+    "EMAIL_ADDRESS": "Endereço de e-mail",
+    "PASSWORD": "Senha",
+    "CONFIRM_PASSWORD": "Confirmar senha",
+    "FIRST_NAME": "Nome",
+    "LAST_NAME": "Sobrenome",
+    "EMAIL_REQUIRED": "O e-mail é obrigatório.",
+    "EMAIL_INVALID": "Formato de e-mail inválido.",
+    "PASSWORD_REQUIRED": "A senha é obrigatória.",
+    "PASSWORD_MIN_LENGTH": "A senha deve ter pelo menos 8 caracteres.",
+    "PASSWORD_MISMATCH": "As senhas não coincidem.",
+    "FIRST_NAME_REQUIRED": "O nome é obrigatório.",
+    "LAST_NAME_REQUIRED": "O sobrenome é obrigatório.",
+    "EMAIL_HELP": "Nunca compartilharemos seu e-mail com ninguém.",
+    "CONNECT": "Conectar",
+    "REGISTER_NOW": "É a sua primeira vez aqui? Registre-se agora",
+    "ALREADY_ACCOUNT": "Já tem uma conta? Faça login aqui"
+  },
+  "PROFIL": {
+    "TITLE": "Perfil",
+    "YOUR_BOOKINGS": "Suas Reservas",
+    "NO_BOOKINGS": "Você ainda não tem reservas."
+  },
+  "SETTINGS": {
+    "TITLE": "Configurações",
+    "TERMS_AND_CONDITIONS": "Termos e Condições",
+    "TERMS_DESCRIPTION": "É essencial compreender os termos de uso e como este aplicativo funciona legalmente.",
+    "PRIVACY_POLICY": "Política de Privacidade",
+    "CONTRACT": "Contrato",
+    "ACCOUNT": "Conta",
+    "ACCOUNT_DESCRIPTION": "Gerencie sua conta",
+    "LOGOUT": "Sair",
+    "DELETE_ACCOUNT": "Excluir conta",
+    "DELETE_CONFIRMATION": "Tem certeza de que deseja excluir sua conta? Esta ação não pode ser desfeita.",
+    "LANGUAGE": "Idioma",
+    "LANGUAGE_DESCRIPTION": "Escolha seu idioma preferido"
+  },
+  "CHAT": {
+    "TITLE": "Chat",
+    "INBOX": "Caixa de entrada",
+    "NO_CONVERSATIONS": "Você ainda não tem conversas.",
+    "NO_MESSAGES": "Ainda não há mensagens.",
+    "TYPE_MESSAGE": "Digite uma mensagem...",
+    "SEND": "Enviar"
+  },
+  "POLICY": {
+    "TITLE": "Sobre sua privacidade",
+    "DESCRIPTION": "Para melhorar sua experiência e garantir o ótimo funcionamento do nosso aplicativo, usamos cookies e tecnologias semelhantes. Essas ferramentas são essenciais para fornecer a você uma jornada perfeita e personalizada, desde lembrar suas configurações até manter sua sessão segura. As informações pessoais coletadas nos ajudam a entender como você usa o aplicativo, permitindo-nos melhorar continuamente seu desempenho e aprimorar os recursos que você mais ama. Sua confiança é importante e estamos comprometidos em ser transparentes. Nossas práticas estão em total conformidade com a lei europeia, especificamente <a href=\"https://gdpr-info.eu/art-7-gdpr/\">o Artigo 7 do Regulamento Geral de Proteção de Dados (GDPR) da UE</a> — \"Condições aplicáveis ao consentimento\". Ao continuar a usar nosso aplicativo, você consente com o uso desses cookies.",
+    "I_AGREE": "Concordo",
+    "CLOSE": "Fechar"
+  },
+  "TOAST": {
+    "SUCCESS": "Sucesso",
+    "ERROR": "Erro",
+    "WARNING": "Aviso",
+    "INFO": "Info",
+    "GUIDE": "Guia",
+    "NO_NOTIFICATIONS": "Ainda não há notificações.",
+    "CLEAR": "Limpar"
+  }
+}

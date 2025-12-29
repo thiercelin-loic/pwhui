@@ -1,0 +1,105 @@
+{
+  "COMMON": {
+    "NOTIFICATIONS": "Notifications",
+    "SEARCH_PLACEHOLDER": "Search for workspaces...",
+    "FROM": "From",
+    "TO": "To",
+    "DATE": "Date",
+    "SEARCH_TIPS": {
+      "LANDING": [
+        "Coworking near Eiffel Tower",
+        "Quiet workspace in Le Marais",
+        "Meeting room for 6 people near Gare du Nord",
+        "Flexible desk / hotdesk in La Défense",
+        "Studio with fast Wi‑Fi near Canal Saint‑Martin",
+        "Meeting room close to the Louvre"
+      ],
+      "SETTINGS": [
+        "Privacy Policy",
+        "Account",
+        "Terms and Conditions",
+        "Contract",
+        "Disconnect"
+      ]
+    }
+  },
+  "NAVIGATION": {
+    "HOME": "Home",
+    "LOGIN_SIGNUP": "Login/Signup",
+    "PROFIL": "Profile",
+    "CHAT": "Chat",
+    "SETTINGS": "Settings"
+  },
+  "LANDING": {
+    "GREETING": "Hi, {{name}}.",
+    "GREETING_DEFAULT": "discover where to work",
+    "MOST_POPULAR": "Most Popular",
+    "UPCOMING_BOOKING": "Upcomming Booking",
+    "DISCOVERS_THEM": "Discovers Them",
+    "STATISTICS": "More than {{count}} workplaces throughout the city.",
+    "NO_BOOKINGS_NOT_LOGGED": "You need a account to book a workspace, <a routerLink=\"auth\">login of signup here</a>",
+    "NO_BOOKINGS_LOGGED": "You have no bookings yet."
+  },
+  "AUTH": {
+    "LOGIN": "Login",
+    "REGISTER": "Register",
+    "EMAIL_ADDRESS": "Email address",
+    "PASSWORD": "Password",
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "FIRST_NAME": "First Name",
+    "LAST_NAME": "Last Name",
+    "EMAIL_REQUIRED": "Email is required.",
+    "EMAIL_INVALID": "Invalid email format.",
+    "PASSWORD_REQUIRED": "Password is required.",
+    "PASSWORD_MIN_LENGTH": "Password must be at least 8 characters.",
+    "PASSWORD_MISMATCH": "Passwords do not match.",
+    "FIRST_NAME_REQUIRED": "First name is required.",
+    "LAST_NAME_REQUIRED": "Last name is required.",
+    "EMAIL_HELP": "We'll never share your email with anyone else.",
+    "CONNECT": "Connect",
+    "REGISTER_NOW": "It's your first time here? Register now",
+    "ALREADY_ACCOUNT": "Already have an account? Login here"
+  },
+  "PROFIL": {
+    "TITLE": "Profile",
+    "YOUR_BOOKINGS": "Your Bookings",
+    "NO_BOOKINGS": "You have no bookings yet."
+  },
+  "SETTINGS": {
+    "TITLE": "Settings",
+    "TERMS_AND_CONDITIONS": "Terms and Conditions",
+    "TERMS_DESCRIPTION": "Understanding the terms of use and how this application legally operates is essential.",
+    "PRIVACY_POLICY": "Privacy Policy",
+    "CONTRACT": "Contract",
+    "ACCOUNT": "Account",
+    "ACCOUNT_DESCRIPTION": "Manage your account",
+    "LOGOUT": "Logout",
+    "DELETE_ACCOUNT": "Delete Account",
+    "DELETE_CONFIRMATION": "Are you sure you want to delete your account? This action cannot be undone.",
+    "LANGUAGE": "Language",
+    "LANGUAGE_DESCRIPTION": "Choose your preferred language"
+  },
+  "CHAT": {
+    "TITLE": "Chat",
+    "INBOX": "Inbox",
+    "NO_CONVERSATIONS": "You have no conversations yet.",
+    "NO_MESSAGES": "No messages yet.",
+    "TYPE_MESSAGE": "Type a message...",
+    "SEND": "Send"
+  },
+  "POLICY": {
+    "TITLE": "About your privacy",
+    "DESCRIPTION": "To enhance your experience and ensure the great functioning of our app, we use cookies and similar technologies. These tools are essential for providing you with a seamless and personalized journey, from remembering your settings to keeping your session secure. The personal information gathered helps us understand how you use the app, allowing us to continuously improve its performance and enhance the features you love most. Your trust is important, and we are committed to being transparent. Our practices are in full compliance with European law, specifically <a href=\"https://gdpr-info.eu/art-7-gdpr/\">Article 7 of the EU General Data Protection Regulation (GDPR)</a> — \"Conditions applicable to consent\". By continuing to use our app, you consent to our use of these cookies.",
+    "I_AGREE": "I Agree",
+    "CLOSE": "Close"
+  },
+  "TOAST": {
+    "SUCCESS": "Success",
+    "ERROR": "Error",
+    "WARNING": "Warning",
+    "INFO": "Info",
+    "GUIDE": "Guide",
+    "NO_NOTIFICATIONS": "No notifications yet.",
+    "CLEAR": "Clear"
+  }
+}

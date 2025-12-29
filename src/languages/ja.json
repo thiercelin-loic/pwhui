@@ -1,0 +1,105 @@
+{
+  "COMMON": {
+    "NOTIFICATIONS": "通知",
+    "SEARCH_PLACEHOLDER": "ワークスペースを検索...",
+    "FROM": "から",
+    "TO": "まで",
+    "DATE": "日付",
+    "SEARCH_TIPS": {
+      "LANDING": [
+        "エッフェル塔近くのコワーキング",
+        "マレ地区の静かなワークスペース",
+        "北駅近くの6人用会議室",
+        "ラ・デファンスのフレキシブルデスク/ホットデスク",
+        "サン・マルタン運河近くの高速Wi-Fi付きスタジオ",
+        "ルーヴル美術館近くの会議室"
+      ],
+      "SETTINGS": [
+        "プライバシーポリシー",
+        "アカウント",
+        "利用規約",
+        "契約",
+        "ログアウト"
+      ]
+    }
+  },
+  "NAVIGATION": {
+    "HOME": "ホーム",
+    "LOGIN_SIGNUP": "ログイン/登録",
+    "PROFIL": "プロフィール",
+    "CHAT": "チャット",
+    "SETTINGS": "設定"
+  },
+  "LANDING": {
+    "GREETING": "こんにちは、{{name}}。",
+    "GREETING_DEFAULT": "働く場所を見つけよう",
+    "MOST_POPULAR": "最も人気",
+    "UPCOMING_BOOKING": "今後の予約",
+    "DISCOVERS_THEM": "見つける",
+    "STATISTICS": "市内全域に{{count}}以上のワークスペース。",
+    "NO_BOOKINGS_NOT_LOGGED": "ワークスペースを予約するにはアカウントが必要です。<a routerLink=\"auth\">ここでログインまたは登録してください</a>",
+    "NO_BOOKINGS_LOGGED": "まだ予約がありません。"
+  },
+  "AUTH": {
+    "LOGIN": "ログイン",
+    "REGISTER": "登録",
+    "EMAIL_ADDRESS": "メールアドレス",
+    "PASSWORD": "パスワード",
+    "CONFIRM_PASSWORD": "パスワードを確認",
+    "FIRST_NAME": "名",
+    "LAST_NAME": "姓",
+    "EMAIL_REQUIRED": "メールは必須です。",
+    "EMAIL_INVALID": "無効なメール形式。",
+    "PASSWORD_REQUIRED": "パスワードは必須です。",
+    "PASSWORD_MIN_LENGTH": "パスワードは少なくとも8文字である必要があります。",
+    "PASSWORD_MISMATCH": "パスワードが一致しません。",
+    "FIRST_NAME_REQUIRED": "名は必須です。",
+    "LAST_NAME_REQUIRED": "姓は必須です。",
+    "EMAIL_HELP": "メールアドレスを他の誰とも共有することはありません。",
+    "CONNECT": "接続",
+    "REGISTER_NOW": "初めてですか？今すぐ登録",
+    "ALREADY_ACCOUNT": "すでにアカウントをお持ちですか？ここでログイン"
+  },
+  "PROFIL": {
+    "TITLE": "プロフィール",
+    "YOUR_BOOKINGS": "あなたの予約",
+    "NO_BOOKINGS": "まだ予約がありません。"
+  },
+  "SETTINGS": {
+    "TITLE": "設定",
+    "TERMS_AND_CONDITIONS": "利用規約",
+    "TERMS_DESCRIPTION": "利用規約とこのアプリケーションの法的な動作方法を理解することが不可欠です。",
+    "PRIVACY_POLICY": "プライバシーポリシー",
+    "CONTRACT": "契約",
+    "ACCOUNT": "アカウント",
+    "ACCOUNT_DESCRIPTION": "アカウントを管理",
+    "LOGOUT": "ログアウト",
+    "DELETE_ACCOUNT": "アカウントを削除",
+    "DELETE_CONFIRMATION": "アカウントを削除してもよろしいですか？この操作は元に戻せません。",
+    "LANGUAGE": "言語",
+    "LANGUAGE_DESCRIPTION": "希望の言語を選択"
+  },
+  "CHAT": {
+    "TITLE": "チャット",
+    "INBOX": "受信箱",
+    "NO_CONVERSATIONS": "まだ会話がありません。",
+    "NO_MESSAGES": "まだメッセージはありません。",
+    "TYPE_MESSAGE": "メッセージを入力...",
+    "SEND": "送信"
+  },
+  "POLICY": {
+    "TITLE": "プライバシーについて",
+    "DESCRIPTION": "体験を向上させ、アプリの優れた機能を確保するために、Cookieおよび類似のテクノロジーを使用しています。これらのツールは、設定を記憶することからセッションを安全に保つことまで、シームレスでパーソナライズされたジャーニーを提供するために不可欠です。収集された個人情報は、アプリの使用方法を理解するのに役立ち、パフォーマンスを継続的に改善し、最も気に入った機能を強化できるようにします。信頼は重要であり、透明性を保つことに取り組んでいます。当社の慣行は、ヨーロッパの法律、特に<a href=\"https://gdpr-info.eu/art-7-gdpr/\">EU一般データ保護規則（GDPR）の第7条</a> —「同意に適用される条件」に完全に準拠しています。アプリの使用を継続することにより、これらのCookieの使用に同意したことになります。",
+    "I_AGREE": "同意します",
+    "CLOSE": "閉じる"
+  },
+  "TOAST": {
+    "SUCCESS": "成功",
+    "ERROR": "エラー",
+    "WARNING": "警告",
+    "INFO": "情報",
+    "GUIDE": "ガイド",
+    "NO_NOTIFICATIONS": "まだ通知はありません。",
+    "CLEAR": "クリア"
+  }
+}

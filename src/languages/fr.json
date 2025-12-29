@@ -1,0 +1,105 @@
+{
+  "COMMON": {
+    "NOTIFICATIONS": "Notifications",
+    "SEARCH_PLACEHOLDER": "Rechercher des espaces de travail...",
+    "FROM": "Du",
+    "TO": "Au",
+    "DATE": "Date",
+    "SEARCH_TIPS": {
+      "LANDING": [
+        "Coworking près de la Tour Eiffel",
+        "Espace de travail calme dans Le Marais",
+        "Salle de réunion pour 6 personnes près de Gare du Nord",
+        "Bureau flexible / hotdesk à La Défense",
+        "Studio avec Wi-Fi rapide près du Canal Saint-Martin",
+        "Salle de réunion proche du Louvre"
+      ],
+      "SETTINGS": [
+        "Politique de confidentialité",
+        "Compte",
+        "Conditions générales",
+        "Contrat",
+        "Déconnexion"
+      ]
+    }
+  },
+  "NAVIGATION": {
+    "HOME": "Accueil",
+    "LOGIN_SIGNUP": "Connexion/Inscription",
+    "PROFIL": "Profil",
+    "CHAT": "Discussion",
+    "SETTINGS": "Paramètres"
+  },
+  "LANDING": {
+    "GREETING": "Bonjour, {{name}}.",
+    "GREETING_DEFAULT": "découvrez où travailler",
+    "MOST_POPULAR": "Les Plus Populaires",
+    "UPCOMING_BOOKING": "Réservation à Venir",
+    "DISCOVERS_THEM": "Découvrez-les",
+    "STATISTICS": "Plus de {{count}} espaces de travail dans toute la ville.",
+    "NO_BOOKINGS_NOT_LOGGED": "Vous avez besoin d'un compte pour réserver un espace de travail, <a routerLink=\"auth\">connectez-vous ou inscrivez-vous ici</a>",
+    "NO_BOOKINGS_LOGGED": "Vous n'avez pas encore de réservations."
+  },
+  "AUTH": {
+    "LOGIN": "Connexion",
+    "REGISTER": "Inscription",
+    "EMAIL_ADDRESS": "Adresse e-mail",
+    "PASSWORD": "Mot de passe",
+    "CONFIRM_PASSWORD": "Confirmer le mot de passe",
+    "FIRST_NAME": "Prénom",
+    "LAST_NAME": "Nom",
+    "EMAIL_REQUIRED": "L'e-mail est requis.",
+    "EMAIL_INVALID": "Format d'e-mail invalide.",
+    "PASSWORD_REQUIRED": "Le mot de passe est requis.",
+    "PASSWORD_MIN_LENGTH": "Le mot de passe doit contenir au moins 8 caractères.",
+    "PASSWORD_MISMATCH": "Les mots de passe ne correspondent pas.",
+    "FIRST_NAME_REQUIRED": "Le prénom est requis.",
+    "LAST_NAME_REQUIRED": "Le nom est requis.",
+    "EMAIL_HELP": "Nous ne partagerons jamais votre e-mail avec qui que ce soit.",
+    "CONNECT": "Se connecter",
+    "REGISTER_NOW": "C'est votre première fois ici ? Inscrivez-vous maintenant",
+    "ALREADY_ACCOUNT": "Vous avez déjà un compte ? Connectez-vous ici"
+  },
+  "PROFIL": {
+    "TITLE": "Profil",
+    "YOUR_BOOKINGS": "Vos Réservations",
+    "NO_BOOKINGS": "Vous n'avez pas encore de réservations."
+  },
+  "SETTINGS": {
+    "TITLE": "Paramètres",
+    "TERMS_AND_CONDITIONS": "Termes et Conditions",
+    "TERMS_DESCRIPTION": "Comprendre les conditions d'utilisation et le fonctionnement légal de cette application est essentiel.",
+    "PRIVACY_POLICY": "Politique de Confidentialité",
+    "CONTRACT": "Contrat",
+    "ACCOUNT": "Compte",
+    "ACCOUNT_DESCRIPTION": "Gérer votre compte",
+    "LOGOUT": "Déconnexion",
+    "DELETE_ACCOUNT": "Supprimer le compte",
+    "DELETE_CONFIRMATION": "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action ne peut pas être annulée.",
+    "LANGUAGE": "Langue",
+    "LANGUAGE_DESCRIPTION": "Choisissez votre langue préférée"
+  },
+  "CHAT": {
+    "TITLE": "Discussion",
+    "INBOX": "Boîte de réception",
+    "NO_CONVERSATIONS": "Vous n'avez pas encore de conversations.",
+    "NO_MESSAGES": "Pas encore de messages.",
+    "TYPE_MESSAGE": "Tapez un message...",
+    "SEND": "Envoyer"
+  },
+  "POLICY": {
+    "TITLE": "À propos de votre confidentialité",
+    "DESCRIPTION": "Pour améliorer votre expérience et assurer le bon fonctionnement de notre application, nous utilisons des cookies et des technologies similaires. Ces outils sont essentiels pour vous offrir un parcours fluide et personnalisé, de la mémorisation de vos paramètres à la sécurité de votre session. Les informations personnelles collectées nous aident à comprendre comment vous utilisez l'application, nous permettant d'améliorer continuellement ses performances et d'enrichir les fonctionnalités que vous appréciez le plus. Votre confiance est importante, et nous nous engageons à être transparents. Nos pratiques sont en pleine conformité avec le droit européen, en particulier <a href=\"https://gdpr-info.eu/art-7-gdpr/\">l'article 7 du Règlement Général sur la Protection des Données (RGPD)</a> — \"Conditions applicables au consentement\". En continuant à utiliser notre application, vous consentez à l'utilisation de ces cookies.",
+    "I_AGREE": "J'accepte",
+    "CLOSE": "Fermer"
+  },
+  "TOAST": {
+    "SUCCESS": "Succès",
+    "ERROR": "Erreur",
+    "WARNING": "Avertissement",
+    "INFO": "Info",
+    "GUIDE": "Guide",
+    "NO_NOTIFICATIONS": "Pas encore de notifications.",
+    "CLEAR": "Effacer"
+  }
+}
