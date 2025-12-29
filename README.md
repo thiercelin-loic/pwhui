@@ -25,8 +25,9 @@ Built with **Angular 20** and **TypeScript**, this modern web interface consumes
 ## 🚀 Key Features
 
 - **Authentication System**: Secure JWT login/registration with route guards.
-- **Dynamic Booking**: Complete cart management and date validation.
+- **Dynamic Booking**: Complete profile management and date validation.
 - **Real-Time Messaging**: Chat interface powered by Redis.
+- **Internationalization (i18n)**: Multi-language support with centralized configuration (English & French).
 - **Policy & Contracts**: Dedicated interfaces for legal document management.
 - **Responsive Design**: Mobile-first approach using modern CSS.
 - **Toast Notifications**: Feedback system for user actions.
@@ -48,6 +49,7 @@ Beyond standard features, this project implements advanced patterns:
 
 - **Framework**: Angular 20 (Standalone Components)
 - **Language**: TypeScript 5.9
+- **i18n**: ngx-translate with centralized configuration
 - **State Management**: RxJS
 - **HTTP Client**: Angular HttpClient
 - **Routing**: Angular Router with Guards
@@ -66,7 +68,7 @@ The project follows a modular architecture based on Feature Modules and Standalo
     ├── src/
     │   ├── app/
     │   │   ├── auth/           # Authentication strategies & Guards
-    │   │   ├── cart/           # Booking workflow & State management
+    │   │   ├── profil/         # Booking workflow & State management
     │   │   ├── chat/           # Real-time messaging interface
     │   │   ├── contract/       # Legal data handling
     │   │   ├── landing/        # Home page & Search interface
@@ -76,13 +78,17 @@ The project follows a modular architecture based on Feature Modules and Standalo
     │   │   ├── shared/         # Reusable services, constants & models
     │   │   │   ├── constants/  # API endpoints, dates, messages, etc.
     │   │   │   ├── services/   # Cookie, date, search, animation services
-    │   │   │   └── models/     # TypeScript interfaces
+    │   │   │   ├── models/     # TypeScript interfaces
+    │   │   │   ├── language.service.ts    # Language management
+    │   │   │   ├── language.config.ts     # i18n configuration
+    │   │   │   └── translate-loader.ts    # Translation file loader
     │   │   ├── start/          # Onboarding & Welcome screens
     │   │   ├── app.config.ts   # Application configuration
     │   │   ├── app.routes.ts   # Route definitions
     │   │   ├── app.ts          # Root component
     │   │   ├── booking.service.ts  # Booking logic & API integration
     │   │   └── init.service.ts     # Application initialization
+    │   ├── languages/          # Translation files (en.json, fr.json)
     │   ├── fonts/              # Custom typography assets
     │   ├── icons/              # Optimized SVG icons
     │   ├── server/             # Server-side rendering utilities
@@ -102,6 +108,53 @@ The project follows a modular architecture based on Feature Modules and Standalo
     ├── nginx.conf              # Web server configuration
     ├── proxy.conf.json         # Development API proxy
     └── package.json            # Dependencies & Scripts
+
+---
+
+## 🌍 Internationalization
+
+The application supports multiple languages with a centralized configuration system. All user-facing text is stored in translation files located in `src/languages/`.
+
+### Supported Languages
+- **English (en)** 🇬🇧 - Default
+- **Français (fr)** 🇫🇷
+- **Español (es)** 🇪🇸
+- **Deutsch (de)** 🇩🇪
+- **中文 (zh)** 🇨🇳
+- **العربية (ar)** 🇸🇦
+- **Português (pt)** 🇵🇹
+- **Italiano (it)** 🇮🇹
+- **日本語 (ja)** 🇯🇵
+- **Русский (ru)** 🇷🇺
+
+### Adding a New Language
+
+1. Create a new JSON file in `src/languages/` (e.g., `ko.json`)
+2. Copy the structure from `en.json` and translate all values
+3. Update `src/app/shared/language.config.ts`:
+
+```typescript
+export const LANGUAGE_CONFIG = {
+  defaultLanguage: 'en',
+  availableLanguages: [
+    { code: 'en', name: 'English', flag: '🇬🇧' },
+    { code: 'fr', name: 'Français', flag: '🇫🇷' },
+    { code: 'es', name: 'Español', flag: '🇪🇸' },
+    { code: 'ko', name: '한국어', flag: '🇰🇷' }
+  ],
+  storageKey: 'preferred-language',
+  useBrowserLanguage: true
+};
+```
+
+### Language Detection
+
+The application automatically detects the user's browser language on first visit:
+1. If a language preference is saved in localStorage, it uses that
+2. Otherwise, if the browser language matches one of the supported languages, it uses the browser language
+3. If neither condition is met, it defaults to English
+
+Users can manually switch languages in the Settings page. The preference is saved in localStorage and persists across sessions.
 
 ---
 
@@ -155,21 +208,11 @@ The project includes production-ready Docker scripts with automated SSL certific
 - `npm run build` - Build for production
 - `npm run lint` - Check code quality
 - `npm run backend:start` - Manually start backend services
-- `npm run backend:stop` - Stop all backend services/github.com/thiercelin-loic/tell.git ~/tell
-        cd ~/tell
-        docker compose up -d
+- `npm run backend:stop` - Stop all backend services
 
-    *Note: Tell service does not require a `.env` file.*
+---
 
-### Production Deployment
-
-The project includes production-ready Docker scripts with automated SSL certificate management.
-
-    **Production:**
-    1.  Configure `docker/production.sh` with your domain/email.
-    2.  Run the deployment:
-
-            Services
+## 🔗 Backend Services
 
 This frontend application communicates with three separate NestJS microservices:
 
@@ -189,9 +232,6 @@ This frontend application communicates with three separate NestJS microservices:
 - **Unit Tests:** `npm test` (Karma/Jasmine)
 - **Linting:** `npm run lint` (ESLint + Prettier)
 - **Build:** `npm run build` (Production optimized)
-
----
-
 ## 🤝 Credits & Acknowledgements
 
 * **UI Layout & Wireframes:** Based on the work of [Rizky Sentro](https://dribbble.com/rizkysentro).
