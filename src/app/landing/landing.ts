@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '@app/auth/auth.service';
 import { ToastService } from '@app/toast/toast.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Bookings, Listings } from './landing.model';
 import { 
   ListingService, 
@@ -17,7 +17,7 @@ import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@shared/constants';
 
 @Component({
   selector: 'app-landing',
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './landing.html',
   styleUrl: './landing.css'
 })
@@ -28,6 +28,7 @@ export class Landing implements OnInit, OnDestroy {
   private dateFormatter = inject(DateFormatterService);
   private typingAnimation = inject(TypingAnimationService);
   private searchService = inject(SearchService);
+  private translate = inject(TranslateService);
   
   auth = inject(AuthService);
   toast = inject(ToastService);
@@ -46,15 +47,6 @@ export class Landing implements OnInit, OnDestroy {
   public suggestions: Listings[] = [];
   public placeholder = '';
 
-  private readonly searchTips: string[] = [
-    'Coworking near Eiffel Tower',
-    'Quiet workspace in Le Marais',
-    'Meeting room for 6 people near Gare du Nord',
-    'Flexible desk / hotdesk in La Défense',
-    'Studio with fast Wi‑Fi near Canal Saint‑Martin',
-    'Salle de réunion proche du Louvre'
-  ];
-
   ngOnInit(): void {
     this.startTypingAnimation();
     this.loadListings();
@@ -66,8 +58,9 @@ export class Landing implements OnInit, OnDestroy {
   }
 
   private startTypingAnimation(): void {
+    const searchTips = this.translate.instant('COMMON.SEARCH_TIPS.LANDING') as string[];
     this.typingAnimation.startAnimation(
-      this.searchTips,
+      searchTips,
       (text) => { this.placeholder = text; }
     );
   }

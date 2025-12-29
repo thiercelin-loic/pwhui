@@ -2,10 +2,10 @@
     <header class="row align-items-center">
         <div class="col text-start">
             <p>{{today}} {{month}} {{year}}</p>
-            <h5 class="text-nowrap">Hi, {{auth.current?.first_name || 'discover where to work'}}.</h5>
+            <h5 class="text-nowrap">{{ 'LANDING.GREETING' | translate: {name: auth.current?.first_name || ('LANDING.GREETING_DEFAULT' | translate)} }}</h5>
         </div>
         <div class="col text-end">
-            <span class="notification" role="button" title="Notifications" data-bs-toggle="modal"
+            <span class="notification" role="button" [title]="'COMMON.NOTIFICATIONS' | translate" data-bs-toggle="modal"
                 data-bs-target="#sessionToastsModal">
                 <ng-container *ngIf="(toast.history$ | async) as history">
                     <span class="badge" *ngIf="history.length > 0">{{history.length}}</span>
@@ -35,7 +35,7 @@
         </div>
     </div>
     <section>
-        <h4><span class="popular"></span>Most Popular</h4>
+        <h4><span class="popular"></span>{{ 'LANDING.MOST_POPULAR' | translate }}</h4>
         <div class=" row text-start">
             <div class="col listing" *ngFor="let listing of listings | slice:0:4"
                 style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) center / cover no-repeat;"
@@ -53,10 +53,10 @@
 
     </section>
     <div class="statistics text-center">
-        <h3 class="statistics">More than {{listings.length}} workplaces throughout the city.</h3>
+        <h3 class="statistics">{{ 'LANDING.STATISTICS' | translate: {count: listings.length} }}</h3>
     </div>
     <section id="bookings">
-        <h4><span class="upcomming"></span>Upcomming Booking</h4>
+        <h4><span class="upcomming"></span>{{ 'LANDING.UPCOMING_BOOKING' | translate }}</h4>
         <div class="row row-cols-1 row-cols-md-3 g-3">
             <div class="col" *ngFor="let booking of bookings | slice:0:3">
                 <div class="card">
@@ -65,20 +65,19 @@
                     <div class="card-body">
                         <p class="listing">{{getListingById(booking.listing)?.name}}</p>
                         <p class="location">{{getListingById(booking.listing)?.location}}</p>
-                        <p class="price text-end">From: {{booking.arrival | date}}</p>
-                        <p class="price text-end">To: {{booking.departure | date}}</p>
+                        <p class="price text-end">{{ 'COMMON.FROM' | translate }}: {{booking.arrival | date}}</p>
+                        <p class="price text-end">{{ 'COMMON.TO' | translate }}: {{booking.departure | date}}</p>
                     </div>
                 </div>
             </div>
         </div>
         <div *ngIf="bookings.length === 0" class="text-start">
-            <p *ngIf="!auth.isLogged()">You need a account to book a workspace, <a routerLink="auth">login of
-                    signup here</a></p>
-            <p *ngIf="auth.isLogged()">You have no bookings yet.</p>
+            <p *ngIf="!auth.isLogged()" [innerHTML]="'LANDING.NO_BOOKINGS_NOT_LOGGED' | translate"></p>
+            <p *ngIf="auth.isLogged()">{{ 'LANDING.NO_BOOKINGS_LOGGED' | translate }}</p>
         </div>
     </section>
     <section id="more">
-        <h4 id="more"><span class="living"></span>Discovers Them</h4>
+        <h4 id="more"><span class="living"></span>{{ 'LANDING.DISCOVERS_THEM' | translate }}</h4>
         <div class=" row text-start">
             <div class="col listing" *ngFor="let listing of listings | slice:0:4"
                 style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) center / cover no-repeat;"
