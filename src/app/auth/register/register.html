@@ -1,33 +1,33 @@
 <span class="logo">_</span>
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <h4><span class="account"></span>Sign up</h4>
+  <h4><span class="account"></span>{{ 'AUTH.REGISTER' | translate }}</h4>
   <div class="mb-3">
-    <label for="firstname" class="form-label">First Name</label>
+    <label for="firstname" class="form-label">{{ 'AUTH.FIRST_NAME' | translate }}</label>
     <input type="text" class="form-control" id="firstname" formControlName="firstname">
     <div *ngIf="form.get('firstname')?.invalid && form.get('firstname')?.touched">
-      <small class="text-danger" *ngIf="form.get('firstname')?.errors?.['required']">First name is required.</small>
+      <small class="text-danger" *ngIf="form.get('firstname')?.errors?.['required']">{{ 'AUTH.FIRST_NAME_REQUIRED' | translate }}</small>
       <small class="text-danger" *ngIf="form.get('firstname')?.errors?.['minlength']">First name must be at least 2
         characters long.</small>
     </div>
   </div>
   <div class="mb-3">
-    <label for="lastname" class="form-label">Last Name</label>
+    <label for="lastname" class="form-label">{{ 'AUTH.LAST_NAME' | translate }}</label>
     <input type="text" class="form-control" id="lastname" formControlName="lastname">
     <div *ngIf="form.get('lastname')?.invalid && form.get('lastname')?.touched">
-      <small class="text-danger" *ngIf="form.get('lastname')?.errors?.['required']">Last name is required.</small>
+      <small class="text-danger" *ngIf="form.get('lastname')?.errors?.['required']">{{ 'AUTH.LAST_NAME_REQUIRED' | translate }}</small>
       <small class="text-danger" *ngIf="form.get('lastname')?.errors?.['minlength']">Last name must be at least 2
         characters long.</small>
     </div>
   </div>
   <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
+    <label for="exampleInputEmail1" class="form-label">{{ 'AUTH.EMAIL_ADDRESS' | translate }}</label>
     <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
       formControlName="email">
     <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
-      <small class="text-danger" *ngIf="form.get('email')?.errors?.['required']">Email is required.</small>
-      <small class="text-danger" *ngIf="form.get('email')?.errors?.['email']">Invalid email format.</small>
+      <small class="text-danger" *ngIf="form.get('email')?.errors?.['required']">{{ 'AUTH.EMAIL_REQUIRED' | translate }}</small>
+      <small class="text-danger" *ngIf="form.get('email')?.errors?.['email']">{{ 'AUTH.EMAIL_INVALID' | translate }}</small>
     </div>
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    <div id="emailHelp" class="form-text">{{ 'AUTH.EMAIL_HELP' | translate }}</div>
   </div>
   <div class="mb-3">
     <label for="phone" class="form-label">Phone Number</label>
@@ -39,25 +39,24 @@
     </div>
   </div>
   <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <label for="exampleInputPassword1" class="form-label">{{ 'AUTH.PASSWORD' | translate }}</label>
     <input type="password" class="form-control" id="exampleInputPassword1" formControlName="password">
     <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
-      <small class="text-danger" *ngIf="form.get('password')?.errors?.['required']">Password is required.</small>
-      <small class="text-danger" *ngIf="form.get('password')?.errors?.['minlength']">Password must be at least 8
-        characters long.</small>
+      <small class="text-danger" *ngIf="form.get('password')?.errors?.['required']">{{ 'AUTH.PASSWORD_REQUIRED' | translate }}</small>
+      <small class="text-danger" *ngIf="form.get('password')?.errors?.['minlength']">{{ 'AUTH.PASSWORD_MIN_LENGTH' | translate }}</small>
       <small class="text-danger" *ngIf="form.get('password')?.errors?.['pattern']">Password must contain at least one
         uppercase letter, one lowercase letter, one number, and one special character.</small>
     </div>
   </div>
   <div class="mb-3">
-    <label for="confirm" class="form-label">Confirm Password</label>
+    <label for="confirm" class="form-label">{{ 'AUTH.CONFIRM_PASSWORD' | translate }}</label>
     <input type="password" class="form-control" id="confirm" formControlName="confirm">
     <div *ngIf="form.get('confirm')?.invalid && form.get('confirm')?.touched">
       <small class="text-danger" *ngIf="form.get('confirm')?.errors?.['required']">Please confirm your
         password.</small>
     </div>
     <div *ngIf="form.hasError('passwordMismatch') && form.get('confirm')?.touched">
-      <small class="text-danger">Passwords do not match.</small>
+      <small class="text-danger">{{ 'AUTH.PASSWORD_MISMATCH' | translate }}</small>
     </div>
   </div>
   <div class="mb-3">
@@ -87,7 +86,7 @@
   </div>
   <button type="submit" class="btn btn-primary" [disabled]="form.invalid || isLoading">
     <ng-container *ngIf="!isLoading">
-      Register
+      {{ 'AUTH.REGISTER' | translate }}
     </ng-container>
     <ng-container *ngIf="isLoading">
       <div class="spinner"></div>
@@ -95,5 +94,5 @@
   </button>
 </form>
 <div>
-  <a class="auth-link" routerLink="/auth">Already have an account? login here</a>
+  <a class="auth-link" routerLink="/auth">{{ 'AUTH.ALREADY_ACCOUNT' | translate }}</a>
 </div>
