@@ -322,8 +322,9 @@ section {
 .cookie,
 .home,
 .account,
+.language,
 .settings,
-.cart,
+.profil,
 .chat {
   display: inline-block;
   width: 25px;
@@ -357,12 +358,16 @@ section {
   mask: url('./icons/account.svg') no-repeat center;
 }
 
+.language {
+  mask: url('./icons/language.svg') no-repeat center;
+}
+
 .settings {
   mask: url('./icons/settings.svg') no-repeat center;
 }
 
-.cart {
-  mask: url('./icons/cart.svg') no-repeat center;
+.profil {
+  mask: url('./icons/profil.svg') no-repeat center;
 }
 
 .chat {
