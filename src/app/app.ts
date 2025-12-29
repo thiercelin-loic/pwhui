@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
 import { InitService } from '@app/init.service';
+import { LanguageService } from '@app/shared/language.service';
 import { Start } from '@app/start/start';
 import { Policy } from '@app/policy/policy';
 import { Navigation } from '@app/navigation/navigation';
@@ -27,6 +28,7 @@ import { BookingService } from '@app/booking.service'
 export class App {
   private initService = inject(InitService);
   private booking = inject(BookingService);
+  readonly languageService = inject(LanguageService);
 
   protected showStart$: Observable<boolean>;
 
