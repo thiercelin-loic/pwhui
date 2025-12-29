@@ -20,7 +20,7 @@ export class Profil implements OnInit {
   private dateFormatter = inject(DateFormatterService);
   private listingService = inject(ListingService);
   private bookingDataService = inject(BookingDataService);
-  private auth = inject(AuthService);
+  public auth = inject(AuthService);
   
   toast = inject(ToastService);
 
@@ -69,5 +69,18 @@ export class Profil implements OnInit {
 
   public getListingById(id: number): Listings | undefined {
     return this.listingService.getListingById(this.listings, id);
+  }
+
+  public disconnect(): void {
+    try {
+      this.auth.logout();
+      this.toast.show({ 
+        message: 'You have been disconnected', 
+        classname: 'bg-warning text-dark', 
+        delay: 3000 
+      });
+    } finally {
+      window.location.href = '/';
+    }
   }
 }

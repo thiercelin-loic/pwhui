@@ -5,8 +5,8 @@
             <h5>{{ 'PROFIL.TITLE' | translate }}</h5>
         </div>
         <div class="col text-end">
-            <span class="notification" role="button" [title]="'COMMON.NOTIFICATIONS' | translate"
-                  data-bs-toggle="modal" data-bs-target="#sessionToastsModal">
+            <span class="notification" role="button" [title]="'COMMON.NOTIFICATIONS' | translate" data-bs-toggle="modal"
+                data-bs-target="#sessionToastsModal">
                 <ng-container *ngIf="(toast.history$ | async) as history">
                     <span class="badge" *ngIf="history.length > 0">{{history.length}}</span>
                 </ng-container>
@@ -14,11 +14,23 @@
         </div>
     </header>
     <section>
+        <div class="text-start mb-3">
+            <div class="avatar"></div>
+            <h1>{{auth.current?.first_name}} {{auth.current?.last_name}}</h1>
+            <p class="email mb-1">{{auth.current?.email}}</p>
+            <p class="id mb-3">#{{auth.current?.id | slice:-10}}</p>
+            <div>
+                <button class="btn btn-danger" (click)="disconnect()" [disabled]="!auth.isLogged()"
+                  id="disconnect">{{ 'SETTINGS.LOGOUT' | translate }}</button>
+            </div>
+        </div>
+        <hr>
         <h4><span class="upcomming"></span>{{ 'PROFIL.YOUR_BOOKINGS' | translate }}</h4>
         <div class="row row-cols-1 row-cols-md-3 g-3">
             <div class="col" *ngFor="let booking of bookings">
                 <div class="card">
-                    <img [src]="getListingById(booking.listing)?.photo" class="card-img-top" alt="{{getListingById(booking.listing)?.name}}">
+                    <img [src]="getListingById(booking.listing)?.photo" class="card-img-top"
+                        alt="{{getListingById(booking.listing)?.name}}">
                     <div class="card-body">
                         <p class="listing">{{getListingById(booking.listing)?.name}}</p>
                         <p class="location">{{getListingById(booking.listing)?.location}}</p>

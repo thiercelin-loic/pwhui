@@ -1,3 +1,10 @@
+h1 {
+  color: var(--primary);
+  font-family: var(--font-medium);
+  margin: 0;
+  padding-top: var(--padding-md);
+}
+
 p,
 input,
 .dates {
@@ -22,4 +29,16 @@ p.listing {
 .book {
   margin-top: var(--margin-sm);
   width: 100%;
+}
+
+.avatar {
+  border-radius: var(--radius);
+  width: 120px;
+  height: 120px;
+  background: url('profil.png') no-repeat center center / cover;
+  box-shadow: var(--shadow);
+}
+
+.id {
+  color: var(--secondary);
 }
