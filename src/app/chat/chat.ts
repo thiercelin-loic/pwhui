@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '@app/auth/auth.service';
 import { ToastService } from '@app/toast/toast.service';
+import { TranslateModule } from '@ngx-translate/core';
 import { Conversation, Message } from './chat.model';
 import { Listings } from '@app/landing/landing.model';
 import { 
@@ -14,7 +15,7 @@ import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@shared/constants';
 
 @Component({
   selector: 'app-chat',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './chat.html',
   styleUrl: './chat.css',
 })

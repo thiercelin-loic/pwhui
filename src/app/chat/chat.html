@@ -2,10 +2,10 @@
     <header class="row align-items-center">
         <div class="col text-start">
             <p>{{today}} {{month}} {{year}}</p>
-            <h5>Chat</h5>
+            <h5>{{ 'CHAT.TITLE' | translate }}</h5>
         </div>
         <div class="col text-end">
-            <span class="notification" role="button" title="Notifications" data-bs-toggle="modal"
+            <span class="notification" role="button" [title]="'COMMON.NOTIFICATIONS' | translate" data-bs-toggle="modal"
                 data-bs-target="#sessionToastsModal">
                 <ng-container *ngIf="(toast.history$ | async) as history">
                     <span class="badge" *ngIf="history.length > 0">{{history.length}}</span>
@@ -14,7 +14,7 @@
         </div>
     </header>
     <section>
-        <h4><span class="chat"></span>Inbox</h4>
+        <h4><span class="chat"></span>{{ 'CHAT.INBOX' | translate }}</h4>
         <div class="row" *ngFor="let conversation of conversations">
             <button class="conversation btn btn-primary text-start" data-bs-toggle="modal" data-bs-target="#exampleModal"
                 (click)="selectConversation(conversation)"
@@ -24,7 +24,7 @@
             </button>
         </div>
         <div *ngIf="!conversations.length" class="text-center">
-            <p>You have no conversations yet.</p>
+            <p>{{ 'CHAT.NO_CONVERSATIONS' | translate }}</p>
         </div>
     </section>
 </div>
