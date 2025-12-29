@@ -1,12 +1,15 @@
 import { Component, AfterViewInit, inject } from '@angular/core';
 import { PolicyService } from './policy.service';
 import { CookieService } from '@shared/services/cookie.service';
+import { TranslateModule } from '@ngx-translate/core';
 import { COOKIE_CONSTANTS } from '@shared/constants';
 
 declare const bootstrap: { Modal: new (arg0: HTMLElement | null, arg1?: object) => { show: () => void; }; };
 
 @Component({
   selector: 'app-policy',
+  standalone: true,
+  imports: [TranslateModule],
   templateUrl: './policy.html',
   styleUrl: './policy.css',
 })

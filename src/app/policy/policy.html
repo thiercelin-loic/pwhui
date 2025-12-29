@@ -3,23 +3,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <span class="cookie"></span>
-                <h1 class="modal-title fs-5"><b>About your privacy</b></h1>
+                <h1 class="modal-title fs-5"><b>{{ 'POLICY.TITLE' | translate }}</b></h1>
             </div>
             <div class="modal-body">
-                <p>To enhance your experience and ensure the great functioning of our app, we use cookies and similar
-                    technologies. These tools are essential for providing you with a seamless and personalized journey,
-                    from
-                    remembering your settings to keeping your session secure. The personal information gathered helps us
-                    understand how you use the app, allowing us to continuously improve its performance and enhance the
-                    features you love most. Your trust is important, and we are committed to being transparent. Our
-                    practices are in full compliance with European law, specifically <a
-                        href="https://gdpr-info.eu/art-7-gdpr/">Article 7 of the EU General Data Protection Regulation
-                        (GDPR)</a> — "Conditions applicable to consent". By continuing to use our app, you consent to
-                    our use of these cookies.
+                <p [innerHTML]="'POLICY.DESCRIPTION' | translate"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="consent()">
-                    I Agree
+                    {{ 'POLICY.I_AGREE' | translate }}
                 </button>
             </div>
         </div>
