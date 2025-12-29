@@ -72,3 +72,8 @@ section {
   z-index: 2;
   animation: fade .5s ease-in-out;
 }
+
+#language .row .col:nth-child(odd) .btn,
+#terms-and-conditions .row .col:nth-child(odd) .btn {
+  background: var(--primary-gradient-invert);
+}

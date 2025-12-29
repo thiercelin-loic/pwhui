@@ -32,24 +32,18 @@
     </div>
   </div>
   <section>
-    <div id="account">
-      <h4><span class="account"></span>{{ 'SETTINGS.ACCOUNT' | translate }}</h4>
-      <div class="setting">
-        <p>{{ 'SETTINGS.ACCOUNT_DESCRIPTION' | translate }}</p>
-        <br>
-        <button class="btn btn-danger" (click)="disconnect()" [disabled]="!auth.isLogged()"
-          id="disconnect">{{ 'SETTINGS.LOGOUT' | translate }}</button>
-      </div>
-    </div>
-    <hr>
     <div id="terms-and-conditions">
       <h4><span class="cookie"></span>{{ 'SETTINGS.TERMS_AND_CONDITIONS' | translate }}</h4>
       <div class="setting">
         <p>{{ 'SETTINGS.TERMS_DESCRIPTION' | translate }}</p>
         <br>
-        <div class="d-flex justify-content-start">
-          <button class="btn btn-primary" (click)="openPolicy()" id="privacy-policy">{{ 'SETTINGS.PRIVACY_POLICY' | translate }}</button>
-          <button class="btn btn-primary" routerLink="/contract" id="contract">{{ 'SETTINGS.CONTRACT' | translate }}</button>
+        <div class="row row-cols-2 g-2">
+          <div class="col">
+            <button class="btn btn-primary w-100" (click)="openPolicy()" id="privacy-policy">{{ 'SETTINGS.PRIVACY_POLICY' | translate }}</button>
+          </div>
+          <div class="col">
+            <button class="btn btn-primary w-100" routerLink="/contract" id="contract">{{ 'SETTINGS.CONTRACT' | translate }}</button>
+          </div>
         </div>
       </div>
     </div>
@@ -59,12 +53,13 @@
       <div class="setting">
         <p>{{ 'SETTINGS.LANGUAGE_DESCRIPTION' | translate }}</p>
         <br>
-        <div class="d-flex flex-wrap gap-2">
-          <button *ngFor="let lang of languageService.getAvailableLanguages()" 
-            class="btn btn-primary"
-            (click)="languageService.setLanguage(lang.code)">
-            {{ lang.name }}
-          </button>
+        <div class="row row-cols-2 g-2">
+          <div class="col" *ngFor="let lang of languageService.getAvailableLanguages()">
+            <button class="btn btn-primary w-100"
+              (click)="languageService.setLanguage(lang.code)">
+              {{ lang.name }}
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -76,17 +76,4 @@ export class Settings implements OnInit, OnDestroy {
     this.query = '';
     this.suggestions = [];
   }
-
-  public disconnect(): void {
-    try {
-      this.auth.logout();
-      this.toast.show({ 
-        message: 'You have been disconnected', 
-        classname: 'bg-warning text-dark', 
-        delay: 3000 
-      });
-    } finally {
-      window.location.href = '/';
-    }
-  }
 }
