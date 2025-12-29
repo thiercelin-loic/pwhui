@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '@app/auth/auth.service';
 import { ToastService } from '@app/toast/toast.service';
+import { TranslateModule } from '@ngx-translate/core';
 import { Bookings, Listings } from '@app/landing/landing.model';
 import { 
   DateFormatterService,
@@ -10,12 +11,12 @@ import {
 } from '@shared/services';
 
 @Component({
-  selector: 'app-cart',
-  imports: [CommonModule],
-  templateUrl: './cart.html',
-  styleUrl: './cart.css'
+  selector: 'app-profil',
+  imports: [CommonModule, TranslateModule],
+  templateUrl: './profil.html',
+  styleUrl: './profil.css'
 })
-export class Cart implements OnInit {
+export class Profil implements OnInit {
   private dateFormatter = inject(DateFormatterService);
   private listingService = inject(ListingService);
   private bookingDataService = inject(BookingDataService);
