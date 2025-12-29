@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -10,7 +11,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './login.html',
   styleUrl: '../auth.css',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink]
+  imports: [ReactiveFormsModule, CommonModule, RouterLink, TranslateModule]
 })
 export class Login implements OnInit {
   private builder = inject(FormBuilder);

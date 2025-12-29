@@ -2,30 +2,30 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <h4>
     <span class="account"></span>
-    Login
+    {{ 'AUTH.LOGIN' | translate }}
   </h4>
   <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
+    <label for="exampleInputEmail1" class="form-label">{{ 'AUTH.EMAIL_ADDRESS' | translate }}</label>
     <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
       formControlName="email">
     <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
-      <small class="text-danger" *ngIf="form.get('email')?.errors?.['required']">Email is required.</small>
-      <small class="text-danger" *ngIf="form.get('email')?.errors?.['email']">Invalid email format.</small>
+      <small class="text-danger" *ngIf="form.get('email')?.errors?.['required']">{{ 'AUTH.EMAIL_REQUIRED' | translate }}</small>
+      <small class="text-danger" *ngIf="form.get('email')?.errors?.['email']">{{ 'AUTH.EMAIL_INVALID' | translate }}</small>
     </div>
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    <div id="emailHelp" class="form-text">{{ 'AUTH.EMAIL_HELP' | translate }}</div>
   </div>
   <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <label for="exampleInputPassword1" class="form-label">{{ 'AUTH.PASSWORD' | translate }}</label>
     <input type="password" class="form-control" id="exampleInputPassword1" formControlName="password">
   </div>
   <div *ngIf="error" class="alert alert-danger mt-3">
     {{ error }}
   </div>
   <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
-    Connect
+    {{ 'AUTH.CONNECT' | translate }}
   </button>
 </form>
 <br>
 <div>
-  <a class="auth-link" routerLink="/auth/register">It's your first time here? Register now</a>
+  <a class="auth-link" routerLink="/auth/register">{{ 'AUTH.REGISTER_NOW' | translate }}</a>
 </div>
