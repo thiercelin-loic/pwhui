@@ -366,10 +366,6 @@ section {
   mask: url('./icons/settings.svg') no-repeat center;
 }
 
-.profil {
-  mask: url('./icons/profil.svg') no-repeat center;
-}
-
 .chat {
   mask: url('./icons/chat.svg') no-repeat center;
 }
