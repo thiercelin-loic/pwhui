@@ -5,6 +5,8 @@ import { ToastService } from '@app/toast/toast.service';
 import { AuthService } from '@app/auth/auth.service';
 import { RouterLink } from "@angular/router";
 import { FormsModule } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '@app/shared/language.service';
 import { 
   DateFormatterService,
   TypingAnimationService,
@@ -13,7 +15,7 @@ import {
 
 @Component({
   selector: 'app-settings',
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, TranslateModule],
   templateUrl: './settings.html',
   styleUrl: './settings.css',
 })
@@ -22,9 +24,11 @@ export class Settings implements OnInit, OnDestroy {
   private dateFormatter = inject(DateFormatterService);
   private typingAnimation = inject(TypingAnimationService);
   private searchService = inject(SearchService);
+  private translate = inject(TranslateService);
   
   toast = inject(ToastService);
   auth = inject(AuthService);
+  languageService = inject(LanguageService);
 
   public date: Date = this.dateFormatter.getCurrentDate();
   public today = this.dateFormatter.getToday();
@@ -35,14 +39,6 @@ export class Settings implements OnInit, OnDestroy {
   public query = '';
   public suggestions: string[] = [];
 
-  private readonly searchTips: string[] = [
-    'Privacy Policy',
-    'Account',
-    'Terms and Conditions',
-    'Contract',
-    'Disconnect'
-  ];
-
   ngOnInit(): void {
     this.startTypingAnimation();
   }
@@ -52,8 +48,9 @@ export class Settings implements OnInit, OnDestroy {
   }
 
   private startTypingAnimation(): void {
+    const searchTips = this.translate.instant('COMMON.SEARCH_TIPS.SETTINGS') as string[];
     this.typingAnimation.startAnimation(
-      this.searchTips,
+      searchTips,
       (text) => { this.placeholder = text; }
     );
   }
@@ -63,8 +60,9 @@ export class Settings implements OnInit, OnDestroy {
   }
 
   public onSearch(): void {
+    const searchTips = this.translate.instant('COMMON.SEARCH_TIPS.SETTINGS') as string[];
     this.suggestions = this.searchService.filterItems(
-      this.searchTips,
+      searchTips,
       this.query,
       (tip) => tip
     );

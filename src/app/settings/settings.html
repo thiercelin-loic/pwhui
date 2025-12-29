@@ -2,10 +2,10 @@
   <header class="row align-items-center">
     <div class="col text-start">
       <p>{{today}} {{month}} {{year}}</p>
-      <h5>Settings</h5>
+      <h5>{{ 'SETTINGS.TITLE' | translate }}</h5>
     </div>
     <div class="col text-end">
-      <span class="notification" role="button" title="Notifications" data-bs-toggle="modal"
+      <span class="notification" role="button" [title]="'COMMON.NOTIFICATIONS' | translate" data-bs-toggle="modal"
         data-bs-target="#sessionToastsModal">
         <ng-container *ngIf="(toast.history$ | async) as history">
           <span class="badge" *ngIf="history.length > 0">{{history.length}}</span>
@@ -32,27 +32,42 @@
     </div>
   </div>
   <section>
-    <div id="terms-and-conditions">
-      <h4><span class="cookie"></span>Terms and Conditions</h4>
+    <div id="account">
+      <h4><span class="account"></span>{{ 'SETTINGS.ACCOUNT' | translate }}</h4>
       <div class="setting">
-        <p>Understanding the terms of use and how this application legally operates is essential.</p>
+        <p>{{ 'SETTINGS.ACCOUNT_DESCRIPTION' | translate }}</p>
+        <br>
+        <button class="btn btn-danger" (click)="disconnect()" [disabled]="!auth.isLogged()"
+          id="disconnect">{{ 'SETTINGS.LOGOUT' | translate }}</button>
+      </div>
+    </div>
+    <hr>
+    <div id="terms-and-conditions">
+      <h4><span class="cookie"></span>{{ 'SETTINGS.TERMS_AND_CONDITIONS' | translate }}</h4>
+      <div class="setting">
+        <p>{{ 'SETTINGS.TERMS_DESCRIPTION' | translate }}</p>
         <br>
         <div class="d-flex justify-content-start">
-          <button class="btn btn-primary" (click)="openPolicy()" id="privacy-policy">Privacy Policy</button>
-          <button class="btn btn-primary" routerLink="/contract" id="contract">Contract</button>
+          <button class="btn btn-primary" (click)="openPolicy()" id="privacy-policy">{{ 'SETTINGS.PRIVACY_POLICY' | translate }}</button>
+          <button class="btn btn-primary" routerLink="/contract" id="contract">{{ 'SETTINGS.CONTRACT' | translate }}</button>
         </div>
       </div>
     </div>
     <hr>
-    <div id="account">
-      <h4><span class="account"></span>Account</h4>
+    <div id="language">
+      <h4><span class="language"></span>{{ 'SETTINGS.LANGUAGE' | translate }}</h4>
       <div class="setting">
-        <p>Manage your account</p>
+        <p>{{ 'SETTINGS.LANGUAGE_DESCRIPTION' | translate }}</p>
         <br>
-        <button class="btn btn-danger" (click)="disconnect()" [disabled]="!auth.isLogged()"
-          id="disconnect">Disconnect</button>
+        <div class="d-flex flex-wrap gap-2">
+          <button *ngFor="let lang of languageService.getAvailableLanguages()" 
+            class="btn btn-primary"
+            (click)="languageService.setLanguage(lang.code)">
+            {{ lang.name }}
+          </button>
+        </div>
       </div>
     </div>
-    <hr>
+   
   </section>
 </div>
