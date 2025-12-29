@@ -3,11 +3,12 @@ import { ToastService } from './toast.service';
 import { Toast } from './toast.model';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-toast',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './toast.html',
   styleUrls: ['./toast.css'],
 })

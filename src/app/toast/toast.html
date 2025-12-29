@@ -2,7 +2,7 @@
   <div style="box-shadow: var(--primary) 0 0 100px;" *ngFor="let toast of toasts" class="toast show" role="alert" aria-live="assertive" aria-atomic="true"
     [class]="toast.classname">
     <div class="toast-header">
-      <strong class="me-auto">Guide</strong>
+      <strong class="me-auto">{{ 'TOAST.GUIDE' | translate }}</strong>
       <button type="button" class="btn-close" (click)="remove(toast)" aria-label="Close"></button>
     </div>
     <div class="toast-body">
@@ -16,11 +16,11 @@
     <div class="modal-content">
       <div class="modal-body">
         <div *ngIf="(history$ | async) as history">
-          <div *ngIf="history.length === 0" class="text-muted">No notifications yet.</div>
+          <div *ngIf="history.length === 0" class="text-muted">{{ 'TOAST.NO_NOTIFICATIONS' | translate }}</div>
           <div *ngFor="let t of history" class="mb-2">
             <div class="toast show w-100" role="alert" aria-live="assertive" aria-atomic="true" [class]="t.classname">
               <div class="toast-header">
-                <strong class="me-auto">Guide</strong>
+                <strong class="me-auto">{{ 'TOAST.GUIDE' | translate }}</strong>
               </div>
               <div class="toast-body">
                 {{ t.message }}
@@ -33,10 +33,10 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col ps-0">
-              <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">{{ 'POLICY.CLOSE' | translate }}</button>
             </div>
             <div class="col pe-0">
-              <button type="button" class="btn btn-primary w-100" (click)="clear()">Clear</button>
+              <button type="button" class="btn btn-primary w-100" (click)="clear()">{{ 'TOAST.CLEAR' | translate }}</button>
             </div>
 
           </div>
