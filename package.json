@@ -1,16 +1,19 @@
 {
-  "name": "pwhui",
-  "version": "1.7.0",
+  "name": "agoraui",
+  "version": "2.0.0",
   "license": "CC BY-NC 4.0",
+  "bin": {
+    "agora": "./bin/agora"
+  },
   "scripts": {
     "ng": "ng",
     "prestart": "bash docker/dependencies.sh",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "start": "ng serve --project agoraui",
+    "build": "ng build --project agoraui",
+    "watch": "ng build --watch --configuration development --project agoraui",
     "pretest": "bash docker/dependencies.sh",
-    "test": "ng test",
-    "lint": "ng lint",
+    "test": "ng test --project agoraui",
+    "lint": "ng lint --project agoraui",
     "backend:start": "bash docker/dependencies.sh",
     "backend:stop": "bash docker/down.sh"
   },
