@@ -127,20 +127,20 @@
 }
 
 :root {
-  --light: #cdcdcd;
+  --light: #e0e0e0;
   --gradient: linear-gradient(transparent, var(--text));
-  --primary: #012340;
+  --primary: #4a4a4a;
   --primary-gradient: linear-gradient(45deg, var(--primary), var(--light) 200%);
   --primary-gradient-invert: linear-gradient(45deg, var(--light) -200%, var(--primary));
   --secondary: #808080;
   --secondary-gradient: linear-gradient(45deg, var(--secondary), var(--light) 200%);
-  --danger: #a20000;
+  --danger: #ff0000;
   --danger-gradient: linear-gradient(45deg, var(--danger), var(--light) 200%);
   --text: #333;
-  --background: #f0f0f0;
+  --background: #f5f5f5;
   --background-gradient: linear-gradient(45deg, var(--background), var(--light) 200%);
   --background-gradient-invert: linear-gradient(45deg, var(--light) -200%, var(--background));
-  --background-image: url('https://images.pexels.com/photos/9574945/pexels-photo-9574945.jpeg');
+  --background-image: url('default.jpg');
   --shadow: 6px 4px 4px #0e0e0e2e;
   --brightness: brightness(1.2);
   --padding-sm: 10px;
@@ -444,3 +444,8 @@ input.form-control:focus {
 .content-wrapper {
   padding-bottom: 0;
 }
+
+
+
+
+
