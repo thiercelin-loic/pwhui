@@ -1,5 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpLoaderFactory } from '@app/shared/translate-loader';
 import { Contract } from './contract';
 
 describe('Contract', () => {
@@ -8,7 +11,17 @@ describe('Contract', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Contract]
+      imports: [
+        Contract,
+        HttpClientTestingModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient]
+          }
+        })
+      ]
     })
     .compileComponents();
 
