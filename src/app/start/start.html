@@ -1,8 +1,0 @@
-<div class="container">
-    <div class="icon"></div>
-    <h1>Paris<b>WorkHub</b></h1>
-    <p class="loading-text" *ngIf="(error | async) === null">{{ current }}</p>
-    <div *ngIf="(error | async) as error" class="error-container">
-        <p class="error-text">{{ error }} <a class="retry" (click)="retry()" (keyup.enter)="retry()" tabindex="0">Try again</a></p>
-    </div>
-</div>
