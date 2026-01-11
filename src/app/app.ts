@@ -1,14 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { Observable, map } from 'rxjs';
-import { InitService } from '@app/init.service';
 import { LanguageService } from '@app/shared/language.service';
-import { Start } from '@app/start/start';
 import { Policy } from '@app/policy/policy';
 import { Navigation } from '@app/navigation/navigation';
 import { ToastComponent } from '@app/toast/toast';
-import { BookingService } from '@app/booking.service'
+import { BookingService } from '@app/booking.service';
+import { APP_CONFIG } from '@env/app.config';
 
 @Component({
   selector: 'app-root',
@@ -16,23 +15,20 @@ import { BookingService } from '@app/booking.service'
   imports: [
     RouterOutlet,
     CommonModule,
-    Start,
     Policy,
     Navigation,
-    Policy,
     ToastComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  private initService = inject(InitService);
   private booking = inject(BookingService);
+  private titleService = inject(Title);
   readonly languageService = inject(LanguageService);
 
-  protected showStart$: Observable<boolean>;
-
   constructor() {
-    this.showStart$ = this.initService.isInitialized$.pipe(map(isInitialized => !isInitialized));
+    // Set application title from configuration
+    this.titleService.setTitle(APP_CONFIG.title);
   }
 }
