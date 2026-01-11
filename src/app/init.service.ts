@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, forkJoin } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
-import { API_ENDPOINTS, ERROR_MESSAGES } from '@shared/constants';
+import { API_ENDPOINTS } from '@shared/constants';
 import { LANGUAGE_CONFIG } from '@shared/language.config';
 
 @Injectable({
@@ -14,9 +14,6 @@ export class InitService {
 
   private isInitialized = new BehaviorSubject<boolean>(false);
   isInitialized$ = this.isInitialized.asObservable();
-  
-  private initializationError = new BehaviorSubject<string | null>(null);
-  initializationError$ = this.initializationError.asObservable();
 
   initialize(): Promise<void> {
     return new Promise((resolve) => {
@@ -24,10 +21,10 @@ export class InitService {
       const languageCodes = LANGUAGE_CONFIG.availableLanguages.map(lang => lang.code);
       this.translate.addLangs(languageCodes);
       this.translate.setDefaultLang(LANGUAGE_CONFIG.defaultLanguage);
-      
+
       const savedLanguage = localStorage.getItem(LANGUAGE_CONFIG.storageKey);
-      let langToUse = LANGUAGE_CONFIG.defaultLanguage;
-      
+      let langToUse: string = LANGUAGE_CONFIG.defaultLanguage;
+
       if (savedLanguage && languageCodes.includes(savedLanguage)) {
         langToUse = savedLanguage;
       } else if (LANGUAGE_CONFIG.useBrowserLanguage) {
@@ -50,7 +47,6 @@ export class InitService {
           },
           error: (error) => {
             console.error('Initialization failed', error);
-            this.initializationError.next(ERROR_MESSAGES.INITIALIZATION_FAILED);
             resolve();
           }
         });
