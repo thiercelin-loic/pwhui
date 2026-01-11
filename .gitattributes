@@ -1,0 +1,23 @@
+# Ensure shell scripts always use LF line endings
+*.sh text eol=lf
+bin/agora text eol=lf
+
+# Ensure other text files use appropriate line endings
+*.ts text
+*.js text
+*.json text
+*.md text
+*.html text
+*.css text
+*.scss text
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
