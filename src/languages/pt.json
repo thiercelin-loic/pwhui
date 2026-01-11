@@ -7,12 +7,12 @@
     "DATE": "Data",
     "SEARCH_TIPS": {
       "LANDING": [
-        "Coworking perto da Torre Eiffel",
-        "Espaço de trabalho tranquilo em Le Marais",
-        "Sala de reuniões para 6 pessoas perto de Gare du Nord",
-        "Mesa flexível / hotdesk em La Défense",
-        "Estúdio com Wi-Fi rápido perto do Canal Saint-Martin",
-        "Sala de reuniões perto do Louvre"
+        "Algo interessante",
+        "Um presente para dar",
+        "Algo para hoje",
+        "Algo próximo",
+        "Opções econômicas",
+        "Ofertas premium"
       ],
       "SETTINGS": [
         "Política de privacidade",
@@ -32,11 +32,11 @@
   },
   "LANDING": {
     "GREETING": "Olá, {{name}}.",
-    "GREETING_DEFAULT": "descubra onde trabalhar",
+    "GREETING_DEFAULT": "descubra algo novo",
     "MOST_POPULAR": "Mais Populares",
     "UPCOMING_BOOKING": "Próxima Reserva",
     "DISCOVERS_THEM": "Descubra-os",
-    "STATISTICS": "Mais de {{count}} espaços de trabalho em toda a cidade.",
+    "STATISTICS": "Encontre o que procura entre os nossos {{count}} anúncios!",
     "NO_BOOKINGS_NOT_LOGGED": "Você precisa de uma conta para reservar um espaço de trabalho, <a routerLink=\"auth\">faça login ou cadastre-se aqui</a>",
     "NO_BOOKINGS_LOGGED": "Você ainda não tem reservas."
   },

@@ -7,12 +7,12 @@
     "DATE": "日期",
     "SEARCH_TIPS": {
       "LANDING": [
-        "埃菲尔铁塔附近的联合办公",
-        "玛黑区的安静工作空间",
-        "北站附近可容纳6人的会议室",
-        "拉德芳斯的灵活办公桌/热桌",
-        "圣马丁运河附近带快速Wi-Fi的工作室",
-        "卢浮宫附近的会议室"
+        "有趣的东西",
+        "送礼物",
+        "今天的东西",
+        "附近的东西",
+        "经济实惠的选择",
+        "高级优惠"
       ],
       "SETTINGS": [
         "隐私政策",
@@ -32,11 +32,11 @@
   },
   "LANDING": {
     "GREETING": "你好，{{name}}。",
-    "GREETING_DEFAULT": "发现工作地点",
+    "GREETING_DEFAULT": "发现新事物",
     "MOST_POPULAR": "最受欢迎",
     "UPCOMING_BOOKING": "即将到来的预订",
     "DISCOVERS_THEM": "发现它们",
-    "STATISTICS": "全城超过 {{count}} 个工作空间。",
+    "STATISTICS": "从我们的{{count}}个列表中找到您想要的！",
     "NO_BOOKINGS_NOT_LOGGED": "您需要一个帐户来预订工作空间，<a routerLink=\"auth\">在此登录或注册</a>",
     "NO_BOOKINGS_LOGGED": "您还没有预订。"
   },

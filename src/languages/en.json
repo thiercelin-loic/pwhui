@@ -7,12 +7,12 @@
     "DATE": "Date",
     "SEARCH_TIPS": {
       "LANDING": [
-        "Coworking near Eiffel Tower",
-        "Quiet workspace in Le Marais",
-        "Meeting room for 6 people near Gare du Nord",
-        "Flexible desk / hotdesk in La Défense",
-        "Studio with fast Wi‑Fi near Canal Saint‑Martin",
-        "Meeting room close to the Louvre"
+        "Something interesting",
+        "A gift to give",
+        "Something for today",
+        "Something nearby",
+        "Budget options",
+        "Premium offers"
       ],
       "SETTINGS": [
         "Privacy Policy",
@@ -32,11 +32,11 @@
   },
   "LANDING": {
     "GREETING": "Hi, {{name}}.",
-    "GREETING_DEFAULT": "discover where to work",
+    "GREETING_DEFAULT": "discover something new",
     "MOST_POPULAR": "Most Popular",
     "UPCOMING_BOOKING": "Upcomming Booking",
     "DISCOVERS_THEM": "Discovers Them",
-    "STATISTICS": "More than {{count}} workplaces throughout the city.",
+    "STATISTICS": "Find what you're looking for among our {{count}} listings!",
     "NO_BOOKINGS_NOT_LOGGED": "You need a account to book a workspace, <a routerLink=\"auth\">login of signup here</a>",
     "NO_BOOKINGS_LOGGED": "You have no bookings yet."
   },

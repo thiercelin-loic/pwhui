@@ -7,12 +7,12 @@
     "DATE": "Date",
     "SEARCH_TIPS": {
       "LANDING": [
-        "Coworking près de la Tour Eiffel",
-        "Espace de travail calme dans Le Marais",
-        "Salle de réunion pour 6 personnes près de Gare du Nord",
-        "Bureau flexible / hotdesk à La Défense",
-        "Studio avec Wi-Fi rapide près du Canal Saint-Martin",
-        "Salle de réunion proche du Louvre"
+        "Quelque chose d'intéressant",
+        "Un cadeau à offrir",
+        "Quelque chose pour aujourd'hui",
+        "Quelque chose à proximité",
+        "Options économiques",
+        "Offres premium"
       ],
       "SETTINGS": [
         "Politique de confidentialité",
@@ -32,11 +32,11 @@
   },
   "LANDING": {
     "GREETING": "Bonjour, {{name}}.",
-    "GREETING_DEFAULT": "découvrez où travailler",
+    "GREETING_DEFAULT": "découvrez quelque chose de nouveau",
     "MOST_POPULAR": "Les Plus Populaires",
     "UPCOMING_BOOKING": "Réservation à Venir",
     "DISCOVERS_THEM": "Découvrez-les",
-    "STATISTICS": "Plus de {{count}} espaces de travail dans toute la ville.",
+    "STATISTICS": "Trouvez ce que vous cherchez parmi nos {{count}} annonces !",
     "NO_BOOKINGS_NOT_LOGGED": "Vous avez besoin d'un compte pour réserver un espace de travail, <a routerLink=\"auth\">connectez-vous ou inscrivez-vous ici</a>",
     "NO_BOOKINGS_LOGGED": "Vous n'avez pas encore de réservations."
   },
