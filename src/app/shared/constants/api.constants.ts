@@ -2,13 +2,13 @@ export const API_ENDPOINTS = {
   AUTH: '/auth',
   USERS: '/users',
   BOOKING: '/booking',
-  CHAT: '/tell',
+  CHAT: '/messaging',
   
   LOGIN: '/auth/login',
   REGISTER: '/auth/register',
   ME: '/users/me',
   LISTINGS: '/booking/listings',
   BOOKINGS: '/booking/bookings',
-  INBOX: '/tell/inbox',
-  MESSAGES: '/tell/messages'
+  INBOX: '/messaging/inbox',
+  MESSAGES: '/messaging/messages'
 } as const;
