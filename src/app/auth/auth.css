@@ -104,7 +104,7 @@ a:hover,
 }
 
 span.logo {
-  background: url('auth.svg') no-repeat center center / contain;
+  background: url('../../favicon.ico') no-repeat center center / contain;
   width: 120px;
   height: 120px;
   margin: var(--margin-md) auto;
