@@ -1,108 +1,269 @@
-# Ask if user wants to use backend dependencies
-read -p "Do you want to start backend dependencies? (auth, booking, tell)? [y/N] " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-  echo "Skipping backend dependencies."
-  exit 0
-fi
+#!/bin/bash
 
-# Check if Docker is installed
-if ! command -v docker &> /dev/null; then
-  echo "Docker is not installed."
-  read -p "Would you like to install Docker? [y/N] " -n 1 -r
-  echo
-  if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo "Installing Docker..."
-    curl -fsSL https://get.docker.com -o get-docker.sh
-    sudo sh get-docker.sh
-    sudo usermod -aG docker $USER
-    rm get-docker.sh
-    echo "Docker installed successfully. Please log out and back in for group changes to take effect."
-    exit 0
-  else
-    echo "Docker is required to run backend services. Exiting."
-    exit 1
-  fi
-fi
+# Backend Dependencies Manager
+# Manages Docker-based backend services (auth, booking, tell)
 
-# Check if backend projects exist
-MISSING_DEPS=()
-[ ! -d "/home/$USER/auth" ] && MISSING_DEPS+=("auth")
-[ ! -d "/home/$USER/booking" ] && MISSING_DEPS+=("booking")
-[ ! -d "/home/$USER/tell" ] && MISSING_DEPS+=("tell")
+set -e
 
-if [ ${#MISSING_DEPS[@]} -gt 0 ]; then
-  echo "Missing backend dependencies: ${MISSING_DEPS[*]}"
-  read -p "Would you like to clone the missing repositories? [y/N] " -n 1 -r
-  echo
-  if [[ $REPLY =~ ^[Yy]$ ]]; then
-    for dep in "${MISSING_DEPS[@]}"; do
-      echo "Cloning $dep..."
-      cd /home/$USER
-      git clone "https://github.com/thiercelin-loic/$dep.git" || echo "Failed to clone $dep"
-    done
-    echo "Dependencies cloned. You may need to configure them before starting."
-  else
-    echo "Cannot start services without all dependencies. Exiting."
-    exit 1
-  fi
-fi
+# Constants
+readonly BACKEND_SERVICES=("auth" "booking" "tell")
+readonly ENV_REQUIRED_SERVICES=("auth" "booking")
+readonly GITHUB_USERNAME="thiercelin-loic"
+readonly BASE_DIR="/home/$USER"
 
-# Check and configure .env files
-DEPS=("auth" "booking")
-for dep in "${DEPS[@]}"; do
-  if [ -d "/home/$USER/$dep" ] && [ ! -f "/home/$USER/$dep/.env" ]; then
-    echo "Missing .env file for $dep"
-    read -p "Would you like to create .env file for $dep? [y/N] " -n 1 -r
+# Default environment values
+readonly DEFAULT_MYSQL_HOST="database"
+readonly DEFAULT_MYSQL_PORT="3306"
+readonly DEFAULT_MYSQL_USERNAME="root"
+readonly DEFAULT_MYSQL_PASSWORD="password"
+readonly DEFAULT_NODE_ENV="production"
+readonly DEFAULT_PORT="3000"
+
+# Prompts user with yes/no question
+# Args: $1 - question text
+# Returns: 0 if yes, 1 if no
+prompt_yes_no() {
+    local question="$1"
+    local reply
+    
+    read -p "$question [y/N] " -n 1 -r reply
     echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-      echo "Configuring $dep environment..."
-      read -p "Use default values? [Y/n] " -n 1 -r
-      echo
-      if [[ $REPLY =~ ^[Nn]$ ]]; then
-        read -p "MYSQL_HOST [database]: " MYSQL_HOST
-        MYSQL_HOST=${MYSQL_HOST:-database}
-        read -p "MYSQL_PORT [3306]: " MYSQL_PORT
-        MYSQL_PORT=${MYSQL_PORT:-3306}
-        read -p "MYSQL_USERNAME [root]: " MYSQL_USERNAME
-        MYSQL_USERNAME=${MYSQL_USERNAME:-root}
-        read -sp "MYSQL_PASSWORD [password]: " MYSQL_PASSWORD
-        echo
-        MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}
-        read -p "NODE_ENV [production]: " NODE_ENV
-        NODE_ENV=${NODE_ENV:-production}
-        read -p "PORT [3000]: " PORT
-        PORT=${PORT:-3000}
-      else
-        MYSQL_HOST="database"
-        MYSQL_PORT="3306"
-        MYSQL_USERNAME="root"
-        MYSQL_PASSWORD="password"
-        NODE_ENV="production"
-        PORT="3000"
-      fi
-      
-      cat > "/home/$USER/$dep/.env" << EOF
-MYSQL_HOST=$MYSQL_HOST
-MYSQL_PORT=$MYSQL_PORT
-MYSQL_USERNAME=$MYSQL_USERNAME
-MYSQL_PASSWORD=$MYSQL_PASSWORD
-MYSQL_DATABASE=$dep
-NODE_ENV=$NODE_ENV
-PORT=$PORT
-EOF
-      echo ".env file created for $dep."
-    else
-      echo "Warning: $dep may not work without .env configuration."
-    fi
-  fi
-done
+    [[ $reply =~ ^[Yy]$ ]]
+}
 
-# Start backend services
-cd /home/$USER/auth;
-docker compose up -d;
-cd /home/$USER/booking;
-docker compose up -d;
-cd /home/$USER/tell;
-docker compose up -d;
-echo "Backend services started."
+# Checks if Docker is installed
+# Returns: 0 if installed, 1 otherwise
+is_docker_installed() {
+    command -v docker &> /dev/null
+}
+
+# Installs Docker on the system
+install_docker() {
+    echo "Installing Docker..."
+    
+    if ! curl -fsSL https://get.docker.com -o get-docker.sh; then
+        echo "Error: Failed to download Docker installation script."
+        return 1
+    fi
+    
+    if ! sudo sh get-docker.sh; then
+        echo "Error: Docker installation failed."
+        rm -f get-docker.sh
+        return 1
+    fi
+    
+    sudo usermod -aG docker "$USER"
+    rm -f get-docker.sh
+    
+    echo "Docker installed successfully. Please log out and back in for group changes to take effect."
+    return 0
+}
+
+# Checks for missing backend service directories
+# Sets MISSING_DEPS array with missing services
+check_missing_dependencies() {
+    MISSING_DEPS=()
+    
+    for service in "${BACKEND_SERVICES[@]}"; do
+        if [[ ! -d "$BASE_DIR/$service" ]]; then
+            MISSING_DEPS+=("$service")
+        fi
+    done
+}
+
+# Clones missing repositories from GitHub
+# Args: $@ - array of service names to clone
+clone_repositories() {
+    local services=("$@")
+    local failed_clones=()
+    
+    for service in "${services[@]}"; do
+        echo "Cloning $service..."
+        
+        if ! git clone "https://github.com/$GITHUB_USERNAME/$service.git" "$BASE_DIR/$service"; then
+            echo "Warning: Failed to clone $service"
+            failed_clones+=("$service")
+        fi
+    done
+    
+    if [[ ${#failed_clones[@]} -gt 0 ]]; then
+        echo "Warning: Some repositories failed to clone: ${failed_clones[*]}"
+        return 1
+    fi
+    
+    echo "Dependencies cloned successfully."
+    return 0
+}
+
+# Prompts for custom environment values
+# Returns: associative array of environment variables via stdout
+prompt_custom_env_values() {
+    local mysql_host mysql_port mysql_username mysql_password node_env port
+    
+    read -p "MYSQL_HOST [$DEFAULT_MYSQL_HOST]: " mysql_host
+    mysql_host="${mysql_host:-$DEFAULT_MYSQL_HOST}"
+    
+    read -p "MYSQL_PORT [$DEFAULT_MYSQL_PORT]: " mysql_port
+    mysql_port="${mysql_port:-$DEFAULT_MYSQL_PORT}"
+    
+    read -p "MYSQL_USERNAME [$DEFAULT_MYSQL_USERNAME]: " mysql_username
+    mysql_username="${mysql_username:-$DEFAULT_MYSQL_USERNAME}"
+    
+    read -sp "MYSQL_PASSWORD [$DEFAULT_MYSQL_PASSWORD]: " mysql_password
+    echo
+    mysql_password="${mysql_password:-$DEFAULT_MYSQL_PASSWORD}"
+    
+    read -p "NODE_ENV [$DEFAULT_NODE_ENV]: " node_env
+    node_env="${node_env:-$DEFAULT_NODE_ENV}"
+    
+    read -p "PORT [$DEFAULT_PORT]: " port
+    port="${port:-$DEFAULT_PORT}"
+    
+    echo "$mysql_host|$mysql_port|$mysql_username|$mysql_password|$node_env|$port"
+}
+
+# Gets default environment values
+get_default_env_values() {
+    echo "$DEFAULT_MYSQL_HOST|$DEFAULT_MYSQL_PORT|$DEFAULT_MYSQL_USERNAME|$DEFAULT_MYSQL_PASSWORD|$DEFAULT_NODE_ENV|$DEFAULT_PORT"
+}
+
+# Creates .env file for a service
+# Args: $1 - service name, $2 - environment values (pipe-separated)
+create_env_file() {
+    local service="$1"
+    local env_values="$2"
+    local env_file="$BASE_DIR/$service/.env"
+    
+    IFS='|' read -r mysql_host mysql_port mysql_username mysql_password node_env port <<< "$env_values"
+    
+    cat > "$env_file" << EOF
+MYSQL_HOST=$mysql_host
+MYSQL_PORT=$mysql_port
+MYSQL_USERNAME=$mysql_username
+MYSQL_PASSWORD=$mysql_password
+MYSQL_DATABASE=$service
+NODE_ENV=$node_env
+PORT=$port
+EOF
+    
+    echo ".env file created for $service."
+}
+
+# Configures environment files for services
+configure_environments() {
+    for service in "${ENV_REQUIRED_SERVICES[@]}"; do
+        if [[ ! -d "$BASE_DIR/$service" ]]; then
+            continue
+        fi
+        
+        if [[ -f "$BASE_DIR/$service/.env" ]]; then
+            continue
+        fi
+        
+        echo "Missing .env file for $service"
+        
+        if ! prompt_yes_no "Would you like to create .env file for $service?"; then
+            echo "Warning: $service may not work without .env configuration."
+            continue
+        fi
+        
+        echo "Configuring $service environment..."
+        
+        local env_values
+        if prompt_yes_no "Use default values? [Y/n] "; then
+            env_values=$(get_default_env_values)
+        else
+            env_values=$(prompt_custom_env_values)
+        fi
+        
+        create_env_file "$service" "$env_values"
+    done
+}
+
+# Starts a backend service using Docker Compose
+# Args: $1 - service name
+start_service() {
+    local service="$1"
+    local service_dir="$BASE_DIR/$service"
+    
+    if [[ ! -d "$service_dir" ]]; then
+        echo "Warning: Directory not found for $service, skipping."
+        return 1
+    fi
+    
+    echo "Starting $service service..."
+    
+    if ! (cd "$service_dir" && docker compose up -d); then
+        echo "Error: Failed to start $service service."
+        return 1
+    fi
+    
+    return 0
+}
+
+# Starts all backend services
+start_all_services() {
+    local failed_services=()
+    
+    for service in "${BACKEND_SERVICES[@]}"; do
+        if ! start_service "$service"; then
+            failed_services+=("$service")
+        fi
+    done
+    
+    if [[ ${#failed_services[@]} -eq 0 ]]; then
+        echo "All backend services started successfully."
+        return 0
+    else
+        echo "Warning: Some services failed to start: ${failed_services[*]}"
+        return 1
+    fi
+}
+
+# Main execution
+main() {
+    if ! prompt_yes_no "Do you want to start backend dependencies? (auth, booking, tell)?"; then
+        echo "Skipping backend dependencies."
+        exit 0
+    fi
+    
+    # Verify Docker installation
+    if ! is_docker_installed; then
+        echo "Docker is not installed."
+        
+        if prompt_yes_no "Would you like to install Docker?"; then
+            if ! install_docker; then
+                echo "Docker installation failed. Exiting."
+                exit 1
+            fi
+            exit 0
+        else
+            echo "Docker is required to run backend services. Exiting."
+            exit 1
+        fi
+    fi
+    
+    # Check and clone missing dependencies
+    check_missing_dependencies
+    
+    if [[ ${#MISSING_DEPS[@]} -gt 0 ]]; then
+        echo "Missing backend dependencies: ${MISSING_DEPS[*]}"
+        
+        if prompt_yes_no "Would you like to clone the missing repositories?"; then
+            if ! clone_repositories "${MISSING_DEPS[@]}"; then
+                echo "Warning: Some repositories failed to clone."
+            fi
+        else
+            echo "Cannot start services without all dependencies. Exiting."
+            exit 1
+        fi
+    fi
+    
+    # Configure environment files
+    configure_environments
+    
+    # Start all services
+    start_all_services
+}
+
+main "$@"
