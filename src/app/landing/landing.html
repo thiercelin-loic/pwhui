@@ -92,20 +92,6 @@
                 <p class="listing " id="price">{{listing.pricing}}€</p>
             </div>
         </div>
-        <div class=" row text-start">
-            <div class="col listing" *ngFor="let listing of listings | slice:0:4"
-                style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) center / cover no-repeat;"
-                data-bs-toggle="modal" data-bs-target="#listing" (click)="selectListing(listing)"
-                (keyup.enter)="selectListing(listing)" tabindex="0">
-                <p class="listing">
-                    {{listing.name}}
-                </p>
-                <p class="listing" id="location">
-                    {{listing.location}}
-                </p>
-                <p class="listing " id="price">{{listing.pricing}}€</p>
-            </div>
-        </div>
     </section>
     <br>
 </div>
