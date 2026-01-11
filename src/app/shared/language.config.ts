@@ -1,11 +1,18 @@
+import { APP_CONFIG } from '@env/app.config';
+
 export interface LanguageConfig {
   code: string;
   name: string;
   flag?: string;
 }
 
+/**
+ * Language configuration
+ * Note: The default language and available languages can be customized in app.config.ts
+ * This configuration includes additional metadata for each language (name, flag)
+ */
 export const LANGUAGE_CONFIG = {
-  defaultLanguage: 'en',
+  defaultLanguage: APP_CONFIG.ui.defaultLanguage,
   availableLanguages: [
     { code: 'en', name: 'English' },
     { code: 'fr', name: 'Français' },
@@ -17,7 +24,7 @@ export const LANGUAGE_CONFIG = {
     { code: 'it', name: 'Italiano' },
     { code: 'ja', name: '日本語' },
     { code: 'ru', name: 'Русский' }
-  ] as LanguageConfig[],
+  ].filter(lang => (APP_CONFIG.ui.availableLanguages as readonly string[]).includes(lang.code)) as LanguageConfig[],
   storageKey: 'preferred-language',
   useBrowserLanguage: true
 };
