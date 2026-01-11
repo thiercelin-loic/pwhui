@@ -2,27 +2,34 @@
   "/auth": {
     "target": "http://localhost:3001",
     "secure": false,
-    "changeOrigin": true
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/auth": "/api/auth"
+    }
   },
   "/users": {
     "target": "http://localhost:3001",
     "secure": false,
-    "changeOrigin": true
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/users": "/api/users"
+    }
   },
   "/booking": {
     "target": "http://localhost:3002",
     "secure": false,
+    "changeOrigin": true,
     "pathRewrite": {
-      "^/booking": ""
-    },
-    "changeOrigin": true
+      "^/booking": "/api"
+    }
   },
-  "/tell": {
+  "/messaging": {
     "target": "http://localhost:3003",
     "secure": false,
+    "changeOrigin": true,
     "pathRewrite": {
-      "^/tell": ""
+      "^/messaging": "/api"
     },
-    "changeOrigin": true
+    "ws": true
   }
 }
