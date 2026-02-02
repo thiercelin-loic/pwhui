@@ -1,21 +1,21 @@
 {
   "name": "agoraui",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "license": "CC BY-NC 4.0",
   "bin": {
-    "agora": "./bin/agora"
+    "agora": "./bin/agora.py"
   },
   "scripts": {
     "ng": "ng",
-    "prestart": "bash docker/dependencies.sh",
+    "prestart": "python docker/dependencies.py",
     "start": "ng serve --project agoraui",
     "build": "ng build --project agoraui",
     "watch": "ng build --watch --configuration development --project agoraui",
-    "pretest": "bash docker/dependencies.sh",
+    "pretest": "python docker/dependencies.py",
     "test": "ng test --project agoraui",
     "lint": "ng lint --project agoraui",
-    "backend:start": "bash docker/dependencies.sh",
-    "backend:stop": "bash docker/down.sh"
+    "backend:start": "python docker/dependencies.py",
+    "backend:stop": "python docker/down.py"
   },
   "prettier": {
     "printWidth": 100,
