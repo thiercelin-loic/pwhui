@@ -25,6 +25,10 @@
               "src/favicon.ico",
               "src/assets",
               {
+                "glob": "**/*",
+                "input": "public"
+              },
+              {
                 "glob": "**/*.json",
                 "input": "src/languages",
                 "output": "languages"
