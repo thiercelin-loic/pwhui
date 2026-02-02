@@ -27,7 +27,10 @@ EXPOSE 80 443
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /src/dist/agoraui/browser /app
 
-COPY docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Install Python for entrypoint script
+RUN apt-get update && apt-get install -y python3 && rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT ["/entrypoint.sh"]
+COPY docker/entrypoint.py /entrypoint.py
+RUN chmod +x /entrypoint.py
+
+ENTRYPOINT ["python3", "/entrypoint.py"]
