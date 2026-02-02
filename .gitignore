@@ -6,6 +6,9 @@
 /out-tsc
 /bazel-out
 
+# Dependencies
+*.pyc
+
 # Node
 /node_modules
 npm-debug.log
