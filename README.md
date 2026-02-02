@@ -3,7 +3,9 @@
 
 [![Angular](https://img.shields.io/badge/Angular-20-dd0031?style=flat&logo=angular)](https://angular.io/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![Python](https://img.shields.io/badge/Python-3.7+-3776AB?style=flat&logo=python)](https://www.python.org/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat&logo=docker)](https://www.docker.com/)
+[![Cross--Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-brightgreen?style=flat)](https://github.com/thiercelin-loic/agoraui)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](http://creativecommons.org/licenses/by-nc/4.0/)
 
 ## 📚 Table of Contents
@@ -66,6 +68,8 @@ agora init
 # 5. Start development server
 agora serve
 ```
+
+> **💻 Cross-Platform:** AgoraUI works on Windows, macOS, and Linux thanks to Python-based scripts.
 
 🎉 **Done!** Your browser opens to `http://localhost:4200`
 
@@ -152,9 +156,10 @@ agora serve
 Beyond standard features, this project implements advanced patterns:
 
 * **Clean Code Architecture:** Comprehensive refactoring following SOLID principles with shared services, centralized constants, and TypeScript path aliases (`@app/*`, `@shared/*`).
+* **Cross-Platform Automation:** Python-based CLI and scripts ensure seamless development on Windows, macOS, and Linux without bash dependencies.
 * **Optimized Data Fetching:** Implementation of RxJS `shareReplay` operator to cache API responses and reduce server load.
 * **Automated DevOps Security:** Custom Nginx configuration handling ACME challenges for automatic **Let's Encrypt SSL** certificate generation and renewal within Docker containers.
-* **Intelligent Dependency Management:** Interactive setup script that automates Docker installation, repository cloning, environment configuration, and service orchestration.
+* **Intelligent Dependency Management:** Interactive Python-based setup that automates Docker installation, repository cloning, environment configuration, and service orchestration with automatic service detection.
 * **Strict Code Quality:** Enforced linting rules using **ESLint** with specific Angular configurations to maintain clean architecture.
 * **Smart UX Patterns:** Debounced search inputs and skeleton loaders for smoother user interactions.
 * **Zero Duplication:** Eliminated ~410 lines of duplicate code through service extraction and centralized utilities.
@@ -165,6 +170,7 @@ Beyond standard features, this project implements advanced patterns:
 
 - **Framework**: Angular 20 (Standalone Components)
 - **Language**: TypeScript 5.9
+- **Automation**: Python 3.7+ (Cross-platform CLI & scripts)
 - **i18n**: ngx-translate with centralized configuration
 - **State Management**: RxJS
 - **HTTP Client**: Angular HttpClient
@@ -210,17 +216,22 @@ The project follows a modular architecture based on Feature Modules and Standalo
     │   ├── index.html          # HTML entry point
     │   ├── main.ts             # Application bootstrapping
     │   └── styles.css          # Global styles
+    ├── bin/
+    │   ├── agora.py            # Main CLI tool (Python)
+    │   └── agora.bat           # Windows launcher
     ├── conf/
     │   ├── modules/            # Modular configuration components
-    │   │   ├── ui-helpers.sh       # User interaction & display utilities
-    │   │   ├── config-prompts.sh   # Configuration collection prompts
-    │   │   └── file-updaters.sh    # File generation & update functions
-    │   └── setup.sh            # Interactive configuration wizard
+    │   │   ├── ui_helpers.py       # User interaction & display utilities
+    │   │   ├── config_prompts.py   # Configuration collection prompts
+    │   │   ├── file_updaters.py    # File generation & update functions
+    │   │   └── defaults.py         # Default configuration values
+    │   ├── setup.py            # Interactive configuration wizard
+    │   └── default.py          # Restore default configuration
     ├── docker/
-    │   ├── dependencies.sh     # Automated dependency setup & management
-    │   ├── entrypoint.sh       # Container startup script
-    │   ├── down.sh             # Service shutdown script
-    │   └── production.sh       # Production deployment automation
+    │   ├── dependencies.py     # Automated dependency setup & management
+    │   ├── entrypoint.py       # Container startup script
+    │   ├── down.py             # Service shutdown script
+    │   └── production.py       # Production deployment automation
     ├── public/                 # Static assets
     ├── screenshots/            # Documentation images
     ├── angular.json            # Angular workspace configuration
@@ -264,9 +275,21 @@ The project follows a modular architecture based on Feature Modules and Standalo
      - Verify: Type `git --version` in terminal
    - **Expected output:** `git version 2.x.x` or higher
 
+#### 4. **Python 3.7+**
+   - **What is it?** Programming language used for cross-platform CLI tools
+   - **Why?** The AgoraUI CLI and setup scripts are written in Python for Windows/Mac/Linux compatibility
+   - **How to install:**
+     - Go to [python.org](https://www.python.org/downloads/)
+     - Download Python 3.7 or higher
+     - **Windows:** Check "Add Python to PATH" during installation
+     - **Mac:** Use `brew install python3` or download from python.org
+     - **Linux:** Usually pre-installed, or use `sudo apt install python3`
+     - Verify: Type `python --version` or `python3 --version` in terminal
+   - **Expected output:** `Python 3.7.x` or higher
+
 ### Recommended (Makes Development Easier)
 
-#### 4. **Docker Desktop**
+#### 5. **Docker Desktop**
    - **What is it?** Software that runs the backend services in isolated containers
    - **Why?** The backend (database, authentication, messaging) runs in Docker containers, making setup automatic
    - **How to install:**
@@ -302,10 +325,13 @@ Open your terminal (Command Prompt on Windows, Terminal on Mac/Linux) and run:
 node --version    # Should show v18 or higher
 npm --version     # Should show v9 or higher
 git --version     # Should show git version 2.x or higher
+python --version  # Should show Python 3.7 or higher (try python3 on Mac/Linux)
 docker --version  # Should show Docker version 20.x or higher (optional but recommended)
 ```
 
 If all commands work, you're ready to install AgoraUI! 🎉
+
+**Note:** On Windows, you might need to use `python` instead of `python3`.
 
 ### Troubleshooting Prerequisites
 
@@ -400,10 +426,11 @@ If you prefer traditional npm commands:
 
         npm start
 
-    The `dependencies.sh` script will interactively:
+    The `dependencies.py` script will interactively:
     - Check and install Docker if needed
     - Clone missing backend repositories (auth, booking, tell)
     - Configure `.env` files with custom or default values
+    - Skip prompts if backend services are already running
 
 ### Available NPM Scripts
 
