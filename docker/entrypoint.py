@@ -51,9 +51,7 @@ def start_nginx() -> bool:
     
     try:
         nginx_process = subprocess.Popen(
-            ['nginx', '-g', 'daemon off;'],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
+            ['nginx', '-g', 'daemon off;']
         )
         
         log_info("Waiting for Nginx to initialize...")
