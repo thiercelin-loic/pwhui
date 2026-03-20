@@ -8,7 +8,10 @@ export const ERROR_MESSAGES = {
   MESSAGE_SEND_FAILED: 'Failed to send message',
   SEND_MESSAGE_LOGGED_OUT: 'You must be logged in to send messages',
   LOGIN_REQUIRED: 'Please log in to continue',
-  BOOKING_INCOMPLETE: 'Please complete all required fields'
+  BOOKING_INCOMPLETE: 'Please complete all required fields',
+  LOAD_LISTINGS_FAILED: 'Failed to load listings',
+  LOAD_BOOKINGS_FAILED: 'Failed to load bookings',
+  BOOKING_FAILED: 'Booking failed'
 } as const;
 
 export const SUCCESS_MESSAGES = {
