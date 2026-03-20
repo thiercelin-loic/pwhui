@@ -5,7 +5,7 @@ div.listing {
   box-shadow: var(--shadow);
   border-radius: var(--radius);
   margin: var(--margin-sm);
-  height: 35vh;
+  height: 40vh;
 }
 
 div.listing:hover {
@@ -20,19 +20,66 @@ p.listing {
   font-size: var(--font-md);
 }
 
-p.listing#location,
-p.listing#price {
+p.listing.location,
+p.listing.price {
   font-size: var(--font-sm);
   color: var(--light);
 }
 
-p.listing#location {
+p.listing.location {
   font-family: var(--font-medium);
 }
 
-p.listing#price {
-  margin-bottom: 1rem;
+p.listing.price {
   font-family: var(--font-bold);
+}
+
+.location-price {
+  position: relative;
+  height: 1.4em;
+  margin-bottom: 1rem;
+}
+
+.card-location-price {
+  height: 3em;
+}
+
+.location-price p.listing.location,
+.location-price p.listing.price,
+.location-price p.location,
+.location-price p.price {
+  position: absolute;
+  margin: 0;
+  width: 100%;
+}
+
+.location-price p.listing.location,
+.location-price p.location {
+  animation: airport-fade 12s linear infinite;
+}
+
+.location-price p.listing.price,
+.location-price p.price {
+  opacity: 0;
+  animation: airport-fade 12s linear infinite;
+  animation-delay: 6s;
+}
+
+@keyframes airport-fade {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  4%,
+  46% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  50%,
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
 }
 
 p.listing#description {
@@ -41,24 +88,23 @@ p.listing#description {
   text-shadow: none;
 }
 
-div.statistics {
-  background: var(--primary-gradient);
-  padding: var(--padding-lg);
-  box-shadow: var(--shadow);
-  text-align: center;
-  animation: slide 0.5s 1s ease-in both;
-}
-
-h3.statistics {
-  color: var(--background);
-  font-family: var(--font-medium);
-  animation: fade 3s ease-in-out infinite alternate;
-  margin: 0;
-}
-
 .book {
   margin-top: var(--margin-sm);
   width: 100%;
+}
+
+.figures.fade-out {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.figures {
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+}
+
+.figure {
+  padding: var(--padding-md);
 }
 
 p,
@@ -107,59 +153,111 @@ label {
   margin: var(--margin-md) 0 0 0;
 }
 
+section#explore {
+  background: var(--primary-gradient);
+  border-radius: 0;
+}
+
 section#bookings {
   border-radius: 0%;
 }
 
 section#more {
   background: var(--primary-gradient);
+  border-radius: 0;
+}
+
+section#stats {
   border-radius: 0 0 var(--radius) var(--radius);
 }
 
+h4#explore,
 h4#more {
   color: var(--background);
   font-family: var(--font-medium);
 }
 
 .input-group {
-    position: relative;
-    z-index: 100;
+  position: relative;
+  z-index: 100;
 }
 
 .suggestions {
-    position: absolute;
-    z-index: 100;
-    animation: fade .5s ease-in-out;
-    width: 95%;
-    left: 50%;
-    transform: translateX(-50%);
-    cursor: pointer;
+  position: absolute;
+  z-index: 100;
+  animation: fade 0.5s ease-in-out;
+  width: 95%;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
 }
 
 .suggestions .card {
-    background: var(--background);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
+  background: var(--background);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
 .suggestions .list-group-item {
-    cursor: pointer;
-    background: transparent;
+  cursor: pointer;
+  background: transparent;
 }
 
 .suggestions .list-group-item:hover {
-    background: var(--light);
-    border-radius: var(--radius);
+  background: var(--light);
+  border-radius: var(--radius);
 }
 
 .backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    z-index: 99;
-    animation: fade .5s ease-in-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 99;
+  animation: fade 0.5s ease-in-out;
+}
+
+.row-cols-3 {
+  background: var(--background-gradient);
+}
+
+a {
+  color: var(--background);
+  text-decoration: none;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+.auth {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+.reference {
+  color: var(--background);
+  font-size: var(--font-md);
+  padding: var(--padding-sm);
+}
+
+div.tag {
+  margin: var(--margin-md);
+  padding: var(--padding-sm);
+  background: var(--background-gradient);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  width: fit-content;
+}
+
+img.tag {
+  width: 20px;
+  margin: var(--margin-sm);
+}
+
+a.tag {
+  color: var(--text);
 }
