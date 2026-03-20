@@ -20,11 +20,11 @@ def configure_branding(config: dict) -> None:
     show_section("Application Branding")
     
     # Fixed values - not customizable
-    config['APP_NAME'] = "AgoraUI"
+    config['APP_NAME'] = "Booker"
     config['APP_DESCRIPTION'] = "Customizable market platform"
     
     # Customizable page title
-    config['APP_TITLE'] = prompt_with_default("Application title", "AgoraUI")
+    config['APP_TITLE'] = prompt_with_default("Application title", "Booker")
 
 
 def configure_project_context(config: dict) -> None:
@@ -36,8 +36,8 @@ def configure_project_context(config: dict) -> None:
     """
     show_section("Project Context")
     
-    # Fixed value - AgoraUI is the engine
-    config['PROJECT_NAME'] = "AgoraUI"
+    # Fixed value - Booker is the engine
+    config['PROJECT_NAME'] = "Booker"
     
     config['PROJECT_DOMAIN'] = prompt_with_default("Project domain", "example.com")
     config['PROJECT_URL'] = prompt_with_default("Project URL", 
@@ -125,8 +125,6 @@ def configure_styling(config: dict) -> None:
     
     if prompt_yes_no("Customize color theme?", "n"):
         config['THEME_PRIMARY_COLOR'] = prompt_with_default("Primary color", "#4A4A4A")
-        config['THEME_SECONDARY_COLOR'] = prompt_with_default("Secondary color", "#808080")
-        config['THEME_TEXT_COLOR'] = prompt_with_default("Text color", "#333")
         config['CUSTOMIZE_COLORS'] = True
     else:
         config['CUSTOMIZE_COLORS'] = False
@@ -181,11 +179,11 @@ def configure_production(config: dict) -> None:
                                                      config['PROJECT_DOMAIN'])
         config['PROD_EMAIL'] = prompt_with_default("Admin email for SSL", 
                                                     f"admin@{config['PROJECT_DOMAIN']}")
-        config['PROD_NETWORK_NAME'] = prompt_with_default("Docker network name", "agoraui")
+        config['PROD_NETWORK_NAME'] = prompt_with_default("Docker network name", "booker")
         
         # Static values (not customizable)
-        config['PROD_CONTAINER_NAME'] = "AgoraUI"
-        config['PROD_PROJECT_PATH'] = "~/AgoraUI"
+        config['PROD_CONTAINER_NAME'] = "Booker"
+        config['PROD_PROJECT_PATH'] = "~/Booker"
         
         config['CONFIGURE_PRODUCTION'] = True
     else:
@@ -226,7 +224,7 @@ def configure_cookies(config: dict) -> None:
         config['COOKIE_MAX_AGE'] = prompt_with_default("Cookie max age (seconds)", "604800")
         config['SESSION_TIMEOUT'] = prompt_with_default("Session timeout (minutes)", "30")
         config['POLICY_MODAL_DELAY'] = prompt_with_default("Policy modal delay (ms)", "1000")
-        config['STORAGE_PREFIX'] = prompt_with_default("Storage key prefix", "agora_")
+        config['STORAGE_PREFIX'] = prompt_with_default("Storage key prefix", "booker_")
         config['CUSTOMIZE_COOKIES'] = True
     else:
         config['CUSTOMIZE_COOKIES'] = False
@@ -269,6 +267,26 @@ def configure_messages(config: dict) -> None:
         config['CUSTOMIZE_MESSAGES'] = False
 
 
+def configure_maps(config: dict) -> None:
+    """
+    Collects Google Maps configuration.
+
+    Args:
+        config: Configuration dictionary to update
+    """
+    show_section("Google Maps")
+
+    if prompt_yes_no("Configure Google Maps embed?", "n"):
+        config['MAPS_API_KEY'] = prompt_with_default("Google Maps API key", "")
+        config['MAPS_LOCATION'] = prompt_with_default(
+            "Map location query (URL-encoded)",
+            "Space+Needle,Seattle+WA"
+        )
+        config['CUSTOMIZE_MAPS'] = True
+    else:
+        config['CUSTOMIZE_MAPS'] = False
+
+
 def configure_license(config: dict) -> None:
     """
     Collects license configuration.
@@ -297,15 +315,15 @@ def configure_default_restoration(config: dict) -> bool:
     print(f"{BLUE}{'=' * 60}")
     print("╔════════════════════════════════════════════════════════════╗")
     print("║                                                            ║")
-    print("║           Restore AgoraUI to Default Configuration        ║")
+    print("║           Restore Booker to Default Configuration        ║")
     print("║                                                            ║")
     print("╚════════════════════════════════════════════════════════════╝")
     print(f"{NC}\n")
     
     print(f"{YELLOW}This will restore the following to defaults:{NC}")
-    print("  • Color theme (grayscale: #4A4A4A, #808080, #333)")
+    print("  • Color theme (grayscale: #4A4A4A)")
     print("  • Background image (default.jpg)")
-    print("  • Favicon (default AgoraUI icon)")
+    print("  • Favicon (default Booker icon)")
     print("  • API endpoints (localhost:3001/3002/3003)")
     print("  • All feature flags (enabled)")
     print("  • UI settings (languages, date/time formats)")
@@ -320,3 +338,20 @@ def configure_default_restoration(config: dict) -> bool:
     else:
         print(f"{RED}Default restoration cancelled.{NC}")
         return False
+
+
+def configure_footer(config: dict) -> None:
+    """
+    Collects footer configuration.
+    
+    Args:
+        config: Configuration dictionary to update
+    """
+    show_section("Footer")
+    
+    config['FOOTER_QUOTE'] = prompt_with_default(
+        "Footer quote", 
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis aperiam incidunt dicta, quibusdam similique accusantium saepe nihil minima quia ab doloremque quis? Cupiditate quaerat reprehenderit officia explicabo pariatur, neque sequi."
+    )
+    config['FOOTER_ABOUT_URL'] = prompt_with_default("Footer 'About us' URL", "https://www.linkedin.com/in/loic-thiercelin/")
+    config['FOOTER_LEGAL_URL'] = prompt_with_default("Footer 'Legal' URL", "/policy")
