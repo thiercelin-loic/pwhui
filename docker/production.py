@@ -12,11 +12,11 @@ from pathlib import Path
 # Production Deployment Configuration
 # Note: Only DOMAIN and EMAIL are customizable during setup
 # PROJECT_NAME, and PROJECT_PATH are static values
-PROJECT_NAME = "AgoraUI"
-NETWORK_NAME = "agoraui"
+PROJECT_NAME = "Booker"
+NETWORK_NAME = "booker"
 DOMAIN = "example.com"
 EMAIL = "admin@example.com"
-PROJECT_PATH = "~/AgoraUI"
+PROJECT_PATH = "~/Booker"
 
 def main() -> int:
     """
