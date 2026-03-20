@@ -21,7 +21,10 @@
         "Contratto",
         "Disconnetti"
       ]
-    }
+    },
+    "TITLE": "Titolo",
+    "LOCATION": "Posizione",
+    "PRICE": "Prezzo"
   },
   "NAVIGATION": {
     "HOME": "Home",
@@ -32,13 +35,20 @@
   },
   "LANDING": {
     "GREETING": "Ciao, {{name}}.",
-    "GREETING_DEFAULT": "scopri qualcosa di nuovo",
+    "GREETING_DEFAULT": "scopri le nostre offerte",
     "MOST_POPULAR": "Più Popolari",
+    "EXPLORER": "Esplora",
     "UPCOMING_BOOKING": "Prossima Prenotazione",
-    "DISCOVERS_THEM": "Scoprili",
+    "DISCOVER": "Scoprire",
+    "IN_FIGURES": "In cifre",
     "STATISTICS": "Trova quello che cerchi tra i nostri {{count}} annunci!",
-    "NO_BOOKINGS_NOT_LOGGED": "Hai bisogno di un account per prenotare uno spazio di lavoro, <a routerLink=\"auth\">accedi o registrati qui</a>",
-    "NO_BOOKINGS_LOGGED": "Non hai ancora prenotazioni."
+    "NO_BOOKINGS_NOT_LOGGED_1": "Hai bisogno di un account per prenotare uno spazio di lavoro, ",
+    "NO_BOOKINGS_NOT_LOGGED_LINK": "accedi o registrati qui",
+    "NO_BOOKINGS_LOGGED": "Non hai ancora prenotazioni.",
+    "TOTAL_LISTINGS": "Totale delle inserzioni",
+    "CURRENT_BOOKINGS": "Prenotazione attuale",
+    "AVERAGE_PRICE": "Prezzo medio",
+    "TOP_AMENITIES": "I migliori servizi"
   },
   "AUTH": {
     "LOGIN": "Accedi",
@@ -93,6 +103,12 @@
     "I_AGREE": "Accetto",
     "CLOSE": "Chiudi"
   },
+  "FOOTER": {
+    "ABOUT_US": "Chi siamo",
+    "CONTRACT": "Contratto",
+    "RETURN_TO_TOP": "Torna in cima",
+    "POWERED_BY": "Offerto da"
+  },
   "TOAST": {
     "SUCCESS": "Successo",
     "ERROR": "Errore",
@@ -101,5 +117,11 @@
     "GUIDE": "Guida",
     "NO_NOTIFICATIONS": "Ancora nessuna notifica.",
     "CLEAR": "Cancella"
+  },
+  "BOOKING": {
+    "ARRIVAL": "Arrivo",
+    "DEPARTURE": "Partenza",
+    "CANCEL": "Annulla",
+    "BOOK": "Prenota"
   }
 }

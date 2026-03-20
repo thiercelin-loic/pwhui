@@ -21,7 +21,10 @@
         "Contract",
         "Disconnect"
       ]
-    }
+    },
+    "TITLE": "Title",
+    "LOCATION": "Location",
+    "PRICE": "Price"
   },
   "NAVIGATION": {
     "HOME": "Home",
@@ -32,13 +35,20 @@
   },
   "LANDING": {
     "GREETING": "Hi, {{name}}.",
-    "GREETING_DEFAULT": "discover something new",
+    "GREETING_DEFAULT": "discover our offers",
     "MOST_POPULAR": "Most Popular",
+    "EXPLORER": "Explore",
     "UPCOMING_BOOKING": "Upcomming Booking",
-    "DISCOVERS_THEM": "Discovers Them",
+    "DISCOVER": "Discover",
+    "IN_FIGURES": "In figures",
     "STATISTICS": "Find what you're looking for among our {{count}} listings!",
-    "NO_BOOKINGS_NOT_LOGGED": "You need a account to book a workspace, <a routerLink=\"auth\">login of signup here</a>",
-    "NO_BOOKINGS_LOGGED": "You have no bookings yet."
+    "NO_BOOKINGS_NOT_LOGGED_1": "You need a account to book a workspace, ",
+    "NO_BOOKINGS_NOT_LOGGED_LINK": "login or signup here",
+    "NO_BOOKINGS_LOGGED": "You have no bookings yet.",
+    "TOTAL_LISTINGS": "Total of listings",
+    "CURRENT_BOOKINGS": "Current booking",
+    "AVERAGE_PRICE": "Average price",
+    "TOP_AMENITIES": "Top amenities"
   },
   "AUTH": {
     "LOGIN": "Login",
@@ -93,6 +103,12 @@
     "I_AGREE": "I Agree",
     "CLOSE": "Close"
   },
+  "FOOTER": {
+    "ABOUT_US": "About us",
+    "CONTRACT": "Contract",
+    "RETURN_TO_TOP": "Return at the top",
+    "POWERED_BY": "Powered by"
+  },
   "TOAST": {
     "SUCCESS": "Success",
     "ERROR": "Error",
@@ -101,5 +117,11 @@
     "GUIDE": "Guide",
     "NO_NOTIFICATIONS": "No notifications yet.",
     "CLEAR": "Clear"
+  },
+  "BOOKING": {
+    "ARRIVAL": "Arrival",
+    "DEPARTURE": "Departure",
+    "CANCEL": "Cancel",
+    "BOOK": "Book"
   }
 }

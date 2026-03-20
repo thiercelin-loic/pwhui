@@ -21,7 +21,10 @@
         "Contrato",
         "Desconectar"
       ]
-    }
+    },
+    "TITLE": "Título",
+    "LOCATION": "Localização",
+    "PRICE": "Preço"
   },
   "NAVIGATION": {
     "HOME": "Início",
@@ -32,13 +35,20 @@
   },
   "LANDING": {
     "GREETING": "Olá, {{name}}.",
-    "GREETING_DEFAULT": "descubra algo novo",
+    "GREETING_DEFAULT": "descubra nossas ofertas",
     "MOST_POPULAR": "Mais Populares",
+    "EXPLORER": "Explorar",
     "UPCOMING_BOOKING": "Próxima Reserva",
-    "DISCOVERS_THEM": "Descubra-os",
+    "DISCOVER": "Descobrir",
+    "IN_FIGURES": "Em números",
     "STATISTICS": "Encontre o que procura entre os nossos {{count}} anúncios!",
-    "NO_BOOKINGS_NOT_LOGGED": "Você precisa de uma conta para reservar um espaço de trabalho, <a routerLink=\"auth\">faça login ou cadastre-se aqui</a>",
-    "NO_BOOKINGS_LOGGED": "Você ainda não tem reservas."
+    "NO_BOOKINGS_NOT_LOGGED_1": "Você precisa de uma conta para reservar um espaço de trabalho, ",
+    "NO_BOOKINGS_NOT_LOGGED_LINK": "faça login ou cadastre-se aqui",
+    "NO_BOOKINGS_LOGGED": "Você ainda não tem reservas.",
+    "TOTAL_LISTINGS": "Total de listagens",
+    "CURRENT_BOOKINGS": "Reserva atual",
+    "AVERAGE_PRICE": "Preço médio",
+    "TOP_AMENITIES": "Principais comodidades"
   },
   "AUTH": {
     "LOGIN": "Entrar",
@@ -57,7 +67,7 @@
     "LAST_NAME_REQUIRED": "O sobrenome é obrigatório.",
     "EMAIL_HELP": "Nunca compartilharemos seu e-mail com ninguém.",
     "CONNECT": "Conectar",
-    "REGISTER_NOW": "É a sua primeira vez aqui? Registre-se agora",
+    "REGISTER_NOW": "É a sua primeira vez aqui? Registre-se booker",
     "ALREADY_ACCOUNT": "Já tem uma conta? Faça login aqui"
   },
   "PROFIL": {
@@ -93,6 +103,12 @@
     "I_AGREE": "Concordo",
     "CLOSE": "Fechar"
   },
+  "FOOTER": {
+    "ABOUT_US": "Sobre nós",
+    "CONTRACT": "Contrato",
+    "RETURN_TO_TOP": "Voltar ao topo",
+    "POWERED_BY": "Desenvolvido por"
+  },
   "TOAST": {
     "SUCCESS": "Sucesso",
     "ERROR": "Erro",
@@ -101,5 +117,11 @@
     "GUIDE": "Guia",
     "NO_NOTIFICATIONS": "Ainda não há notificações.",
     "CLEAR": "Limpar"
+  },
+  "BOOKING": {
+    "ARRIVAL": "Chegada",
+    "DEPARTURE": "Partida",
+    "CANCEL": "Cancelar",
+    "BOOK": "Reservar"
   }
 }

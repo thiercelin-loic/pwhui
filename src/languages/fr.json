@@ -21,7 +21,10 @@
         "Contrat",
         "Déconnexion"
       ]
-    }
+    },
+    "TITLE": "Titre",
+    "LOCATION": "Emplacement",
+    "PRICE": "Prix"
   },
   "NAVIGATION": {
     "HOME": "Accueil",
@@ -32,13 +35,20 @@
   },
   "LANDING": {
     "GREETING": "Bonjour, {{name}}.",
-    "GREETING_DEFAULT": "découvrez quelque chose de nouveau",
+    "GREETING_DEFAULT": "découvrez nos offres",
     "MOST_POPULAR": "Les Plus Populaires",
+    "EXPLORER": "Explorer",
     "UPCOMING_BOOKING": "Réservation à Venir",
-    "DISCOVERS_THEM": "Découvrez-les",
+    "DISCOVER": "Découvrir",
+    "IN_FIGURES": "En chiffres",
     "STATISTICS": "Trouvez ce que vous cherchez parmi nos {{count}} annonces !",
-    "NO_BOOKINGS_NOT_LOGGED": "Vous avez besoin d'un compte pour réserver un espace de travail, <a routerLink=\"auth\">connectez-vous ou inscrivez-vous ici</a>",
-    "NO_BOOKINGS_LOGGED": "Vous n'avez pas encore de réservations."
+    "NO_BOOKINGS_NOT_LOGGED_1": "Vous avez besoin d'un compte pour réserver un espace de travail, ",
+    "NO_BOOKINGS_NOT_LOGGED_LINK": "connectez-vous ou inscrivez-vous ici",
+    "NO_BOOKINGS_LOGGED": "Vous n'avez pas encore de réservations.",
+    "TOTAL_LISTINGS": "Total des annonces",
+    "CURRENT_BOOKINGS": "Réservations en cours",
+    "AVERAGE_PRICE": "Prix moyen",
+    "TOP_AMENITIES": "Équipements les plus populaires"
   },
   "AUTH": {
     "LOGIN": "Connexion",
@@ -93,6 +103,12 @@
     "I_AGREE": "J'accepte",
     "CLOSE": "Fermer"
   },
+  "FOOTER": {
+    "ABOUT_US": "À propos",
+    "CONTRACT": "Contrat",
+    "RETURN_TO_TOP": "Retour en haut",
+    "POWERED_BY": "Propulsé par"
+  },
   "TOAST": {
     "SUCCESS": "Succès",
     "ERROR": "Erreur",
@@ -101,5 +117,11 @@
     "GUIDE": "Guide",
     "NO_NOTIFICATIONS": "Pas encore de notifications.",
     "CLEAR": "Effacer"
+  },
+  "BOOKING": {
+    "ARRIVAL": "Arrivée",
+    "DEPARTURE": "Départ",
+    "CANCEL": "Annuler",
+    "BOOK": "Réserver"
   }
 }

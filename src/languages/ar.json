@@ -21,7 +21,10 @@
         "العقد",
         "قطع الاتصال"
       ]
-    }
+    },
+    "TITLE": "العنوان",
+    "LOCATION": "الموقع",
+    "PRICE": "السعر"
   },
   "NAVIGATION": {
     "HOME": "الصفحة الرئيسية",
@@ -32,13 +35,20 @@
   },
   "LANDING": {
     "GREETING": "مرحبا، {{name}}.",
-    "GREETING_DEFAULT": "اكتشف شيئا جديدا",
+    "GREETING_DEFAULT": "اكتشف عروضنا",
     "MOST_POPULAR": "الأكثر شعبية",
+    "EXPLORER": "استكشف",
     "UPCOMING_BOOKING": "الحجز القادم",
-    "DISCOVERS_THEM": "اكتشفهم",
+    "DISCOVER": "اكتشف",
+    "IN_FIGURES": "بالأرقام",
     "STATISTICS": "ابحث عما تبحث عنه بين {{count}} إعلان لدينا!",
-    "NO_BOOKINGS_NOT_LOGGED": "تحتاج إلى حساب لحجز مساحة عمل، <a routerLink=\"auth\">سجل الدخول أو سجل هنا</a>",
-    "NO_BOOKINGS_LOGGED": "ليس لديك حجوزات بعد."
+    "NO_BOOKINGS_NOT_LOGGED_1": "تحتاج إلى حساب لحجز مساحة عمل، ",
+    "NO_BOOKINGS_NOT_LOGGED_LINK": "سجل الدخول أو سجل هنا",
+    "NO_BOOKINGS_LOGGED": "ليس لديك حجوزات بعد.",
+    "TOTAL_LISTINGS": "إجمالي القوائم",
+    "CURRENT_BOOKINGS": "الحجز الحالي",
+    "AVERAGE_PRICE": "متوسط ​​السعر",
+    "TOP_AMENITIES": "أهم وسائل الراحة"
   },
   "AUTH": {
     "LOGIN": "تسجيل الدخول",
@@ -93,6 +103,12 @@
     "I_AGREE": "أوافق",
     "CLOSE": "إغلاق"
   },
+  "FOOTER": {
+    "ABOUT_US": "معلومات عنا",
+    "CONTRACT": "عقد",
+    "RETURN_TO_TOP": "العودة إلى الأعلى",
+    "POWERED_BY": "مدعوم من"
+  },
   "TOAST": {
     "SUCCESS": "نجاح",
     "ERROR": "خطأ",
@@ -101,5 +117,11 @@
     "GUIDE": "دليل",
     "NO_NOTIFICATIONS": "لا توجد إشعارات بعد.",
     "CLEAR": "مسح"
+  },
+  "BOOKING": {
+    "ARRIVAL": "وصول",
+    "DEPARTURE": "مغادرة",
+    "CANCEL": "إلغاء",
+    "BOOK": "احجز"
   }
 }

@@ -21,7 +21,10 @@
         "契約",
         "ログアウト"
       ]
-    }
+    },
+    "TITLE": "タイトル",
+    "LOCATION": "場所",
+    "PRICE": "価格"
   },
   "NAVIGATION": {
     "HOME": "ホーム",
@@ -32,13 +35,20 @@
   },
   "LANDING": {
     "GREETING": "こんにちは、{{name}}。",
-    "GREETING_DEFAULT": "新しいことを発見する",
+    "GREETING_DEFAULT": "私たちのオファーをご覧ください",
     "MOST_POPULAR": "最も人気",
+    "EXPLORER": "探索",
     "UPCOMING_BOOKING": "今後の予約",
-    "DISCOVERS_THEM": "見つける",
+    "DISCOVER": "発見",
+    "IN_FIGURES": "数字で見る",
     "STATISTICS": "私たちの{{count}}件のリストからお探しのものを見つけましょう！",
-    "NO_BOOKINGS_NOT_LOGGED": "ワークスペースを予約するにはアカウントが必要です。<a routerLink=\"auth\">ここでログインまたは登録してください</a>",
-    "NO_BOOKINGS_LOGGED": "まだ予約がありません。"
+    "NO_BOOKINGS_NOT_LOGGED_1": "ワークスペースを予約するにはアカウントが必要です。",
+    "NO_BOOKINGS_NOT_LOGGED_LINK": "ここでログインまたは登録してください",
+    "NO_BOOKINGS_LOGGED": "まだ予約がありません。",
+    "TOTAL_LISTINGS": "リストの合計",
+    "CURRENT_BOOKINGS": "現在の予約",
+    "AVERAGE_PRICE": "平均価格",
+    "TOP_AMENITIES": "人気のアメニティ"
   },
   "AUTH": {
     "LOGIN": "ログイン",
@@ -93,6 +103,12 @@
     "I_AGREE": "同意します",
     "CLOSE": "閉じる"
   },
+  "FOOTER": {
+    "ABOUT_US": "私たちについて",
+    "CONTRACT": "契約",
+    "RETURN_TO_TOP": "トップに戻る",
+    "POWERED_BY": "搭載"
+  },
   "TOAST": {
     "SUCCESS": "成功",
     "ERROR": "エラー",
@@ -101,5 +117,11 @@
     "GUIDE": "ガイド",
     "NO_NOTIFICATIONS": "まだ通知はありません。",
     "CLEAR": "クリア"
+  },
+  "BOOKING": {
+    "ARRIVAL": "到着",
+    "DEPARTURE": "出発",
+    "CANCEL": "キャンセル",
+    "BOOK": "予約"
   }
 }

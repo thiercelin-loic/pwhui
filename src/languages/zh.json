@@ -21,7 +21,10 @@
         "合同",
         "断开"
       ]
-    }
+    },
+    "TITLE": "标题",
+    "LOCATION": "地点",
+    "PRICE": "价格"
   },
   "NAVIGATION": {
     "HOME": "首页",
@@ -32,13 +35,20 @@
   },
   "LANDING": {
     "GREETING": "你好，{{name}}。",
-    "GREETING_DEFAULT": "发现新事物",
+    "GREETING_DEFAULT": "发现我们的优惠",
     "MOST_POPULAR": "最受欢迎",
+    "EXPLORER": "探索",
     "UPCOMING_BOOKING": "即将到来的预订",
-    "DISCOVERS_THEM": "发现它们",
+    "DISCOVER": "发现",
+    "IN_FIGURES": "数字看",
     "STATISTICS": "从我们的{{count}}个列表中找到您想要的！",
-    "NO_BOOKINGS_NOT_LOGGED": "您需要一个帐户来预订工作空间，<a routerLink=\"auth\">在此登录或注册</a>",
-    "NO_BOOKINGS_LOGGED": "您还没有预订。"
+    "NO_BOOKINGS_NOT_LOGGED_1": "您需要一个帐户来预订工作空间，",
+    "NO_BOOKINGS_NOT_LOGGED_LINK": "在此登录或注册",
+    "NO_BOOKINGS_LOGGED": "您还没有预订。",
+    "TOTAL_LISTINGS": "列表总数",
+    "CURRENT_BOOKINGS": "当前预订",
+    "AVERAGE_PRICE": "平均价格",
+    "TOP_AMENITIES": "热门设施"
   },
   "AUTH": {
     "LOGIN": "登录",
@@ -93,6 +103,12 @@
     "I_AGREE": "我同意",
     "CLOSE": "关闭"
   },
+  "FOOTER": {
+    "ABOUT_US": "关于我们",
+    "CONTRACT": "合同",
+    "RETURN_TO_TOP": "返回顶部",
+    "POWERED_BY": "由...提供支持"
+  },
   "TOAST": {
     "SUCCESS": "成功",
     "ERROR": "错误",
@@ -101,5 +117,11 @@
     "GUIDE": "指南",
     "NO_NOTIFICATIONS": "还没有通知。",
     "CLEAR": "清除"
+  },
+  "BOOKING": {
+    "ARRIVAL": "到达",
+    "DEPARTURE": "离开",
+    "CANCEL": "取消",
+    "BOOK": "预订"
   }
 }
