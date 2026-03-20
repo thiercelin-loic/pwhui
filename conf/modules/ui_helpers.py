@@ -15,7 +15,7 @@ NC = '\033[0m'  # No Color
 def show_banner() -> None:
     """Display the configuration banner."""
     print(f"{BLUE}╔════════════════════════════════════════════════════════════╗{NC}")
-    print(f"{BLUE}║           AgoraUI Configuration Assistant                 ║{NC}")
+    print(f"{BLUE}║           Booker Configuration Assistant                 ║{NC}")
     print(f"{BLUE}║  Customize all project settings for your deployment       ║{NC}")
     print(f"{BLUE}╚════════════════════════════════════════════════════════════╝{NC}")
     print("")
@@ -157,8 +157,8 @@ def show_next_steps(config: dict) -> None:
     print()
     print(f"{YELLOW}Next Steps:{NC}")
     print(f"  1. Review the generated configuration files")
-    print(f"  2. Test locally: {GREEN}agora serve{NC} or {GREEN}npm start{NC}")
-    print(f"  3. Build for production: {GREEN}agora build{NC} or {GREEN}npm run build{NC}")
+    print(f"  2. Test locally: {GREEN}booker serve{NC} or {GREEN}npm start{NC}")
+    print(f"  3. Build for production: {GREEN}booker build{NC} or {GREEN}npm run build{NC}")
     
     if config.get('CONFIGURE_PRODUCTION'):
         print(f"  4. Deploy to production: {GREEN}python docker/production.py{NC}")
