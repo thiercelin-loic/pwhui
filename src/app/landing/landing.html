@@ -1,144 +1,385 @@
 <div class="container">
-    <header class="row align-items-center">
-        <div class="col text-start">
-            <p>{{today}} {{month}} {{year}}</p>
-            <h5 class="text-nowrap">{{ 'LANDING.GREETING' | translate: {name: auth.current?.first_name || ('LANDING.GREETING_DEFAULT' | translate)} }}</h5>
-        </div>
-        <div class="col text-end">
-            <span class="notification" role="button" [title]="'COMMON.NOTIFICATIONS' | translate" data-bs-toggle="modal"
-                data-bs-target="#sessionToastsModal">
-                <ng-container *ngIf="(toast.history$ | async) as history">
-                    <span class="badge" *ngIf="history.length > 0">{{history.length}}</span>
-                </ng-container>
-            </span>
-        </div>
-    </header>
-
-    <div class="input-group">
-        <input type="text" class="form-control" [placeholder]="placeholder"
-            aria-label="Text input with segmented dropdown button" [(ngModel)]="query" (input)="onSearch()">
-        <button type="button" class="btn btn-secondary" id="search">
-            <span class="search">__</span>
-        </button>
+  <header class="row align-items-center">
+    <div class="col text-start">
+      <p>{{ today }} {{ month }} {{ year }}</p>
+      <h5 class="text-nowrap">
+        {{
+          'LANDING.GREETING'
+            | translate
+              : { name: auth.current?.first_name || ('LANDING.GREETING_DEFAULT' | translate) }
+        }}
+      </h5>
     </div>
-    <div class="backdrop" *ngIf="suggestions.length > 0"></div>
-    <div class="suggestions" *ngIf="suggestions.length > 0">
+    <div class="col text-end">
+      <span
+        class="notification"
+        [title]="'COMMON.NOTIFICATIONS' | translate"
+        data-bs-toggle="modal"
+        data-bs-target="#sessionToastsModal"
+      >
+        <ng-container *ngIf="toast.history$ | async as history">
+          <span class="badge" *ngIf="history.length > 0">{{ history.length }}</span>
+        </ng-container>
+      </span>
+    </div>
+  </header>
+
+  <div class="input-group">
+    <input
+      type="text"
+      class="form-control"
+      [placeholder]="placeholder"
+      aria-label="Text input with segmented dropdown button"
+      [(ngModel)]="query"
+      (input)="onSearch()"
+    />
+    <button type="button" class="btn btn-secondary" id="search">
+      <span class="search">__</span>
+    </button>
+  </div>
+  <div class="backdrop" *ngIf="suggestions.length > 0"></div>
+  <div class="suggestions" *ngIf="suggestions.length > 0">
+    <div class="card">
+      <ul class="list-group list-group-flush">
+        <li
+          class="list-group-item"
+          *ngFor="let suggestion of suggestions"
+          (click)="selectListing(suggestion)"
+          (keyup.enter)="selectListing(suggestion)"
+          data-bs-toggle="modal"
+          data-bs-target="#listing"
+          tabindex="0"
+        >
+          <p>{{ suggestion.name | truncateWords }}</p>
+          <p>{{ suggestion.location }}</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <section>
+    <h4><span class="popular"></span>{{ 'LANDING.MOST_POPULAR' | translate }}</h4>
+    <div class="row text-start" *ngIf="listings && listings.length > 0; else failedToLoadPopular">
+      <div
+        class="col listing text-center"
+        *ngFor="let listing of listings | slice: 0 : 6"
+        style="background: linear-gradient(transparent, var(--text)), url({{
+          listing.photo || 'default.jpg'
+        }}) center / cover no-repeat;"
+        data-bs-toggle="modal"
+        data-bs-target="#listing"
+        (click)="selectListing(listing)"
+        (keyup.enter)="selectListing(listing)"
+        tabindex="0"
+      >
+        <p class="listing">
+          {{ listing.name | truncateWords }}
+        </p>
+        <div class="location-price">
+          <p class="listing location">{{ listing.location }}</p>
+          <p class="listing price">{{ listing.pricing }}€</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="explore">
+    <h4 id="explore"><span class="explore"></span>{{ 'LANDING.EXPLORER' | translate }}</h4>
+    <div class="row text-start g-3" *ngIf="featuredListing; else failedToLoadFeatured">
+      <div class="col-12 col-md-4">
+        <div
+          class="card"
+          style="cursor: pointer"
+          (click)="selectListing(featuredListing)"
+          (keyup.enter)="selectListing(featuredListing)"
+          data-bs-toggle="modal"
+          data-bs-target="#listing"
+          tabindex="0"
+        >
+          <img
+            [src]="featuredListing.photo || 'default.jpg'"
+            class="card-img-top"
+            alt="{{ featuredListing.name }}"
+          />
+          <div
+            class="card-body"
+            style="background: var(--background-gradient); color: var(--primary)"
+          >
+            <p class="listing" style="color: var(--primary)">
+              {{ featuredListing.name | truncateWords }}
+            </p>
+            <div class="location-price card-location-price">
+              <p class="location">{{ featuredListing.location }}</p>
+              <p class="price">{{ featuredListing.pricing }}€/h</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-8">
+        <iframe
+          height="100%"
+          width="100%"
+          style="border: 0; border-radius: var(--radius)"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          [src]="mapsUrl"
+        >
+        </iframe>
+      </div>
+    </div>
+  </section>
+  <section id="bookings">
+    <h4><span class="upcomming"></span>{{ 'LANDING.UPCOMING_BOOKING' | translate }}</h4>
+    <div class="row row-cols-1 row-cols-md-3 g-3">
+      <div class="col" *ngFor="let booking of bookings | slice: 0 : 6">
         <div class="card">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item" *ngFor="let suggestion of suggestions" (click)="selectListing(suggestion)"
-                    (keyup.enter)="selectListing(suggestion)"
-                    data-bs-toggle="modal" data-bs-target="#listing" tabindex="0">
-                    <p>{{suggestion.name}}</p>
-                    <p>{{suggestion.location}}</p>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <section>
-        <h4><span class="popular"></span>{{ 'LANDING.MOST_POPULAR' | translate }}</h4>
-        <div class=" row text-start">
-            <div class="col listing" *ngFor="let listing of listings | slice:0:4"
-                style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) center / cover no-repeat;"
-                data-bs-toggle="modal" data-bs-target="#listing" (click)="selectListing(listing)"
-                (keyup.enter)="selectListing(listing)" tabindex="0">
-                <p class="listing">
-                    {{listing.name}}
-                </p>
-                <p class="listing" id="location">
-                    {{listing.location}}
-                </p>
-                <p class="listing " id="price">{{listing.pricing}}€</p>
+          <img
+            [src]="getListingById(booking.listing)?.photo || 'default.jpg'"
+            class="card-img-top"
+            alt="{{ getListingById(booking.listing)?.name }}"
+          />
+          <div class="card-body">
+            <p class="listing">{{ getListingById(booking.listing)?.name | truncateWords }}</p>
+            <div class="location-price card-location-price">
+              <p class="location">{{ getListingById(booking.listing)?.location }}</p>
+              <p class="price">
+                {{ 'COMMON.FROM' | translate }}: {{ booking.arrival | date }}<br />
+                {{ 'COMMON.TO' | translate }}: {{ booking.departure | date }}
+              </p>
             </div>
+          </div>
         </div>
+      </div>
+    </div>
+    <div *ngIf="bookings.length === 0" class="text-start">
+      <p *ngIf="!auth.isLogged()">
+        {{ 'LANDING.NO_BOOKINGS_NOT_LOGGED_1' | translate }}
+        <a class="auth" routerLink="auth">{{ 'LANDING.NO_BOOKINGS_NOT_LOGGED_LINK' | translate }}</a
+        >.
+      </p>
+      <p *ngIf="auth.isLogged()">{{ 'LANDING.NO_BOOKINGS_LOGGED' | translate }}</p>
+    </div>
+  </section>
+  <section id="more">
+    <h4 id="more"><span class="living"></span>{{ 'LANDING.DISCOVER' | translate }}</h4>
+    <div class="row text-start" *ngIf="listings && listings.length > 6; else failedToLoadDiscover">
+      <div
+        class="col listing text-center"
+        *ngFor="let listing of listings | slice: 6 : 12"
+        style="background: linear-gradient(transparent, var(--secondary)), url({{
+          listing.photo || 'default.jpg'
+        }}) center / cover no-repeat;"
+        data-bs-toggle="modal"
+        data-bs-target="#listing"
+        (click)="selectListing(listing)"
+        (keyup.enter)="selectListing(listing)"
+        tabindex="0"
+      >
+        <p class="listing">
+          {{ listing.name | truncateWords }}
+        </p>
+        <div class="location-price">
+          <p class="listing location">{{ listing.location }}</p>
+          <p class="listing price">{{ listing.pricing }}€</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <ng-template #failedToLoadPopular>
+    <div class="row text-start">
+      <div
+        class="col listing text-center"
+        *ngFor="let i of [1, 2, 3, 4, 5, 6]"
+        style="
+          background:
+            linear-gradient(transparent, var(--text)),
+            url('default.jpg') center / cover no-repeat;
+        "
+      >
+        <p class="listing">{{ 'COMMON.TITLE' | translate }}</p>
+        <div class="location-price">
+          <p class="listing location">{{ 'COMMON.LOCATION' | translate }}</p>
+          <p class="listing price">{{ 'COMMON.PRICE' | translate }}</p>
+        </div>
+      </div>
+    </div>
+  </ng-template>
 
-    </section>
-    <div class="statistics text-center">
-        <h3 class="statistics">{{ 'LANDING.STATISTICS' | translate: {count: listings.length} }}</h3>
+  <ng-template #failedToLoadFeatured>
+    <div class="row text-start g-3">
+      <div class="col-12 col-md-4">
+        <div class="card">
+          <img src="default.jpg" class="card-img-top" alt="Featured Listing" />
+          <div
+            class="card-body"
+            style="background: var(--background-gradient); color: var(--primary)"
+          >
+            <p class="listing" style="color: var(--primary)">{{ 'COMMON.TITLE' | translate }}</p>
+            <div class="location-price card-location-price">
+              <p class="location">{{ 'COMMON.LOCATION' | translate }}</p>
+              <p class="price">{{ 'COMMON.PRICE' | translate }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-8">
+        <div
+          style="
+            height: 100%;
+            width: 100%;
+            min-height: 250px;
+            border-radius: var(--radius);
+            background: #e9ecef;
+          "
+        ></div>
+      </div>
     </div>
-    <section id="bookings">
-        <h4><span class="upcomming"></span>{{ 'LANDING.UPCOMING_BOOKING' | translate }}</h4>
-        <div class="row row-cols-1 row-cols-md-3 g-3">
-            <div class="col" *ngFor="let booking of bookings | slice:0:3">
-                <div class="card">
-                    <img [src]="getListingById(booking.listing)?.photo" class="card-img-top"
-                        alt="{{getListingById(booking.listing)?.name}}">
-                    <div class="card-body">
-                        <p class="listing">{{getListingById(booking.listing)?.name}}</p>
-                        <p class="location">{{getListingById(booking.listing)?.location}}</p>
-                        <p class="price text-end">{{ 'COMMON.FROM' | translate }}: {{booking.arrival | date}}</p>
-                        <p class="price text-end">{{ 'COMMON.TO' | translate }}: {{booking.departure | date}}</p>
-                    </div>
-                </div>
-            </div>
+  </ng-template>
+
+  <ng-template #failedToLoadDiscover>
+    <div class="row text-start">
+      <div
+        class="col listing text-center"
+        *ngFor="let i of [1, 2, 3, 4, 5, 6]"
+        style="
+          background:
+            linear-gradient(transparent, var(--secondary)),
+            url('default.jpg') center / cover no-repeat;
+        "
+      >
+        <p class="listing">{{ 'COMMON.TITLE' | translate }}</p>
+        <div class="location-price">
+          <p class="listing location">{{ 'COMMON.LOCATION' | translate }}</p>
+          <p class="listing price">{{ 'COMMON.PRICE' | translate }}</p>
         </div>
-        <div *ngIf="bookings.length === 0" class="text-start">
-            <p *ngIf="!auth.isLogged()" [innerHTML]="'LANDING.NO_BOOKINGS_NOT_LOGGED' | translate"></p>
-            <p *ngIf="auth.isLogged()">{{ 'LANDING.NO_BOOKINGS_LOGGED' | translate }}</p>
+      </div>
+    </div>
+  </ng-template>
+
+  <section id="stats">
+    <h4><span class="stats"></span>{{ 'LANDING.IN_FIGURES' | translate }}</h4>
+    <div>
+      <div class="row row-cols-1 row-cols-md-3 figures" [class.fade-out]="isFading">
+        <div class="col text-center figure" [class.fade]="isFading">
+          <h2>{{ animatedListingsCount | number }}</h2>
+          <p>{{ 'LANDING.TOTAL_LISTINGS' | translate }}</p>
         </div>
-    </section>
-    <section id="more">
-        <h4 id="more"><span class="living"></span>{{ 'LANDING.DISCOVERS_THEM' | translate }}</h4>
-        <div class=" row text-start">
-            <div class="col listing" *ngFor="let listing of listings | slice:0:4"
-                style="background: linear-gradient(transparent, var(--text)), url({{listing.photo}}) center / cover no-repeat;"
-                data-bs-toggle="modal" data-bs-target="#listing" (click)="selectListing(listing)"
-                (keyup.enter)="selectListing(listing)" tabindex="0">
-                <p class="listing">
-                    {{listing.name}}
-                </p>
-                <p class="listing" id="location">
-                    {{listing.location}}
-                </p>
-                <p class="listing " id="price">{{listing.pricing}}€</p>
-            </div>
+        <div class="col text-center figure" [class.fade]="isFading">
+          <h2>{{ animatedAveragePrice | number: '1.2-2' }}€</h2>
+          <p>{{ 'LANDING.AVERAGE_PRICE' | translate }}</p>
         </div>
-    </section>
-    <br>
+        <ng-container *ngIf="topAmenities && topAmenities.length > 0; else defaultAmenity">
+          <div
+            class="col text-center figure"
+            *ngFor="let amenity of topAmenities"
+            [class.fade]="isFading"
+          >
+            <h2>{{ amenity.name }}</h2>
+            <p>{{ 'LANDING.TOP_AMENITIES' | translate }}</p>
+          </div>
+        </ng-container>
+        <ng-template #defaultAmenity>
+          <div class="col text-center figure" [class.fade]="isFading">
+            <h2>-</h2>
+            <p>{{ 'LANDING.TOP_AMENITIES' | translate }}</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </section>
+  <footer class="text-center">
+    <p class="text-center reference">
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis aperiam incidunt dicta, quibusdam similique accusantium saepe nihil minima quia ab doloremque quis? Cupiditate quaerat reprehenderit officia explicabo pariatur, neque sequi."
+    </p>
+    <div class="tag d-flex justify-content-center align-items-center mx-auto">
+      <img class="tag" src="default.ico" alt="Booker favicon" />
+      <a class="tag" href="https://github.com/thiercelin-loic/booker"
+        >{{ 'FOOTER.POWERED_BY' | translate }} <b>Booker</b></a
+      >
+    </div>
+    <hr />
+    <div class="row text-center">
+      <div class="col">
+        <a href="https://www.linkedin.com/in/loic-thiercelin/">{{
+          'FOOTER.ABOUT_US' | translate
+        }}</a>
+      </div>
+      <div class="col" routerLink="/policy">
+        <a>{{ 'FOOTER.CONTRACT' | translate }}</a>
+      </div>
+      <div class="col">
+        <a href="#">{{ 'FOOTER.RETURN_TO_TOP' | translate }}</a>
+      </div>
+    </div>
+  </footer>
 </div>
 
 <div class="modal fade" id="listing" tabindex="-1" aria-labelledby="label" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content" *ngIf="selection">
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col listing" id="detail"
-                        style="background: linear-gradient(transparent, var(--text)), url({{selection.photo}}) fixed center center / cover no-repeat;">
-                        <p class="listing"><b>{{selection.name}}</b></p>
-                        <p class="listing" id="location">{{selection.location}}</p>
-                        <p class="listing" id="price">{{selection.pricing}}€/h</p>
-                    </div>
-                    <form>
-                        <p class="listing" id="description">{{selection.description}}</p>
-                        <hr>
-                        <div class="row">
-                            <div class="row">
-                                <label for="arrival">Arrival</label>
-                                <input type="datetime-local" class="form-control" id="arrival" name="arrival"
-                                    [(ngModel)]="arrival" required>
-                            </div>
-                            <div class="row">
-                                <label for="departure">Departure</label>
-                                <input type="datetime-local" class="form-control" id="departure" name="departure"
-                                    [(ngModel)]="departure" required>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content" *ngIf="selection">
+      <div class="modal-body">
+        <div class="row">
+          <div
+            class="col listing text-center"
+            id="detail"
+            style="background: linear-gradient(transparent, var(--text)), url({{
+              selection.photo || 'default.jpg'
+            }}) center center / cover no-repeat;"
+          >
+            <p class="listing text-center">
+              <b>{{ selection.name }}</b>
+            </p>
+            <div class="location-price">
+              <p class="listing location">{{ selection.location }}</p>
+              <p class="listing price">{{ selection.pricing }}€/h</p>
             </div>
-            <div class="modal-footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col ps-0">
-                            <button type="button" class="btn btn-secondary w-100"
-                                data-bs-dismiss="modal">Cancel</button>
-                        </div>
-                        <div class="col pe-0">
-                            <button type="button" class="btn btn-primary w-100" (click)="book()"
-                                data-bs-dismiss="modal">Book</button>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <form>
+            <div class="row">
+              <label for="arrival">{{ 'BOOKING.ARRIVAL' | translate }}</label>
+              <input
+                type="datetime-local"
+                class="form-control"
+                id="arrival"
+                name="arrival"
+                [(ngModel)]="arrival"
+                required
+              />
             </div>
+            <div class="row">
+              <label for="departure">{{ 'BOOKING.DEPARTURE' | translate }}</label>
+              <input
+                type="datetime-local"
+                class="form-control"
+                id="departure"
+                name="departure"
+                [(ngModel)]="departure"
+                required
+              />
+            </div>
+          </form>
         </div>
+      </div>
+      <div class="modal-footer">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col ps-0">
+              <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">
+                {{ 'BOOKING.CANCEL' | translate }}
+              </button>
+            </div>
+            <div class="col pe-0">
+              <button
+                type="button"
+                class="btn btn-primary w-100"
+                (click)="book()"
+                data-bs-dismiss="modal"
+              >
+                {{ 'BOOKING.BOOK' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
