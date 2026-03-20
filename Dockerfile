@@ -25,7 +25,7 @@ RUN mkdir -p /etc/nginx/certs && \
 
 EXPOSE 80 443
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /src/dist/agoraui/browser /app
+COPY --from=build /src/dist/booker/browser /app
 
 # Install Python for entrypoint script
 RUN apt-get update && apt-get install -y python3 && rm -rf /var/lib/apt/lists/*
