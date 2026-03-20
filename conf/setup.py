@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-AgoraUI Configuration Script
+Booker Configuration Script
 Interactive setup wizard for customizing all application settings
 """
 
@@ -22,7 +22,7 @@ from modules.config_prompts import (
     configure_branding, configure_project_context, configure_api,
     configure_features, configure_ui, configure_styling, configure_assets,
     configure_production, configure_backends, configure_cookies,
-    configure_animations, configure_messages, configure_license
+    configure_animations, configure_messages, configure_maps, configure_license, configure_footer
 )
 from modules.file_updaters import apply_configuration
 from modules.defaults import get_default_config
@@ -57,6 +57,7 @@ def get_paths() -> dict:
         'DOCKER_DIR': PROJECT_ROOT / "docker",
         'PRODUCTION_SCRIPT': PROJECT_ROOT / "docker" / "production.py",
         'ENTRYPOINT_SCRIPT': PROJECT_ROOT / "docker" / "entrypoint.sh",
+        'MAPS_CONSTANTS_FILE': constants_dir / "maps.constants.ts",
     }
 
 
@@ -89,8 +90,8 @@ def main() -> int:
     show_banner()
     
     # Show invocation method
-    if os.environ.get('AGORA_CLI') == '1':
-        print("\033[0;36m✨ Running via AgoraUI CLI (agora init)\033[0m\n")
+    if os.environ.get('BOOKER_CLI') == '1':
+        print("\033[0;36m✨ Running via Booker CLI (booker init)\033[0m\n")
     
     # Collect all configuration through prompts
     configure_branding(config)
@@ -105,7 +106,9 @@ def main() -> int:
     configure_cookies(config)
     configure_animations(config)
     configure_messages(config)
+    configure_maps(config)
     configure_license(config)
+    configure_footer(config)
     
     # Show summary and confirm
     show_summary(config)
