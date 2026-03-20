@@ -1,7 +1,7 @@
 export const STORAGE_CONSTANTS = {
-  PREFIX: 'agora_',
-  TOKEN_KEY: 'agora_token',
+  PREFIX: 'booker_',
+  TOKEN_KEY: 'booker_token',
   TOKEN_PREFIX: 'Bearer ',
-  COOKIE_TOKEN_KEY: 'agora_token',
+  COOKIE_TOKEN_KEY: 'booker_token',
   COOKIE_SEPARATOR: '|'
 } as const;
