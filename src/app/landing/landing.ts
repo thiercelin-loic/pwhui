@@ -1,10 +1,15 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { RouterLink } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { AuthService } from '@app/auth/auth.service';
 import { ToastService } from '@app/toast/toast.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Bookings, Listings } from './landing.model';
+import { TruncateWordsPipe } from '@app/shared/pipes/truncate-words.pipe';
 import { 
   ListingService, 
   BookingDataService, 
@@ -13,11 +18,11 @@ import {
   TypingAnimationService,
   SearchService
 } from '@shared/services';
-import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@shared/constants';
+import { ERROR_MESSAGES, MAPS_CONSTANTS, SUCCESS_MESSAGES } from '@shared/constants';
 
 @Component({
   selector: 'app-landing',
-  imports: [CommonModule, FormsModule, TranslateModule],
+  imports: [CommonModule, FormsModule, TranslateModule, RouterLink, TruncateWordsPipe],
   templateUrl: './landing.html',
   styleUrl: './landing.css'
 })
@@ -30,31 +35,53 @@ export class Landing implements OnInit, OnDestroy {
   private searchService = inject(SearchService);
   private translate = inject(TranslateService);
   
-  auth = inject(AuthService);
-  toast = inject(ToastService);
+  private sanitizer = inject(DomSanitizer);
+  public auth = inject(AuthService);
+  public toast = inject(ToastService);
 
-  public date: Date = this.dateFormatter.getCurrentDate();
+  public mapsUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+    `https://www.google.com/maps/embed/v1/place?key=${MAPS_CONSTANTS.API_KEY}&q=${MAPS_CONSTANTS.LOCATION}`
+  );
+
   public today = this.dateFormatter.getToday();
   public month = this.dateFormatter.getMonth();
   public year = this.dateFormatter.getYear();
 
-  public listings: Listings[] = [];
-  public bookings: Bookings[] = [];
-  public selection: Listings = {} as Listings;
+  listings: Listings[] = [];
+  bookings: Bookings[] = [];
+  public featuredListing: Listings | null = null;
+  public selection: Listings | null = null;
   public arrival!: Date;
   public departure!: Date;
   public query = '';
   public suggestions: Listings[] = [];
   public placeholder = '';
+  public averagePrice = 0;
+  public topAmenities: { name: string; count: number }[] = [];
+  public animatedListingsCount = 0;
+  public animatedAveragePrice = 0;
+  private animationInterval: ReturnType<typeof setInterval> | undefined;
+  public isFading = false;
 
-  ngOnInit(): void {
+  private readonly FADE_OUT_DURATION = 1000;
+  private readonly ANIMATION_INTERVAL = 10000;
+
+  public ngOnInit(): void {
     this.startTypingAnimation();
     this.loadListings();
     this.loadUserBookings();
+    this.animationInterval = setInterval(() => {
+      this.isFading = true;
+      setTimeout(() => {
+        this.animateFigures();
+        this.isFading = false;
+      }, this.FADE_OUT_DURATION); // Wait for fade-out to complete
+    }, this.ANIMATION_INTERVAL);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.typingAnimation.stopAnimation();
+    clearInterval(this.animationInterval);
   }
 
   private startTypingAnimation(): void {
@@ -65,34 +92,91 @@ export class Landing implements OnInit, OnDestroy {
     );
   }
 
+  private updateMapsUrl(): void {
+    if (!this.listings.length) return;
+    const random = this.listings[Math.floor(Math.random() * this.listings.length)];
+    this.featuredListing = random;
+    const query = encodeURIComponent(random.location);
+    this.mapsUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      `https://www.google.com/maps/embed/v1/place?key=${MAPS_CONSTANTS.API_KEY}&q=${query}`
+    );
+  }
+
   private loadListings(): void {
     this.listingService.getListings().subscribe({
       next: (data) => { 
         this.listings = this.shuffleArray(data);
+        this.updateMapsUrl();
+        this.calculateAveragePrice();
+        this.calculateTopAmenities();
+        this.animateFigures();
       },
       error: (error) => {
-        console.error('Failed to load listings', error);
+        console.error(ERROR_MESSAGES.LOAD_LISTINGS_FAILED, error);
         this.toast.show({ 
-          message: 'Failed to load listings', 
+          message: ERROR_MESSAGES.LOAD_LISTINGS_FAILED, 
           classname: 'bg-danger text-light' 
         });
       }
     });
   }
 
-  private loadUserBookings(): void {
-    this.auth.getMe().subscribe(() => {
-      const userId = this.auth.current?.id;
-      if (userId) {
-        this.bookingDataService.getUserUpcomingBookings(userId).subscribe({
-          next: (data) => { this.bookings = data; },
-          error: (error) => {
-            console.error('Failed to load bookings', error);
-          }
-        });
-      } else {
-        this.bookings = [];
+  private calculateAveragePrice(): void {
+    if (this.listings.length === 0) {
+      this.averagePrice = 0;
+      return;
+    }
+    const total = this.listings.reduce((acc, listing) => acc + Number(listing.pricing), 0);
+    this.averagePrice = total / this.listings.length;
+  }
+
+  private animateFigures(): void {
+    this.animateValue('animatedListingsCount', 0, this.listings.length, 1000);
+    this.animateValue('animatedAveragePrice', 0, this.averagePrice, 1000);
+  }
+
+  private animateValue(property: 'animatedListingsCount' | 'animatedAveragePrice', start: number, end: number, duration: number): void {
+    let startTimestamp: number | null = null;
+    const step = (timestamp: number) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      this[property] = Math.floor(progress * (end - start) + start);
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
       }
+    };
+    window.requestAnimationFrame(step);
+  }
+
+  private calculateTopAmenities(): void {
+    const amenityCounts = new Map<string, number>();
+    this.listings.forEach(listing => {
+      const amenities = listing.amenities.split(',');
+      amenities.forEach((amenity: string) => {
+        const trimmedAmenity = amenity.trim();
+        if (trimmedAmenity) {
+          amenityCounts.set(trimmedAmenity, (amenityCounts.get(trimmedAmenity) || 0) + 1);
+        }
+      });
+    });
+
+    this.topAmenities = Array.from(amenityCounts.entries())
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 1);
+  }
+
+  private loadUserBookings(): void {
+    this.auth.getMe().pipe(
+      switchMap(() => {
+        const userId = this.auth.current?.id;
+        return userId
+          ? this.bookingDataService.getUserUpcomingBookings(userId)
+          : of([]);
+      })
+    ).subscribe({
+      next: (data) => { this.bookings = data; },
+      error: (error) => { console.error(ERROR_MESSAGES.LOAD_BOOKINGS_FAILED, error); }
     });
   }
 
@@ -112,13 +196,13 @@ export class Landing implements OnInit, OnDestroy {
     this.bookingDataService.createBooking(booking).subscribe({
       next: () => {
         this.loadUserBookings();
-        this.createConversationForBooking(this.selection.id, this.selection.name);
+        this.createConversationForBooking(this.selection!.id, this.selection!.name);
         this.toast.show({ message: SUCCESS_MESSAGES.BOOKING_SUCCESS });
       },
       error: (error) => {
-        console.error('Booking failed', error);
+        console.error(ERROR_MESSAGES.BOOKING_FAILED, error);
         this.toast.show({ 
-          message: 'Booking failed. Please try again.', 
+          message: ERROR_MESSAGES.BOOKING_FAILED, 
           classname: 'bg-danger text-light' 
         });
       }
@@ -134,7 +218,7 @@ export class Landing implements OnInit, OnDestroy {
       return false;
     }
 
-    if (!this.arrival || !this.departure || !this.selection.id) {
+    if (!this.arrival || !this.departure || !this.selection?.id) {
       this.toast.show({ 
         message: ERROR_MESSAGES.BOOKING_INCOMPLETE, 
         classname: 'bg-danger text-light' 
@@ -147,11 +231,11 @@ export class Landing implements OnInit, OnDestroy {
 
   private createBookingPayload(): Partial<Bookings> {
     return {
-      listing: this.selection.id,
+      listing: this.selection!.id,
       user: this.auth.current?.id,
       arrival: this.arrival.toString(),
       departure: this.departure.toString(),
-      confirmation: '' as string
+      confirmation: ''
     };
   }
 
@@ -173,17 +257,11 @@ export class Landing implements OnInit, OnDestroy {
       }]
     };
 
-    this.conversationService.createConversation(newConversation).subscribe({
-      next: (conversation) => {
-        this.conversationService.sendMessage(conversation.id, newMessage).subscribe({
-          next: () => {
-            console.log('Conversation and initial message created successfully');
-          },
-          error: (err) => {
-            console.error(ERROR_MESSAGES.CONVERSATION_CREATION_FAILED, err);
-          }
-        });
-      },
+    this.conversationService.createConversation(newConversation).pipe(
+      switchMap((conversation) =>
+        this.conversationService.sendMessage(conversation.id, newMessage)
+      )
+    ).subscribe({
       error: (err) => {
         console.error(ERROR_MESSAGES.CONVERSATION_CREATION_FAILED, err);
       }
