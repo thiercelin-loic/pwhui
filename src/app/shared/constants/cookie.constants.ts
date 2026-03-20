@@ -2,7 +2,7 @@ export const COOKIE_CONSTANTS = {
   MAX_AGE: 604800,
   SESSION_TIMEOUT: 30,
   POLICY_MODAL_DELAY: 1000,
-  CONSENT_KEY: 'agora_consent',
+  CONSENT_KEY: 'booker_consent',
   CONSENT_VALUE: 'accepted',
   CONSENT_MAX_AGE: 604800
 } as const;
