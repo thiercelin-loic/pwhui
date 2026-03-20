@@ -1,15 +1,16 @@
-![Home](./public/favicon.ico)
-# AgoraUI - Customizable Market Platform
+<img src="./public/favicon.ico" alt="Home" width="100" />
+
+# Booker - Customizable Booking Platform
 
 [![Angular](https://img.shields.io/badge/Angular-20-dd0031?style=flat&logo=angular)](https://angular.io/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat&logo=typescript)](https://www.typescriptlang.org/)
 [![Python](https://img.shields.io/badge/Python-3.7+-3776AB?style=flat&logo=python)](https://www.python.org/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat&logo=docker)](https://www.docker.com/)
-[![Cross--Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-brightgreen?style=flat)](https://github.com/thiercelin-loic/agoraui)
+[![Cross--Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-brightgreen?style=flat)](https://github.com/thiercelin-loic/booker)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](http://creativecommons.org/licenses/by-nc/4.0/)
 
 ## 📚 Table of Contents
-- [What is AgoraUI?](#what-is-agoraui)
+- [What is Booker?](#what-is-booker)
 - [Quick Start](#-quick-start)
 - [Screenshots](#-screenshots)
 - [Key Features](#-key-features)
@@ -19,17 +20,17 @@
 - [CLI Commands](#-cli-commands)
 - [Credits](#-credits--acknowledgements)
 
-> **📖 New to AgoraUI?** Check out our [comprehensive documentation](./docs/README.md) organized by topic!
+> **📖 New to Booker?** Check out our [comprehensive documentation](./docs/README.md) organized by topic!
 
 ---
 
-## 🎯 What is AgoraUI?
+## 🎯 What is Booker?
 
 A **complete, production-ready web application template** for building booking and marketplace platforms. Built with Angular 20, TypeScript, and microservices architecture.
 
 **Perfect for:** Coworking spaces, vacation rentals, meeting room booking, equipment rental, service marketplaces, and more.
 
-### Why AgoraUI?
+### Why Booker?
 
 ✅ **Complete Features** - Authentication, booking, real-time chat, i18n  
 ✅ **Modern Stack** - Angular 20, TypeScript 5.9, NestJS microservices  
@@ -49,12 +50,12 @@ A **complete, production-ready web application template** for building booking a
 
 ## 🚀 Quick Start
 
-Get AgoraUI running in under 5 minutes:
+Get Booker running in under 5 minutes:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/thiercelin-loic/agoraui.git
-cd agoraui
+git clone https://github.com/thiercelin-loic/booker.git
+cd booker
 
 # 2. Install dependencies
 npm install
@@ -63,13 +64,13 @@ npm install
 npm link
 
 # 4. Configure (interactive wizard)
-agora init
+booker init
 
 # 5. Start development server
-agora serve
+booker serve
 ```
 
-> **💻 Cross-Platform:** AgoraUI works on Windows, macOS, and Linux thanks to Python-based scripts.
+> **💻 Cross-Platform:** Booker works on Windows, macOS, and Linux thanks to Python-based scripts.
 
 🎉 **Done!** Your browser opens to `http://localhost:4200`
 
@@ -100,7 +101,7 @@ agora serve
 | **API** | A way for the frontend to request data from the backend | Application Programming Interface - RESTful endpoints |
 | **Microservices** | Breaking a large application into smaller, independent pieces | Architecture pattern with separate services for auth, booking, messaging |
 | **Docker** | A tool that packages software so it runs the same everywhere | Containerization platform for consistent environments |
-| **CLI** | A text-based tool you type commands into | Command Line Interface - the `agora` command |
+| **CLI** | A text-based tool you type commands into | Command Line Interface - the `booker` command |
 | **JWT** | A secure way to keep users logged in | JSON Web Token for authentication |
 | **TypeScript** | JavaScript with extra features that catch errors early | Statically typed superset of JavaScript |
 | **Component** | A reusable piece of UI (like a navigation bar or button) | Self-contained Angular building block |
@@ -186,7 +187,7 @@ Beyond standard features, this project implements advanced patterns:
 
 The project follows a modular architecture based on Feature Modules and Standalone Components with clean code principles.
 
-    agoraui/
+    booker/
     ├── src/
     │   ├── app/
     │   │   ├── auth/           # Authentication strategies & Guards
@@ -217,8 +218,8 @@ The project follows a modular architecture based on Feature Modules and Standalo
     │   ├── main.ts             # Application bootstrapping
     │   └── styles.css          # Global styles
     ├── bin/
-    │   ├── agora.py            # Main CLI tool (Python)
-    │   └── agora.bat           # Windows launcher
+    │   ├── booker.py            # Main CLI tool (Python)
+    │   └── booker.bat           # Windows launcher
     ├── conf/
     │   ├── modules/            # Modular configuration components
     │   │   ├── ui_helpers.py       # User interaction & display utilities
@@ -250,7 +251,7 @@ The project follows a modular architecture based on Feature Modules and Standalo
 
 #### 1. **Node.js (LTS version)**
    - **What is it?** The software that runs JavaScript on your computer (not just in browsers)
-   - **Why?** AgoraUI is built with JavaScript/TypeScript and needs Node.js to work
+   - **Why?** Booker is built with JavaScript/TypeScript and needs Node.js to work
    - **How to install:**
      - Go to [nodejs.org](https://nodejs.org/)
      - Download the LTS (Long Term Support) version
@@ -260,14 +261,14 @@ The project follows a modular architecture based on Feature Modules and Standalo
 
 #### 2. **npm (comes with Node.js)**
    - **What is it?** Node Package Manager - installs code libraries
-   - **Why?** Downloads and manages all the code packages AgoraUI needs
+   - **Why?** Downloads and manages all the code packages Booker needs
    - **How to check:** Type `npm --version` in terminal
    - **Expected output:** `9.x.x` or higher
    - **Alternative:** You can use `yarn` instead (optional)
 
 #### 3. **Git**
    - **What is it?** Version control system for tracking code changes
-   - **Why?** Downloads the AgoraUI code from GitHub
+   - **Why?** Downloads the Booker code from GitHub
    - **How to install:**
      - Go to [git-scm.com](https://git-scm.com/)
      - Download for your OS (Windows/Mac/Linux)
@@ -277,7 +278,7 @@ The project follows a modular architecture based on Feature Modules and Standalo
 
 #### 4. **Python 3.7+**
    - **What is it?** Programming language used for cross-platform CLI tools
-   - **Why?** The AgoraUI CLI and setup scripts are written in Python for Windows/Mac/Linux compatibility
+   - **Why?** The Booker CLI and setup scripts are written in Python for Windows/Mac/Linux compatibility
    - **How to install:**
      - Go to [python.org](https://www.python.org/downloads/)
      - Download Python 3.7 or higher
@@ -329,7 +330,7 @@ python --version  # Should show Python 3.7 or higher (try python3 on Mac/Linux)
 docker --version  # Should show Docker version 20.x or higher (optional but recommended)
 ```
 
-If all commands work, you're ready to install AgoraUI! 🎉
+If all commands work, you're ready to install Booker! 🎉
 
 **Note:** On Windows, you might need to use `python` instead of `python3`.
 
@@ -355,12 +356,12 @@ If all commands work, you're ready to install AgoraUI! 🎉
 
 ### CLI Installation (Recommended)
 
-AgoraUI includes a powerful CLI tool similar to Angular CLI for managing your project:
+Booker includes a powerful CLI tool similar to Angular CLI for managing your project:
 
 1.  **Clone the repository**
 
-        git clone https://github.com/thiercelin-loic/agoraui.git
-        cd agoraui
+        git clone https://github.com/thiercelin-loic/booker.git
+        cd booker
 
 2.  **Install dependencies and link CLI**
 
@@ -369,24 +370,24 @@ AgoraUI includes a powerful CLI tool similar to Angular CLI for managing your pr
 
 3.  **Configure your application**
 
-        agora init
+        booker init
 
 4.  **Start development**
 
-        agora serve
+        booker serve
 
 **Common CLI Commands:**
 
-- `agora init` - Interactive configuration wizard
-- `agora default` (or `agora reset`) - Restore default configuration
-- `agora serve` (or `agora s`) - Start development server (with backend deps)
-- `agora build` (or `agora b`) - Build for production
-- `agora test` (or `agora t`) - Run unit tests
-- `agora lint` (or `agora l`) - Check code quality
-- `agora backend:start` (or `agora bs`) - Start backend services
-- `agora backend:stop` (or `agora bst`) - Stop backend services
-- `agora backend:logs [service]` (or `agora bl`) - View backend logs
-- `agora --help` - Show all commands
+- `booker init` - Interactive configuration wizard
+- `booker default` (or `booker reset`) - Restore default configuration
+- `booker serve` (or `booker s`) - Start development server (with backend deps)
+- `booker build` (or `booker b`) - Build for production
+- `booker test` (or `booker t`) - Run unit tests
+- `booker lint` (or `booker l`) - Check code quality
+- `booker backend:start` (or `booker bs`) - Start backend services
+- `booker backend:stop` (or `booker bst`) - Stop backend services
+- `booker backend:logs [service]` (or `booker bl`) - View backend logs
+- `booker --help` - Show all commands
 
 **CLI Features:**
 
@@ -397,15 +398,14 @@ AgoraUI includes a powerful CLI tool similar to Angular CLI for managing your pr
 
 **Troubleshooting:**
 
-If you encounter `command not found: agora`:
+If you encounter `command not found: booker`:
 ```bash
 npm link
 ```
 
-If you see errors on WSL/Windows:
+If you see file execution errors on WSL/Linux:
 ```bash
-sed -i 's/\r$//' bin/agora
-chmod +x bin/agora
+chmod +x bin/booker.py
 npm link
 ```
 
@@ -415,8 +415,8 @@ If you prefer traditional npm commands:
 
 1.  **Clone the repository**
 
-        git clone https://github.com/thiercelin-loic/agoraui.git
-        cd agoraui
+        git clone https://github.com/thiercelin-loic/booker.git
+        cd booker
 
 2.  **Install frontend dependencies**
 
@@ -441,7 +441,7 @@ If you prefer traditional npm commands:
 - `npm run backend:start` - Manually start backend services
 - `npm run backend:stop` - Stop all backend services
 
-> **💡 Tip:** The CLI (`agora`) provides a better developer experience with shorter commands and works from any directory. NPM scripts are still available for CI/CD and automation purposes.
+> **💡 Tip:** The CLI (`booker`) provides a better developer experience with shorter commands and works from any directory. NPM scripts are still available for CI/CD and automation purposes.
 
 ---
 
@@ -451,58 +451,58 @@ If you prefer traditional npm commands:
 
 | Command | Alias | Description |
 |---------|-------|-------------|
-| `agora init` | - | Run interactive configuration wizard |
-| `agora default` | `reset` | Restore default AgoraUI configuration |
-| `agora serve` | `s`, `start` | Start development server |
-| `agora build` | `b` | Build for production |
-| `agora test` | `t` | Run unit tests |
-| `agora lint` | `l` | Run linter |
-| `agora backend:start` | `bs` | Start backend services |
-| `agora backend:stop` | `bst` | Stop backend services |
-| `agora backend:logs [service]` | `bl` | View logs (all or specific service) |
-| `agora version` | `-v`, `--version` | Show CLI version |
-| `agora help` | `-h`, `--help` | Show help information |
+| `booker init` | - | Run interactive configuration wizard |
+| `booker default` | `reset` | Restore default Booker configuration |
+| `booker serve` | `s`, `start` | Start development server |
+| `booker build` | `b` | Build for production |
+| `booker test` | `t` | Run unit tests |
+| `booker lint` | `l` | Run linter |
+| `booker backend:start` | `bs` | Start backend services |
+| `booker backend:stop` | `bst` | Stop backend services |
+| `booker backend:logs [service]` | `bl` | View logs (all or specific service) |
+| `booker version` | `-v`, `--version` | Show CLI version |
+| `booker help` | `-h`, `--help` | Show help information |
 
 ### Common CLI Workflows
 
 **Daily Development:**
 ```bash
 # Start your day
-agora backend:start
-agora serve
+booker backend:start
+booker serve
 
 # Monitor logs (optional second terminal)
-agora backend:logs
+booker backend:logs
 ```
 
 **Before Committing:**
 ```bash
 # Check code quality
-agora lint
+booker lint
 
 # Run tests
-agora test
+booker test
 
 # Build to verify
-agora build
+booker build
 ```
 
 **View Specific Service Logs:**
 ```bash
-agora backend:logs auth
-agora backend:logs booking
-agora backend:logs tell
+booker backend:logs auth
+booker backend:logs booking
+booker backend:logs tell
 ```
 
 **Using Short Aliases:**
 ```bash
-agora s          # serve
-agora b          # build
-agora t          # test
-agora l          # lint
-agora bs         # backend:start
-agora bst        # backend:stop
-agora bl         # backend:logs
+booker s          # serve
+booker b          # build
+booker t          # test
+booker l          # lint
+booker bs         # backend:start
+booker bst        # backend:stop
+booker bl         # backend:logs
 ```
 
 ### CLI Installation Troubleshooting
@@ -513,23 +513,23 @@ agora bl         # backend:logs
 npm link
 
 # Or check if it's in your PATH
-which agora
+which booker
 ```
 
 **Permission Denied:**
 ```bash
-chmod +x bin/agora
+chmod +x bin/booker.py
 ```
 
 **Line Ending Errors (Windows/WSL):**
 
-If you encounter `$'\r': command not found` errors:
+If you encounter execution errors related to line endings:
 ```bash
 # Fix line endings
-sed -i 's/\r$//' bin/agora
+sed -i 's/\r$//' bin/booker.py
 
 # Or if you have dos2unix installed
-dos2unix bin/agora
+dos2unix bin/booker.py
 ```
 
 **Prevent Future Issues:**
@@ -547,17 +547,17 @@ Both approaches work! The CLI wraps npm scripts seamlessly:
 
 | npm script | CLI command | Notes |
 |------------|-------------|-------|
-| `npm start` | `agora serve` | Start dev server |
-| `npm run build` | `agora build` | Build production |
-| `npm test` | `agora test` | Run tests |
-| `npm run lint` | `agora lint` | Check code quality |
-| `npm run backend:start` | `agora backend:start` | Start Docker services |
-| `npm run backend:stop` | `agora backend:stop` | Stop services |
-| N/A | `agora init` | Configuration wizard (CLI-only) |
-| N/A | `agora backend:logs` | View logs (CLI-only) |
+| `npm start` | `booker serve` | Start dev server |
+| `npm run build` | `booker build` | Build production |
+| `npm test` | `booker test` | Run tests |
+| `npm run lint` | `booker lint` | Check code quality |
+| `npm run backend:start` | `booker backend:start` | Start Docker services |
+| `npm run backend:stop` | `booker backend:stop` | Stop services |
+| N/A | `booker init` | Configuration wizard (CLI-only) |
+| N/A | `booker backend:logs` | View logs (CLI-only) |
 
 **When to Use:**
-- **CLI** (`agora`): For interactive development - faster to type, more features, better UX
+- **CLI** (`booker`): For interactive development - faster to type, more features, better UX
 - **npm scripts**: For CI/CD and automation - more portable, standard conventions
 
 ### Alternative: Direct Execution
@@ -565,15 +565,12 @@ Both approaches work! The CLI wraps npm scripts seamlessly:
 You can also run the CLI without global linking:
 ```bash
 # From project root
-./bin/agora <command>
-
-# Or with bash
-bash bin/agora <command>
+python bin/booker.py <command>
 ```
 
 ### CLI Design Philosophy
 
-The AgoraUI CLI follows these principles:
+The Booker CLI follows these principles:
 1. **Familiar** - Similar to Angular CLI (`ng serve`, `ng build`)
 2. **Intuitive** - Clear command names and help text
 3. **Integrated** - Works with existing scripts seamlessly
@@ -591,22 +588,22 @@ The AgoraUI CLI follows these principles:
 For an interactive setup experience, use the configuration assistant:
 
 ```bash
-agora init
+booker init
 # or
-bash conf/setup.sh
+python conf/setup.py
 ```
 
-To restore all settings to default AgoraUI configuration:
+To restore all settings to default Booker configuration:
 
 ```bash
-agora default
+booker default
 # or
-bash conf/default.sh
+python conf/default.py
 ```
 
 > **Note:** The `default` command will restore the original grayscale theme (#4A4A4A, #808080, #333), default favicon, background image, API endpoints (localhost:3001/3002/3003), and all other default settings. This is useful when you want to return to the initial configuration.
 
-> **Note:** The setup script uses a modular architecture for easier maintenance. Core functionality is organized into four modules in `conf/modules/` (`ui-helpers.sh`, `config-prompts.sh`, `file-updaters.sh`, `defaults.sh`) that handle display, configuration collection, file generation, and default restoration respectively.
+> **Note:** The setup script uses a modular architecture for easier maintenance. Core functionality is organized into python modules in `conf/modules/` (`ui_helpers.py`, `config_prompts.py`, `file_updaters.py`, `defaults.py`) that handle display, configuration collection, file generation, and default restoration respectively.
 
 This script will guide you through configuring:
 - **Application branding** (name, title, description)
@@ -626,7 +623,7 @@ This script will guide you through configuring:
 The script automatically updates **15+ files** with your choices, including:
 - Configuration files (`app.config.ts`, `proxy.conf.json`, `nginx.conf`)
 - Constants files (cookies, storage, animations, messages)
-- Deployment scripts (`docker/production.sh`, `docker/entrypoint.sh`)
+- Deployment scripts (`docker/production.py`, `docker/entrypoint.py`)
 - Styling and assets (`styles.css`, favicon, auth icon)
 
 #### 📝 Manual Configuration
@@ -640,18 +637,18 @@ src/environments/app.config.ts
 
 **1. Application Branding**
 ```typescript
-name: 'AgoraUI',
-title: 'AgoraUI',
+name: 'Booker',
+title: 'Booker',
 description: 'A modern coworking space booking platform',
 ```
 
 **2. Project Context**
 ```typescript
 project: {
-  name: 'AgoraUI',
-  displayName: 'AgoraUI',
-  domain: 'agora.eu',
-  url: 'https://agora.eu',
+  name: 'Booker',
+  displayName: 'Booker',
+  domain: 'booker.eu',
+  url: 'https://booker.eu',
 }
 ```
 Update these values to match your specific business. Example:
@@ -759,7 +756,7 @@ For production deployments, configure backend service container names and ports:
 - Booking service: `booking.api:3000` (default) - accessible via `/booking/`
 - Messaging service: `tell.api:3000` (default) - accessible via `/messaging/` and `/tell/`
 
-These are automatically updated when using `docker/setup.sh`.
+These are automatically updated when using `booker init` or configuring via `conf/setup.py`.
 
 **Note:** The Tell service is accessible through both `/messaging/` (primary endpoint used by the frontend) and `/tell/` (alternative endpoint) for backward compatibility.
 
@@ -912,35 +909,32 @@ All components will automatically inherit these changes, ensuring consistent sty
 
 ## 🚀 Production Deployment
 
-The production deployment script `docker/production.sh` contains configuration for deploying to production environments.
+The production deployment script `docker/production.py` contains configuration for deploying to production environments.
 
 #### Configuration Variables
 
-The script contains the following variables at the top of `docker/production.sh`:
+The script contains the following variables at the top of `docker/production.py`:
 
-```bash
+```python
 # Production Deployment Configuration
 # Note: Only DOMAIN and EMAIL are customizable during setup
 # PROJECT_NAME, NETWORK_NAME, and PROJECT_PATH are static values
-PROJECT_NAME="AgoraUI"                # Docker container name (static)
-NETWORK_NAME="agoraui"                # Docker network name (static)
+PROJECT_NAME="Booker"                # Docker container name (static)
+NETWORK_NAME="booker"                # Docker network name (static)
 DOMAIN="example.com"                  # Your production domain (customizable)
 EMAIL="admin@example.com"             # Email for Let's Encrypt SSL (customizable)
-PROJECT_PATH="/home/$USER/AgoraUI"    # Project directory path (static)
+PROJECT_PATH="/home/user/Booker"    # Project directory path (static)
 ```
 
-**During Setup (`agora init`):**
+**During Setup (`booker init`):**
 - ✅ **DOMAIN** and **EMAIL** are configurable through the interactive wizard
 - 🔒 **PROJECT_NAME**, **NETWORK_NAME**, and **PROJECT_PATH** use default values and cannot be changed during setup
 
-**Certificate Renewal** (`docker/entrypoint.sh`)
+**Certificate Renewal** (`docker/entrypoint.py`)
 
-The certificate renewal interval can be configured (default: 12 hours):
-```bash
-sleep 12h  # Check for certificate renewal every 12 hours
-```
+The certificate renewal is automatically managed in the entrypoint script.
 
-This is automatically configured when using `conf/setup.sh`.
+This is automatically configured when using `conf/setup.py`.
 
 ---
 
@@ -952,16 +946,16 @@ The `conf/` directory contains the interactive configuration wizard that updates
 
 ```
 conf/
-├── setup.sh                 # Main configuration wizard script
+├── setup.py                 # Main configuration wizard script
 └── modules/                 # Modular configuration components
-    ├── ui-helpers.sh       # UI display and user interaction utilities
-    ├── config-prompts.sh   # Configuration collection prompts
-    └── file-updaters.sh    # File modification functions
+    ├── ui_helpers.py       # UI display and user interaction utilities
+    ├── config_prompts.py   # Configuration collection prompts
+    └── file_updaters.py    # File modification functions
 ```
 
 ### What Gets Configured
 
-The configuration wizard (`agora init` or `bash conf/setup.sh`) configures:
+The configuration wizard (`booker init` or `python conf/setup.py`) configures:
 
 - **Application branding** (name, title, description)
 - **Project context** (domain, URL, license)
@@ -1032,16 +1026,16 @@ This frontend application communicates with three separate NestJS microservices:
 ```bash
 # Start fresh
 git checkout -b feature/new-feature
-agora backend:start
-agora serve
+booker backend:start
+booker serve
 
 # Develop...
 # Test in browser: http://localhost:4200
 
 # Before committing
-agora lint
-agora test
-agora build
+booker lint
+booker test
+booker build
 
 # Commit
 git add .
@@ -1053,18 +1047,18 @@ git push
 
 ```bash
 # Check bug report
-agora backend:logs | grep ERROR
+booker backend:logs | grep ERROR
 
 # Fix the code...
 
 # Test the fix
-agora test
-agora serve
+booker test
+booker serve
 # Verify in browser
 
 # Ensure quality
-agora lint
-agora build
+booker lint
+booker build
 ```
 
 #### Pattern 3: Code Review
@@ -1074,17 +1068,17 @@ agora build
 git checkout feature/some-feature
 
 # Start fresh
-agora backend:stop
-agora backend:start
-agora serve
+booker backend:stop
+booker backend:start
+booker serve
 
 # Review in browser
 # Check logs
-agora backend:logs
+booker backend:logs
 
 # Check code quality
-agora lint
-agora test
+booker lint
+booker test
 ```
 
 ### Pre-Deploy Checklist
@@ -1094,16 +1088,16 @@ agora test
 git status
 
 # 2. Run full test suite
-agora lint && agora test
+booker lint && booker test
 
 # 3. Build production
-agora build --configuration production
+booker build --configuration production
 
 # 4. Check build output
-ls -lh dist/agoraui/browser/
+ls -lh dist/booker/browser/
 
 # 5. Test build locally (optional)
-npx http-server dist/agoraui/browser -p 8080
+npx http-server dist/booker/browser -p 8080
 
 # 6. Deploy
 # (copy dist/ to your server or deploy via CI/CD)
@@ -1114,45 +1108,45 @@ npx http-server dist/agoraui/browser -p 8080
 **Using Command Chaining:**
 ```bash
 # Quality check
-agora l && agora t
+booker l && booker t
 
 # Full validation
-agora l && agora t && agora b
+booker l && booker t && booker b
 
 # Start everything
-agora bs && agora s
+booker bs && booker s
 ```
 
 **Background Services Monitoring:**
 ```bash
 # Terminal 1: Start backend in background
-agora backend:start
+booker backend:start
 
 # Terminal 2: Start frontend
-agora serve
+booker serve
 
 # Terminal 3: Monitor logs
-agora backend:logs
+booker backend:logs
 ```
 
 **Environment Variables:**
 ```bash
 # Custom port
-PORT=8080 agora serve
+PORT=8080 booker serve
 
 # Production build
-NODE_ENV=production agora build
+NODE_ENV=production booker build
 ```
 
 ### Real-World Examples
 
 **Monday Morning Setup:**
 ```bash
-cd ~/projects/agoraui
+cd ~/projects/booker
 git pull origin main
 npm install  # if package.json changed
-agora backend:start
-agora serve
+booker backend:start
+booker serve
 
 # Open browser to http://localhost:4200
 # Start coding!
@@ -1165,13 +1159,13 @@ agora serve
 
 echo "Running pre-commit checks..."
 
-agora lint
+booker lint
 if [ $? -ne 0 ]; then
     echo "❌ Linting failed"
     exit 1
 fi
 
-agora test
+booker test
 if [ $? -ne 0 ]; then
     echo "❌ Tests failed"
     exit 1
@@ -1198,9 +1192,9 @@ jobs:
       
       - run: npm install
       - run: npm link
-      - run: agora lint
-      - run: agora test
-      - run: agora build
+      - run: booker lint
+      - run: booker test
+      - run: booker build
 ```
 
 ### Troubleshooting Common Issues
@@ -1214,7 +1208,7 @@ lsof -i :4200
 kill -9 <PID>
 
 # Or use different port
-PORT=8080 agora serve
+PORT=8080 booker serve
 ```
 
 **Backend Won't Start:**
@@ -1223,22 +1217,22 @@ PORT=8080 agora serve
 docker ps
 
 # Stop and restart
-agora backend:stop
+booker backend:stop
 docker system prune -f  # optional: clean up
-agora backend:start
+booker backend:start
 
 # Check logs for errors
-agora backend:logs
+booker backend:logs
 ```
 
 **Build Issues:**
 ```bash
 # Clean build
 rm -rf dist/
-agora build
+booker build
 
 # Check for errors
-agora lint
+booker lint
 ```
 
 **Frontend Not Connecting to Backend:**
@@ -1247,21 +1241,21 @@ agora lint
 cat proxy.conf.json
 
 # Verify backend services
-agora backend:logs
+booker backend:logs
 
 # Restart both
-agora backend:stop
-agora backend:start
+booker backend:stop
+booker backend:start
 # In another terminal:
-agora serve
+booker serve
 ```
 
 ### Best Practices
 
 1. **Always start backend first:**
    ```bash
-   agora backend:start  # First
-   agora serve          # Then
+   booker backend:start  # First
+   booker serve          # Then
    ```
 
 2. **Monitor logs during development:**
@@ -1272,18 +1266,18 @@ agora serve
 
 3. **Run quality checks before committing:**
    ```bash
-   agora lint && agora test && agora build
+   booker lint && booker test && booker build
    ```
 
 4. **Use aliases for speed:**
    ```bash
-   agora s   # Not: agora serve
-   agora bs  # Not: agora backend:start
+   booker s   # Not: booker serve
+   booker bs  # Not: booker backend:start
    ```
 
 5. **Stop services when done:**
    ```bash
-   agora backend:stop  # End of day
+   booker backend:stop  # End of day
    ```
 
 ---
@@ -1293,7 +1287,7 @@ agora serve
 ### Command Tree
 
 ```
-agora
+booker
 ├── init                  ← Interactive configuration wizard
 ├── serve (s, start)     ← Start development server
 ├── build (b)            ← Build for production
@@ -1320,7 +1314,7 @@ agora
                           npm link
                                │
                                ▼
-                         agora --version
+                         booker --version
                                │
                                ▼
 ┌─────────────────────────────────────────────────────────────────┐
@@ -1328,7 +1322,7 @@ agora
 └─────────────────────────────────────────────────────────────────┘
                                │
                                ▼
-                          agora init
+                          booker init
                                │
                     ┌──────────┴──────────┐
                     │  Interactive Wizard │
@@ -1346,16 +1340,16 @@ agora
                     ┌──────────┴──────────┐
                     │                     │
                     ▼                     ▼
-            agora backend:start    (Terminal 1)
+            booker backend:start    (Terminal 1)
                     │
                     ▼
-               agora serve         (Terminal 1)
+               booker serve         (Terminal 1)
                     │
                     ▼
           http://localhost:4200
                     │
                     ▼
-            agora backend:logs     (Terminal 2 - optional)
+            booker backend:logs     (Terminal 2 - optional)
                     │
                                
 ┌─────────────────────────────────────────────────────────────────┐
@@ -1365,7 +1359,7 @@ agora
                     ┌──────────┼──────────┐
                     │          │          │
                     ▼          ▼          ▼
-              agora lint   agora test  agora build
+              booker lint   booker test  booker build
                     │          │          │
                     └──────────┴──────────┘
                                │
@@ -1377,7 +1371,7 @@ agora
 └─────────────────────────────────────────────────────────────────┘
                                │
                                ▼
-                     agora backend:stop
+                     booker backend:stop
 ```
 
 ### Platform Support
