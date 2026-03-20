@@ -132,7 +132,7 @@
   --primary: #4a4a4a;
   --primary-gradient: linear-gradient(45deg, var(--primary), var(--light) 200%);
   --primary-gradient-invert: linear-gradient(45deg, var(--light) -200%, var(--primary));
-  --secondary: #808080;
+  --secondary: #585858;
   --secondary-gradient: linear-gradient(45deg, var(--secondary), var(--light) 200%);
   --danger: #ff0000;
   --danger-gradient: linear-gradient(45deg, var(--danger), var(--light) 200%);
@@ -141,7 +141,7 @@
   --background-gradient: linear-gradient(45deg, var(--background), var(--light) 200%);
   --background-gradient-invert: linear-gradient(45deg, var(--light) -200%, var(--background));
   --background-image: url('default.jpg');
-  --shadow: 6px 4px 4px #0e0e0e2e;
+  --shadow: 6px 4px 4px hsla(0, 0%, 5%, 0.10);
   --brightness: brightness(1.2);
   --padding-sm: 10px;
   --padding-md: 20px;
@@ -249,6 +249,14 @@ header {
   text-shadow: var(--shadow);
 }
 
+footer {
+  color: var(--background);
+  padding: var(--padding-md);
+  animation: fade 1s ease-in;
+  font-family: var(--font-light);
+  text-shadow: var(--shadow);
+}
+
 p {
   margin: 0;
 }
@@ -317,8 +325,10 @@ section {
 }
 
 .popular,
+.explore,
 .upcomming,
 .living,
+.stats,
 .cookie,
 .home,
 .account,
@@ -335,6 +345,11 @@ section {
 
 .popular {
   mask: url('./icons/popular.svg') no-repeat center;
+}
+
+.explore {
+  mask: url('./icons/explore.svg') no-repeat center;
+  background-color: var(--background);
 }
 
 .upcomming {
@@ -368,6 +383,10 @@ section {
 
 .chat {
   mask: url('./icons/chat.svg') no-repeat center;
+}
+
+.stats {
+  mask: url('./icons/stats.svg') no-repeat center;
 }
 
 input.form-control {
@@ -444,8 +463,3 @@ input.form-control:focus {
 .content-wrapper {
   padding-bottom: 0;
 }
-
-
-
-
-
