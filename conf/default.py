@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-AgoraUI Default Configuration Restoration Script
-Restores all settings to default AgoraUI configuration
+Booker Default Configuration Restoration Script
+Restores all settings to default Booker configuration
 """
 
 import sys
@@ -54,6 +54,7 @@ def get_paths() -> dict:
         'DOCKER_DIR': PROJECT_ROOT / "docker",
         'PRODUCTION_SCRIPT': PROJECT_ROOT / "docker" / "production.py",
         'ENTRYPOINT_SCRIPT': PROJECT_ROOT / "docker" / "entrypoint.sh",
+        'MAPS_CONSTANTS_FILE': constants_dir / "maps.constants.ts",
     }
 
 
@@ -88,8 +89,8 @@ def main() -> int:
     show_banner()
     
     # Show invocation method
-    if os.environ.get('AGORA_CLI') == '1':
-        print("\033[0;36m✨ Running via AgoraUI CLI (agora default)\033[0m\n")
+    if os.environ.get('BOOKER_CLI') == '1':
+        print("\033[0;36m✨ Running via Booker CLI (booker default)\033[0m\n")
     
     # Show restoration dialog and get confirmation
     if not configure_default_restoration(config):
@@ -117,7 +118,7 @@ def main() -> int:
     from modules.ui_helpers import BLUE, YELLOW
     
     print(f"{BLUE}Next Steps:{NC}")
-    print(f"  {GREEN}1.{NC} Restart development server if running: {YELLOW}agora serve{NC}")
+    print(f"  {GREEN}1.{NC} Restart development server if running: {YELLOW}booker serve{NC}")
     print(f"  {GREEN}2.{NC} Backend services will use default ports (3001/3002/3003)")
     print(f"  {GREEN}3.{NC} All features are enabled by default\n")
     
