@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-AgoraUI CLI Tool
-Command-line interface for AgoraUI project management
+Booker CLI Tool
+Command-line interface for Booker project management
 """
 
 import sys
@@ -28,7 +28,7 @@ BOLD = '\033[1m'
 
 
 def show_banner() -> None:
-    """Show the AgoraUI banner."""
+    """Show the Booker banner."""
     print(f"{BLUE}{BOLD}")
     print(r"    _                           _   _ ___ ")
     print(r"   / \   __ _  ___  _ __ __ _  | | | |_ _|")
@@ -43,10 +43,10 @@ def show_banner() -> None:
 def show_help() -> None:
     """Show help message."""
     show_banner()
-    print(f"{BOLD}Usage:{NC} agora <command> [options]\n")
+    print(f"{BOLD}Usage:{NC} booker <command> [options]\n")
     print(f"{BOLD}Commands:{NC}")
     print(f"  {GREEN}init{NC}              Run interactive configuration wizard")
-    print(f"  {GREEN}default{NC}           Restore default AgoraUI configuration")
+    print(f"  {GREEN}default{NC}           Restore default Booker configuration")
     print(f"  {GREEN}serve{NC}             Start development server")
     print(f"  {GREEN}build{NC}             Build the application for production")
     print(f"  {GREEN}test{NC}              Run unit tests")
@@ -54,22 +54,22 @@ def show_help() -> None:
     print(f"  {GREEN}backend:start{NC}     Start backend services (Docker)")
     print(f"  {GREEN}backend:stop{NC}      Stop backend services")
     print(f"  {GREEN}backend:logs{NC}      Show backend service logs")
-    print(f"  {GREEN}version{NC}           Show AgoraUI CLI version")
+    print(f"  {GREEN}version{NC}           Show Booker CLI version")
     print(f"  {GREEN}help{NC}              Show this help message\n")
     print(f"{BOLD}Options:{NC}")
     print(f"  {YELLOW}-h, --help{NC}        Show help for command")
     print(f"  {YELLOW}-v, --version{NC}     Show version\n")
     print(f"{BOLD}Examples:{NC}")
-    print("  agora init                    # Configure the application")
-    print("  agora default                 # Restore default settings")
-    print("  agora serve                   # Start dev server")
-    print("  agora build                   # Build for production")
-    print("  agora backend:start           # Start all backend services\n")
+    print("  booker init                    # Configure the application")
+    print("  booker default                 # Restore default settings")
+    print("  booker serve                   # Start dev server")
+    print("  booker build                   # Build for production")
+    print("  booker backend:start           # Start all backend services\n")
 
 
 def show_version() -> None:
     """Show version."""
-    print(f"AgoraUI CLI v{VERSION}")
+    print(f"Booker CLI v{VERSION}")
 
 
 def run_npm_script(script: str, *args) -> int:
@@ -103,9 +103,9 @@ def run_npm_script(script: str, *args) -> int:
 
 def cmd_init() -> int:
     """Run configuration wizard."""
-    print(f"{BLUE}Starting AgoraUI configuration wizard...{NC}\n")
+    print(f"{BLUE}Starting Booker configuration wizard...{NC}\n")
     
-    os.environ['AGORA_CLI'] = '1'
+    os.environ['BOOKER_CLI'] = '1'
     setup_script = CONF_DIR / "setup.py"
     
     result = subprocess.run([sys.executable, str(setup_script)], cwd=PROJECT_ROOT)
@@ -114,9 +114,9 @@ def cmd_init() -> int:
 
 def cmd_default() -> int:
     """Restore default configuration."""
-    print(f"{BLUE}Restoring AgoraUI default configuration...{NC}\n")
+    print(f"{BLUE}Restoring Booker default configuration...{NC}\n")
     
-    os.environ['AGORA_CLI'] = '1'
+    os.environ['BOOKER_CLI'] = '1'
     default_script = CONF_DIR / "default.py"
     
     result = subprocess.run([sys.executable, str(default_script)], cwd=PROJECT_ROOT)
