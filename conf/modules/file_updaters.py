@@ -203,9 +203,6 @@ def update_styles(config: Dict, paths: Dict) -> None:
     
     if config.get('CUSTOMIZE_COLORS'):
         custom_theme += f"  --primary: {config['THEME_PRIMARY_COLOR']};\n"
-        custom_theme += f"  --secondary: {config['THEME_SECONDARY_COLOR']};\n"
-        custom_theme += f"  --danger: #ff0000;\n"
-        custom_theme += f"  --text: {config['THEME_TEXT_COLOR']};\n"
     
     if config.get('CUSTOMIZE_BACKGROUND'):
         custom_theme += f"  --background-image: url('{config['THEME_BACKGROUND_IMAGE']}');\n"
@@ -353,8 +350,7 @@ def update_cookie_constants(config: Dict, paths: Dict) -> None:
 }} as const;
 """
     
-    Path(paths['COOKIE_CONSTANTS_FILE']).write_text(cookie_content, encoding='utf-8')
-    
+    Path(paths['COOKIE_CONSTANTS_FILE']).write_text(cookie_content, encoding='utf-8')    
     # Storage constants
     storage_content = f"""export const STORAGE_CONSTANTS = {{
   PREFIX: '{config['STORAGE_PREFIX']}',
@@ -415,7 +411,10 @@ def update_message_constants(config: Dict, paths: Dict) -> None:
   MESSAGE_SEND_FAILED: 'Failed to send message',
   SEND_MESSAGE_LOGGED_OUT: 'You must be logged in to send messages',
   LOGIN_REQUIRED: 'Please log in to continue',
-  BOOKING_INCOMPLETE: 'Please complete all required fields'
+  BOOKING_INCOMPLETE: 'Please complete all required fields',
+  LOAD_LISTINGS_FAILED: 'Failed to load listings',
+  LOAD_BOOKINGS_FAILED: 'Failed to load bookings',
+  BOOKING_FAILED: 'Booking failed'
 }} as const;
 
 export const SUCCESS_MESSAGES = {{
@@ -426,6 +425,28 @@ export const SUCCESS_MESSAGES = {{
 """
     
     Path(paths['MESSAGES_CONSTANTS_FILE']).write_text(content, encoding='utf-8')
+
+
+def update_maps_constants(config: Dict, paths: Dict) -> None:
+    """
+    Updates maps.constants.ts with the configured Google Maps API key and location.
+
+    Args:
+        config: Configuration dictionary
+        paths: Paths dictionary
+    """
+    if not config.get('CUSTOMIZE_MAPS'):
+        return
+
+    print(f"{YELLOW}Updating {paths['MAPS_CONSTANTS_FILE']}...{NC}")
+
+    content = f"""export const MAPS_CONSTANTS = {{
+  API_KEY: '{config['MAPS_API_KEY']}',
+  LOCATION: '{config['MAPS_LOCATION']}',
+}} as const;
+"""
+
+    Path(paths['MAPS_CONSTANTS_FILE']).write_text(content, encoding='utf-8')
 
 
 def update_index_html(config: Dict, paths: Dict) -> None:
@@ -495,8 +516,10 @@ def apply_configuration(config: Dict, paths: Dict) -> None:
     update_cookie_constants(config, paths)
     update_animation_constants(config, paths)
     update_message_constants(config, paths)
+    update_maps_constants(config, paths)
     update_index_html(config, paths)
     update_package_json(config, paths)
+    update_landing_page(config, paths)
     
     print()
     print(f"{GREEN}All configuration files updated successfully!{NC}")
@@ -551,3 +574,43 @@ def remove_custom_theme(paths: Dict) -> None:
     styles_file.write_text(content, encoding='utf-8')
     
     print(f"{GREEN}✓ Custom theme removed (default grayscale restored){NC}")
+
+
+def update_landing_page(config: Dict, paths: Dict) -> None:
+    """
+    Updates landing page with custom footer content.
+    
+    Args:
+        config: Configuration dictionary
+        paths: Paths dictionary
+    """
+    print(f"{YELLOW}Updating landing page footer...{NC}")
+    
+    landing_file = paths['PROJECT_ROOT'] / 'src' / 'app' / 'landing' / 'landing.html'
+    content = landing_file.read_text(encoding='utf-8')
+    
+    # Replace quote
+    content = re.sub(
+        r'<p class="text-center reference">\s*".*?"\s*</p>',
+        f'<p class="text-center reference">\n      "{config["FOOTER_QUOTE"]}"\n    </p>',
+        content,
+        flags=re.DOTALL
+    )
+    
+    # Replace about
+    content = re.sub(
+        r'<a href="[^"]*">(\{\{[\s\S]*?\'FOOTER\.ABOUT_US\'[\s\S]*?\}\})</a>',
+        f'<a href="{config["FOOTER_ABOUT_URL"]}">\\1</a>',
+        content,
+        flags=re.DOTALL
+    )
+
+    # Replace legal
+    content = re.sub(
+        r'<div class="col" routerLink="[^"]*">',
+        f'<div class="col" routerLink="{config["FOOTER_LEGAL_URL"]}">',
+        content,
+        flags=re.DOTALL
+    )
+
+    landing_file.write_text(content, encoding='utf-8')
