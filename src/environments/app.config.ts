@@ -9,8 +9,8 @@ export const APP_CONFIG = {
   /**
    * Application branding and metadata
    */
-  name: 'AgoraUI',
-  title: 'AgoraUI',
+  name: 'Booker',
+  title: 'Booker',
   description: 'Customizable market platform',
   
   /**
@@ -18,8 +18,8 @@ export const APP_CONFIG = {
    * Used for licensing, attribution, and analytics
    */
   project: {
-    name: 'AgoraUI',
-    displayName: 'AgoraUI',
+    name: 'Booker',
+    displayName: 'Booker',
     domain: 'example.com',
     url: 'https://example.com',
   },
