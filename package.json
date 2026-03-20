@@ -1,19 +1,19 @@
 {
-  "name": "agoraui",
-  "version": "2.1.0",
+  "name": "booker",
+  "version": "2.2.0",
   "license": "CC BY-NC 4.0",
   "bin": {
-    "agora": "./bin/agora.py"
+    "booker": "./bin/booker.py"
   },
   "scripts": {
     "ng": "ng",
     "prestart": "python docker/dependencies.py",
-    "start": "ng serve --project agoraui",
-    "build": "ng build --project agoraui",
-    "watch": "ng build --watch --configuration development --project agoraui",
+    "start": "ng serve --project booker",
+    "build": "ng build --project booker",
+    "watch": "ng build --watch --configuration development --project booker",
     "pretest": "python docker/dependencies.py",
-    "test": "ng test --project agoraui",
-    "lint": "ng lint --project agoraui",
+    "test": "ng test --project booker",
+    "lint": "ng lint --project booker",
     "backend:start": "python docker/dependencies.py",
     "backend:stop": "python docker/down.py"
   },
@@ -39,7 +39,7 @@
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0",
+    "tslib": "^2.2.0",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
