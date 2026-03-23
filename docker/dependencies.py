@@ -314,10 +314,6 @@ def main() -> int:
         print("Backend services are already running.")
         return 0
     
-    if not prompt_yes_no("Do you want to start backend dependencies? (auth, booking, tell)?"):
-        print("Skipping backend dependencies.")
-        return 0
-    
     # Verify Docker installation
     if not is_docker_installed():
         print("Docker is not installed.")
