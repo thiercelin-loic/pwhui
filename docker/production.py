@@ -26,14 +26,6 @@ def main() -> int:
         Exit code (0 for success, 1 for failure)
     """
     try:
-        # Source dependencies (start backend services)
-        dependencies_script = Path(__file__).parent / "dependencies.py"
-        if dependencies_script.exists():
-            print("Starting backend dependencies...")
-            result = subprocess.run([sys.executable, str(dependencies_script)])
-            if result.returncode != 0:
-                print("Warning: Backend dependencies failed to start")
-        
         # Change to project path
         os.chdir(Path.cwd())
         
