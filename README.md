@@ -159,8 +159,6 @@ Beyond standard features, this project implements advanced patterns:
 * **Clean Code Architecture:** Comprehensive refactoring following SOLID principles with shared services, centralized constants, and TypeScript path aliases (`@app/*`, `@shared/*`).
 * **Cross-Platform Automation:** Python-based CLI and scripts ensure seamless development on Windows, macOS, and Linux without bash dependencies.
 * **Optimized Data Fetching:** Implementation of RxJS `shareReplay` operator to cache API responses and reduce server load.
-* **Automated DevOps Security:** Custom Nginx configuration handling ACME challenges for automatic **Let's Encrypt SSL** certificate generation and renewal within Docker containers.
-* **Intelligent Dependency Management:** Interactive Python-based setup that automates Docker installation, repository cloning, environment configuration, and service orchestration with automatic service detection.
 * **Strict Code Quality:** Enforced linting rules using **ESLint** with specific Angular configurations to maintain clean architecture.
 * **Smart UX Patterns:** Debounced search inputs and skeleton loaders for smoother user interactions.
 * **Zero Duplication:** Eliminated ~410 lines of duplicate code through service extraction and centralized utilities.
@@ -168,10 +166,9 @@ Beyond standard features, this project implements advanced patterns:
 ---
 
 ## 🛠️ Frontend Technical Stack
-
 - **Framework**: Angular 20 (Standalone Components)
 - **Language**: TypeScript 5.9
-- **Automation**: Python 3.7+ (Cross-platform CLI & scripts)
+- **Automation**: Python 3.7+ (Cross-platform CLI)
 - **i18n**: ngx-translate with centralized configuration
 - **State Management**: RxJS
 - **HTTP Client**: Angular HttpClient
@@ -179,7 +176,6 @@ Beyond standard features, this project implements advanced patterns:
 - **Testing**: Jasmine & Karma
 - **Build Tool**: Angular CLI
 - **Styling**: Modern CSS with Custom Properties
-- **DevOps**: Docker & Nginx (Auto-HTTPS with Let's Encrypt)
 
 ---
 
@@ -290,17 +286,6 @@ The project follows a modular architecture based on Feature Modules and Standalo
 
 ### Recommended (Makes Development Easier)
 
-#### 5. **Docker Desktop**
-   - **What is it?** Software that runs the backend services in isolated containers
-   - **Why?** The backend (database, authentication, messaging) runs in Docker containers, making setup automatic
-   - **How to install:**
-     - Go to [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop)
-     - Download for your OS
-     - Run the installer (requires system restart)
-     - Verify: Type `docker --version` in terminal
-   - **Expected output:** `Docker version 20.x.x` or higher
-   - **Note:** If you can't install Docker, the setup script will guide you through alternatives
-
 #### 5. **Code Editor (VS Code recommended)**
    - **What is it?** Where you'll view and edit the code
    - **Why?** Makes coding easier with syntax highlighting and helpful features
@@ -327,7 +312,6 @@ node --version    # Should show v18 or higher
 npm --version     # Should show v9 or higher
 git --version     # Should show git version 2.x or higher
 python --version  # Should show Python 3.7 or higher (try python3 on Mac/Linux)
-docker --version  # Should show Docker version 20.x or higher (optional but recommended)
 ```
 
 If all commands work, you're ready to install Booker! 🎉
@@ -380,13 +364,10 @@ Booker includes a powerful CLI tool similar to Angular CLI for managing your pro
 
 - `booker init` - Interactive configuration wizard
 - `booker default` (or `booker reset`) - Restore default configuration
-- `booker serve` (or `booker s`) - Start development server (with backend deps)
+- `booker serve` (or `booker s`) - Start development server
 - `booker build` (or `booker b`) - Build for production
 - `booker test` (or `booker t`) - Run unit tests
 - `booker lint` (or `booker l`) - Check code quality
-- `booker backend:start` (or `booker bs`) - Start backend services
-- `booker backend:stop` (or `booker bst`) - Stop backend services
-- `booker backend:logs [service]` (or `booker bl`) - View backend logs
 - `booker --help` - Show all commands
 
 **CLI Features:**
@@ -422,24 +403,16 @@ If you prefer traditional npm commands:
 
         npm install
 
-3.  **Start development server** (automatically handles backend setup)
+3.  **Start development server**
 
         npm start
 
-    The `dependencies.py` script will interactively:
-    - Check and install Docker if needed
-    - Clone missing backend repositories (auth, booking, tell)
-    - Configure `.env` files with custom or default values
-    - Skip prompts if backend services are already running
-
 ### Available NPM Scripts
 
-- `npm start` - Start development server with backend dependencies
-- `npm test` - Run unit tests (auto-starts backend services)
+- `npm start` - Start development server
+- `npm test` - Run unit tests
 - `npm run build` - Build for production
 - `npm run lint` - Check code quality
-- `npm run backend:start` - Manually start backend services
-- `npm run backend:stop` - Stop all backend services
 
 > **💡 Tip:** The CLI (`booker`) provides a better developer experience with shorter commands and works from any directory. NPM scripts are still available for CI/CD and automation purposes.
 
@@ -457,9 +430,6 @@ If you prefer traditional npm commands:
 | `booker build` | `b` | Build for production |
 | `booker test` | `t` | Run unit tests |
 | `booker lint` | `l` | Run linter |
-| `booker backend:start` | `bs` | Start backend services |
-| `booker backend:stop` | `bst` | Stop backend services |
-| `booker backend:logs [service]` | `bl` | View logs (all or specific service) |
 | `booker version` | `-v`, `--version` | Show CLI version |
 | `booker help` | `-h`, `--help` | Show help information |
 
@@ -468,11 +438,7 @@ If you prefer traditional npm commands:
 **Daily Development:**
 ```bash
 # Start your day
-booker backend:start
 booker serve
-
-# Monitor logs (optional second terminal)
-booker backend:logs
 ```
 
 **Before Committing:**
@@ -487,11 +453,10 @@ booker test
 booker build
 ```
 
-**View Specific Service Logs:**
-```bash
-booker backend:logs auth
-booker backend:logs booking
-booker backend:logs tell
+`bash
+
+
+
 ```
 
 **Using Short Aliases:**
@@ -500,9 +465,6 @@ booker s          # serve
 booker b          # build
 booker t          # test
 booker l          # lint
-booker bs         # backend:start
-booker bst        # backend:stop
-booker bl         # backend:logs
 ```
 
 ### CLI Installation Troubleshooting
@@ -551,10 +513,7 @@ Both approaches work! The CLI wraps npm scripts seamlessly:
 | `npm run build` | `booker build` | Build production |
 | `npm test` | `booker test` | Run tests |
 | `npm run lint` | `booker lint` | Check code quality |
-| `npm run backend:start` | `booker backend:start` | Start Docker services |
-| `npm run backend:stop` | `booker backend:stop` | Stop services |
 | N/A | `booker init` | Configuration wizard (CLI-only) |
-| N/A | `booker backend:logs` | View logs (CLI-only) |
 
 **When to Use:**
 - **CLI** (`booker`): For interactive development - faster to type, more features, better UX
@@ -615,7 +574,6 @@ This script will guide you through configuring:
 - **Color theme** (neutral grayscale by default, fully customizable)
 - **Branding assets** (custom favicon - .ico files only)
 - **Production deployment** (domain, SSL email, container settings, certificate renewal interval)
-- **Backend services** (container names and internal ports for Nginx/production)
 - **Cookie & session settings** (consent keys, max age, token storage)
 - **Animation settings** (typing speed, erasing speed, delays)
 - **User messages** (success/error messages for branding consistency)
@@ -748,21 +706,6 @@ export const SUCCESS_MESSAGES = {
   MESSAGE_SENT: 'Message sent successfully'
 };
 ```
-
-**Backend Container Configuration** (`nginx.conf`)
-
-For production deployments, configure backend service container names and ports:
-- Auth service: `auth.api:3000` (default) - accessible via `/auth/`
-- Booking service: `booking.api:3000` (default) - accessible via `/booking/`
-- Messaging service: `tell.api:3000` (default) - accessible via `/messaging/` and `/tell/`
-
-These are automatically updated when using `booker init` or configuring via `conf/setup.py`.
-
-**Note:** The Tell service is accessible through both `/messaging/` (primary endpoint used by the frontend) and `/tell/` (alternative endpoint) for backward compatibility.
-
-**Development Proxy** (`proxy.conf.json`)
-
-The development proxy configuration is automatically generated based on your API settings, routing frontend requests to backend services during development.
 
 #### Using Configuration in Code
 
@@ -965,7 +908,6 @@ The configuration wizard (`booker init` or `python conf/setup.py`) configures:
 - **Styling theme** (colors, custom CSS)
 - **Branding assets** (favicon)
 - **Production deployment** (Docker settings, domain, SSL email)
-- **Backend services** (container names and ports)
 - **Cookie/session settings** (consent keys, max age, token storage)
 - **Animation timing** (typing speed, erasing speed, delays)
 - **User messages** (success/error messages for branding consistency)
@@ -981,7 +923,7 @@ The wizard automatically updates these files:
 - `src/app/shared/constants/*.ts` - Various constants (cookies, storage, animations, messages)
 - `docker/production.sh` - Production deployment settings (optional)
 - `docker/entrypoint.sh` - Certificate renewal settings
-- `nginx.conf` - Backend container configuration
+- `nginx.conf` - Web server configuration
 
 ### Configuration Design Philosophy
 
@@ -990,22 +932,6 @@ These scripts are **general-purpose configuration tools** that:
 - Focus on application settings rather than infrastructure
 - Can be run independently of Docker
 - Use modular architecture for easier maintenance
-
----
-
-## 🔗 Backend Services
-
-This frontend application communicates with three separate NestJS microservices:
-
-- **Auth Service** - User authentication & session management ([Repository](https://github.com/thiercelin-loic/auth))
-- **Booking Service** - Workspace reservations & listings management ([Repository](https://github.com/thiercelin-loic/booking))
-- **Tell Service** - Real-time messaging with Redis (accessible via `/messaging/` and `/tell/` endpoints) ([Repository](https://github.com/thiercelin-loic/tell))
-
-> **Note:** Backend services are maintained in separate repositories. The automated setup script in this repository can clone and configure them automatically during development.
-
-        git clone https://github.com/thiercelin-loic/tell.git
-        cd tell
-        docker compose up
 
 ---
 
@@ -1026,7 +952,6 @@ This frontend application communicates with three separate NestJS microservices:
 ```bash
 # Start fresh
 git checkout -b feature/new-feature
-booker backend:start
 booker serve
 
 # Develop...
@@ -1047,7 +972,7 @@ git push
 
 ```bash
 # Check bug report
-booker backend:logs | grep ERROR
+
 
 # Fix the code...
 
@@ -1068,13 +993,11 @@ booker build
 git checkout feature/some-feature
 
 # Start fresh
-booker backend:stop
-booker backend:start
 booker serve
 
 # Review in browser
 # Check logs
-booker backend:logs
+
 
 # Check code quality
 booker lint
@@ -1113,20 +1036,6 @@ booker l && booker t
 # Full validation
 booker l && booker t && booker b
 
-# Start everything
-booker bs && booker s
-```
-
-**Background Services Monitoring:**
-```bash
-# Terminal 1: Start backend in background
-booker backend:start
-
-# Terminal 2: Start frontend
-booker serve
-
-# Terminal 3: Monitor logs
-booker backend:logs
 ```
 
 **Environment Variables:**
@@ -1145,7 +1054,6 @@ NODE_ENV=production booker build
 cd ~/projects/booker
 git pull origin main
 npm install  # if package.json changed
-booker backend:start
 booker serve
 
 # Open browser to http://localhost:4200
@@ -1211,20 +1119,6 @@ kill -9 <PID>
 PORT=8080 booker serve
 ```
 
-**Backend Won't Start:**
-```bash
-# Check Docker
-docker ps
-
-# Stop and restart
-booker backend:stop
-docker system prune -f  # optional: clean up
-booker backend:start
-
-# Check logs for errors
-booker backend:logs
-```
-
 **Build Issues:**
 ```bash
 # Clean build
@@ -1235,33 +1129,12 @@ booker build
 booker lint
 ```
 
-**Frontend Not Connecting to Backend:**
-```bash
-# Check proxy configuration
-cat proxy.conf.json
-
-# Verify backend services
-booker backend:logs
-
-# Restart both
-booker backend:stop
-booker backend:start
-# In another terminal:
-booker serve
-```
-
 ### Best Practices
 
-1. **Always start backend first:**
-   ```bash
-   booker backend:start  # First
-   booker serve          # Then
-   ```
 
-2. **Monitor logs during development:**
+2. **Keep the server running:**
    ```bash
-   # Terminal 1: serve
-   # Terminal 2: backend:logs
+   booker serve
    ```
 
 3. **Run quality checks before committing:**
@@ -1272,12 +1145,6 @@ booker serve
 4. **Use aliases for speed:**
    ```bash
    booker s   # Not: booker serve
-   booker bs  # Not: booker backend:start
-   ```
-
-5. **Stop services when done:**
-   ```bash
-   booker backend:stop  # End of day
    ```
 
 ---
@@ -1293,9 +1160,6 @@ booker
 ├── build (b)            ← Build for production
 ├── test (t)             ← Run unit tests
 ├── lint (l)             ← Run linter
-├── backend:start (bs)   ← Start backend services
-├── backend:stop (bst)   ← Stop backend services
-├── backend:logs (bl)    ← View logs [service]
 ├── version (-v)         ← Show version
 └── help (-h, --help)    ← Show help
 ```
@@ -1337,21 +1201,13 @@ booker
 │                       Development                               │
 └─────────────────────────────────────────────────────────────────┘
                                │
-                    ┌──────────┴──────────┐
-                    │                     │
-                    ▼                     ▼
-            booker backend:start    (Terminal 1)
-                    │
-                    ▼
-               booker serve         (Terminal 1)
-                    │
-                    ▼
-          http://localhost:4200
-                    │
-                    ▼
-            booker backend:logs     (Terminal 2 - optional)
-                    │
-                               
+                               ▼
+                          booker serve
+                               │
+                               ▼
+                     http://localhost:4200
+                               │
+                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                    Quality & Testing                            │
 └─────────────────────────────────────────────────────────────────┘
@@ -1366,12 +1222,6 @@ booker
                                ▼
                          All passed!
 
-┌─────────────────────────────────────────────────────────────────┐
-│                          Cleanup                                │
-└─────────────────────────────────────────────────────────────────┘
-                               │
-                               ▼
-                     booker backend:stop
 ```
 
 ### Platform Support
