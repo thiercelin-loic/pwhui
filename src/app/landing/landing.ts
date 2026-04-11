@@ -235,7 +235,7 @@ export class Landing implements OnInit, OnDestroy {
       user: this.auth.current?.id,
       arrival: this.arrival.toString(),
       departure: this.departure.toString(),
-      confirmation: ''
+      confirmation: false
     };
   }
 

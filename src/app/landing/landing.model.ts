@@ -14,5 +14,5 @@ export interface Bookings {
   user: string;
   arrival: string;
   departure: string;
-  confirmation: string;
+  confirmation: boolean;
 }
