@@ -38,6 +38,8 @@ def show_help() -> None:
     print(f"  {GREEN}build{NC}             Build the application for production")
     print(f"  {GREEN}test{NC}              Run unit tests")
     print(f"  {GREEN}lint{NC}              Run linter")
+    print(f"  {GREEN}compose{NC}           Delegate deployment to booker-services (up)")
+    print(f"  {GREEN}deps{NC}              Manage backend docker dependencies")
     print(f"  {GREEN}version{NC}           Show Booker CLI version")
     print(f"  {GREEN}help{NC}              Show this help message\n")
     print(f"{BOLD}Options:{NC}")
@@ -47,7 +49,9 @@ def show_help() -> None:
     print("  booker init                    # Configure the application")
     print("  booker default                 # Restore default settings")
     print("  booker serve                   # Start dev server")
-    print("  booker build                   # Build for production\n")
+    print("  booker build                   # Build for production")
+    print("  booker deps                    # Manage backend docker dependencies")
+    print("  booker compose up              # Deploy stack through booker-services\n")
 
 
 def show_version() -> None:
@@ -138,6 +142,60 @@ def cmd_lint(*args) -> int:
     return run_npm_script("lint", *args)
 
 
+def cmd_deps(*args) -> int:
+    """Run backend docker dependencies script."""
+    script_path = PROJECT_ROOT / "docker" / "dependencies.py"
+
+    print(f"{BLUE}Starting dependencies script...{NC}\n")
+    try:
+        result = subprocess.run([sys.executable, str(script_path)] + list(args), cwd=PROJECT_ROOT)
+        return result.returncode
+    except KeyboardInterrupt:
+        print("\nProcess interrupted by user.")
+        return 1
+
+
+def cmd_compose(*args) -> int:
+    """Delegate deployment to booker-services."""
+    if not args:
+        print(f"{RED}Error: Missing compose command. Available: up{NC}")
+        return 1
+
+    sub_cmd = args[0]
+    if sub_cmd != "up":
+        print(f"{RED}Error: Unknown compose command '{sub_cmd}'. Available: up{NC}")
+        return 1
+
+    services_root = PROJECT_ROOT.parent / "booker-services"
+    deploy_script = services_root / "scripts" / "deploy.py"
+
+    if not deploy_script.exists():
+        print(f"{RED}Error: booker-services deploy script not found at: {deploy_script}{NC}")
+        print("Expected sibling layout:")
+        print("  <parent>/booker-client")
+        print("  <parent>/booker-services")
+        print(
+            "Get booker-services here: "
+            "https://github.com/thiercelin-loic/booker-services"
+        )
+        return 1
+
+    delegate_args = list(args[1:])
+    if not delegate_args:
+        delegate_args = ["--detached"]
+
+    print(f"{BLUE}Delegating deployment to booker-services...{NC}\n")
+    try:
+        result = subprocess.run(
+            [sys.executable, str(deploy_script), "up"] + delegate_args,
+            cwd=services_root,
+        )
+        return result.returncode
+    except KeyboardInterrupt:
+        print("\nProcess interrupted by user.")
+        return 1
+
+
 def main() -> int:
     """
     Main command router.
@@ -167,6 +225,10 @@ def main() -> int:
         return cmd_test(*args)
     elif command in ("lint", "l"):
         return cmd_lint(*args)
+    elif command in ("deps", "d"):
+        return cmd_deps(*args)
+    elif command in ("compose", "c"):
+        return cmd_compose(*args)
     elif command in ("version", "-v", "--version"):
         show_version()
         return 0

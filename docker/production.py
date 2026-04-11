@@ -1,62 +1,55 @@
 #!/usr/bin/env python3
 """
-Production Deployment Configuration
-Builds and runs the production Docker container
+Legacy deployment wrapper for booker-client.
+
+Deployment ownership is centralized in booker-services.
 """
 
 import os
-import sys
 import subprocess
 from pathlib import Path
+import sys
 
-# Production Deployment Configuration
-# Note: Only DOMAIN and EMAIL are customizable during setup
-# PROJECT_NAME, and PROJECT_PATH are static values
-PROJECT_NAME = "Booker"
-NETWORK_NAME = "booker"
-DOMAIN = "example.com"
-EMAIL = "admin@example.com"
-PROJECT_PATH = "~/Booker"
+# Optional override values propagated to booker-services deployment.
+DOMAIN = "parisworkhub.eu"
+EMAIL = "admin@parisworkhub.eu"
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+SERVICES_ROOT = PROJECT_ROOT.parent / "booker-services"
+DEPLOY_SCRIPT = SERVICES_ROOT / "scripts" / "deploy.py"
 
 def main() -> int:
     """
     Main execution function.
-    
+
     Returns:
         Exit code (0 for success, 1 for failure)
     """
-    try:
-        # Change to project path
-        os.chdir(Path.cwd())
-        
-        # Build Docker image
-        print(f"Building Docker image for {PROJECT_NAME}...")
-        subprocess.run(['docker', 'build', '-t', 'nginx', '.'], check=True)
-        
-        # Run Docker container
-        print(f"Starting {PROJECT_NAME} container...")
-        subprocess.run([
-            'docker', 'run',
-            '--name', PROJECT_NAME,
-            '-d',
-            '--network', NETWORK_NAME,
-            '-p', '80:80',
-            '-p', '443:443',
-            '-e', f'DOMAIN={DOMAIN}',
-            '-e', f'EMAIL={EMAIL}',
-            '-v', '/etc/letsencrypt:/etc/letsencrypt',
-            'nginx'
-        ], check=True)
-        
-        print(f"{PROJECT_NAME} container started successfully!")
-        return 0
-        
-    except subprocess.CalledProcessError as e:
-        print(f"Error: Command failed with exit code {e.returncode}")
+    if not DEPLOY_SCRIPT.is_file():
+        print("Error: deployment script not found in booker-services.", file=sys.stderr)
+        print(
+            "Expected sibling layout: <parent>/booker-client and <parent>/booker-services",
+            file=sys.stderr,
+        )
+        print(
+            "Get booker-services here: https://github.com/thiercelin-loic/booker-services",
+            file=sys.stderr,
+        )
         return 1
-    except Exception as e:
-        print(f"Error: {e}")
-        return 1
+
+    print("[DEPRECATED] Use deployment from booker-services.")
+    print("Delegating to: booker-services/scripts/deploy.py")
+
+    env = os.environ.copy()
+    env["BOOKER_CLIENT_DOMAIN"] = DOMAIN
+    env["BOOKER_CLIENT_EMAIL"] = EMAIL
+
+    result = subprocess.run(
+        [sys.executable, str(DEPLOY_SCRIPT), "up", "--detached"],
+        cwd=SERVICES_ROOT,
+        env=env,
+    )
+    return result.returncode
 
 
 if __name__ == '__main__':

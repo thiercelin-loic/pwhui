@@ -1,21 +1,17 @@
 {
   "name": "booker",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "license": "CC BY-NC 4.0",
   "bin": {
     "booker": "./bin/booker.py"
   },
   "scripts": {
     "ng": "ng",
-    "prestart": "python docker/dependencies.py",
     "start": "ng serve --project booker",
     "build": "ng build --project booker",
     "watch": "ng build --watch --configuration development --project booker",
-    "pretest": "python docker/dependencies.py",
     "test": "ng test --project booker",
-    "lint": "ng lint --project booker",
-    "backend:start": "python docker/dependencies.py",
-    "backend:stop": "python docker/down.py"
+    "lint": "ng lint --project booker"
   },
   "prettier": {
     "printWidth": 100,

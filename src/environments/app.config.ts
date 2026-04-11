@@ -10,7 +10,7 @@ export const APP_CONFIG = {
    * Application branding and metadata
    */
   name: 'Booker',
-  title: 'Booker',
+  title: 'ParisWorkHub',
   description: 'Customizable market platform',
   
   /**
@@ -19,9 +19,9 @@ export const APP_CONFIG = {
    */
   project: {
     name: 'Booker',
-    displayName: 'Booker',
-    domain: 'example.com',
-    url: 'https://example.com',
+    displayName: 'ParisWorkHub',
+    domain: 'parisworkhub.eu',
+    url: 'https://parisworkhub.eu',
   },
   
   /**
@@ -29,19 +29,9 @@ export const APP_CONFIG = {
    * Defines endpoints for each microservice
    */
   api: {
-    auth: {
+    core: {
       host: 'localhost',
-      port: 3001,
-      protocol: 'http',
-    },
-    booking: {
-      host: 'localhost',
-      port: 3002,
-      protocol: 'http',
-    },
-    messaging: {
-      host: 'localhost',
-      port: 3003,
+      port: 3000,
       protocol: 'http',
     },
   },
@@ -51,9 +41,7 @@ export const APP_CONFIG = {
    * Enable/disable major application features
    */
   features: {
-    auth: true,
-    booking: true,
-    messaging: true,
+    core: true,
     i18n: true,
     policies: true,
   },
@@ -77,7 +65,7 @@ export const APP_CONFIG = {
 /**
  * Helper function to construct full API URLs
  */
-export function getApiUrl(service: 'auth' | 'booking' | 'messaging'): string {
+export function getApiUrl(service: 'core'): string {
   const config = APP_CONFIG.api[service];
   return `${config.protocol}://${config.host}:${config.port}`;
 }
@@ -86,7 +74,7 @@ export function getApiUrl(service: 'auth' | 'booking' | 'messaging'): string {
  * Export computed values for easy access
  */
 export const API_BASE_URLS = {
-  AUTH: getApiUrl('auth'),
-  BOOKING: getApiUrl('booking'),
-  MESSAGING: getApiUrl('messaging'),
+  AUTH: getApiUrl('core'),
+  BOOKING: getApiUrl('core'),
+  MESSAGING: getApiUrl('core'),
 } as const;

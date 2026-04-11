@@ -13,6 +13,14 @@
 /node_modules
 npm-debug.log
 yarn-error.log
+*.log
+
+# Local environment and machine overrides
+.env
+.env.*
+!.env.example
+!.env.template
+*.local
 
 # IDEs and editors
 .idea/

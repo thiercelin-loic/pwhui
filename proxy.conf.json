@@ -1,35 +1,10 @@
 {
-  "/auth": {
-    "target": "http://localhost:3001",
+  "/api": {
+    "target": "http://localhost:3000",
     "secure": false,
     "changeOrigin": true,
     "pathRewrite": {
-      "^/auth": "/api/auth"
+      "^/api": ""
     }
-  },
-  "/users": {
-    "target": "http://localhost:3001",
-    "secure": false,
-    "changeOrigin": true,
-    "pathRewrite": {
-      "^/users": "/api/users"
-    }
-  },
-  "/booking": {
-    "target": "http://localhost:3002",
-    "secure": false,
-    "changeOrigin": true,
-    "pathRewrite": {
-      "^/booking": "/api"
-    }
-  },
-  "/messaging": {
-    "target": "http://localhost:3003",
-    "secure": false,
-    "changeOrigin": true,
-    "pathRewrite": {
-      "^/messaging": "/api"
-    },
-    "ws": true
   }
 }

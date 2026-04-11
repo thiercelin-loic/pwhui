@@ -173,4 +173,6 @@ def show_next_steps(config: Dict[str, Any]) -> None:
     )
 
     if config.get("CONFIGURE_PRODUCTION"):
-        print(f"  4. Deploy to production: {GREEN}python docker/production.py{NC}")
+        print(
+            f"  4. Deploy from booker-services: {GREEN}cd ../booker-services && npm run deploy{NC}"
+        )

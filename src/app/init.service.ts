@@ -20,7 +20,7 @@ export class InitService {
       // Initialize translations first
       const languageCodes = LANGUAGE_CONFIG.availableLanguages.map(lang => lang.code);
       this.translate.addLangs(languageCodes);
-      this.translate.setDefaultLang(LANGUAGE_CONFIG.defaultLanguage);
+      this.translate.setFallbackLang(LANGUAGE_CONFIG.defaultLanguage);
 
       const savedLanguage = localStorage.getItem(LANGUAGE_CONFIG.storageKey);
       let langToUse: string = LANGUAGE_CONFIG.defaultLanguage;

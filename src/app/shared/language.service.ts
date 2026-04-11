@@ -10,7 +10,7 @@ export class LanguageService {
   public readonly config = LANGUAGE_CONFIG;
 
   getCurrentLanguage(): string {
-    return this.translate.currentLang || this.translate.defaultLang || this.config.defaultLanguage;
+    return this.translate.currentLang || this.translate.getFallbackLang() || this.config.defaultLanguage;
   }
 
   getAvailableLanguages(): LanguageConfig[] {

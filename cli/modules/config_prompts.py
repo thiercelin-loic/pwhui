@@ -58,9 +58,7 @@ def configure_features(config: Dict[str, Any]) -> None:
     show_section("Feature Flags")
 
     features = [
-        ("FEATURE_AUTH", "authentication"),
-        ("FEATURE_BOOKING", "booking"),
-        ("FEATURE_MESSAGING", "messaging"),
+        ("FEATURE_CORE", "core services (authentication, booking, messaging)"),
         ("FEATURE_I18N", "internationalization"),
         ("FEATURE_POLICIES", "policies"),
     ]
@@ -174,11 +172,9 @@ def configure_production(config: Dict[str, Any]) -> None:
         config["PROD_EMAIL"] = prompt_with_default(
             "Admin email for SSL", f"admin@{config['PROJECT_DOMAIN']}"
         )
-        config["PROD_NETWORK_NAME"] = prompt_with_default(
-            "Docker network name", "booker"
-        )
 
         # Static values (not customizable)
+        config["PROD_NETWORK_NAME"] = "booker"
         config["PROD_CONTAINER_NAME"] = "Booker"
         config["PROD_PROJECT_PATH"] = "~/Booker"
 

@@ -56,20 +56,10 @@ export const APP_CONFIG = {{
    * Defines endpoints for each microservice
    */
   api: {{
-    auth: {{
-      host: '{config['AUTH_HOST']}',
-      port: {config['AUTH_PORT']},
-      protocol: '{config['AUTH_PROTOCOL']}',
-    }},
-    booking: {{
-      host: '{config['BOOKING_HOST']}',
-      port: {config['BOOKING_PORT']},
-      protocol: '{config['BOOKING_PROTOCOL']}',
-    }},
-    messaging: {{
-      host: '{config['MESSAGING_HOST']}',
-      port: {config['MESSAGING_PORT']},
-      protocol: '{config['MESSAGING_PROTOCOL']}',
+    core: {{
+      host: '{config['CORE_HOST']}',
+      port: {config['CORE_PORT']},
+      protocol: '{config['CORE_PROTOCOL']}',
     }},
   }},
   
@@ -78,9 +68,7 @@ export const APP_CONFIG = {{
    * Enable/disable major application features
    */
   features: {{
-    auth: {config['FEATURE_AUTH']},
-    booking: {config['FEATURE_BOOKING']},
-    messaging: {config['FEATURE_MESSAGING']},
+    core: {config['FEATURE_CORE']},
     i18n: {config['FEATURE_I18N']},
     policies: {config['FEATURE_POLICIES']},
   }},
@@ -104,7 +92,7 @@ export const APP_CONFIG = {{
 /**
  * Helper function to construct full API URLs
  */
-export function getApiUrl(service: 'auth' | 'booking' | 'messaging'): string {{
+export function getApiUrl(service: 'core'): string {{
   const config = APP_CONFIG.api[service];
   return `${{config.protocol}}://${{config.host}}:${{config.port}}`;
 }}
@@ -113,9 +101,9 @@ export function getApiUrl(service: 'auth' | 'booking' | 'messaging'): string {{
  * Export computed values for easy access
  */
 export const API_BASE_URLS = {{
-  AUTH: getApiUrl('auth'),
-  BOOKING: getApiUrl('booking'),
-  MESSAGING: getApiUrl('messaging'),
+  AUTH: getApiUrl('core'),
+  BOOKING: getApiUrl('core'),
+  MESSAGING: getApiUrl('core'),
 }} as const;
 """
 
@@ -133,31 +121,12 @@ def update_proxy_config(config: Dict[str, Any], paths: Dict[str, Path]) -> None:
     print(f"{YELLOW}Updating {paths['PROXY_CONFIG_FILE']}...{NC}")
 
     proxy_config: Dict[str, Dict[str, Any]] = {
-        "/auth": {
-            "target": f"{config['AUTH_PROTOCOL']}://{config['AUTH_HOST']}:{config['AUTH_PORT']}",
+        "/api": {
+            "target": f"{config['CORE_PROTOCOL']}://{config['CORE_HOST']}:{config['CORE_PORT']}",
             "secure": False,
             "changeOrigin": True,
-            "pathRewrite": {"^/auth": "/api/auth"},
-        },
-        "/users": {
-            "target": f"{config['AUTH_PROTOCOL']}://{config['AUTH_HOST']}:{config['AUTH_PORT']}",
-            "secure": False,
-            "changeOrigin": True,
-            "pathRewrite": {"^/users": "/api/users"},
-        },
-        "/booking": {
-            "target": f"{config['BOOKING_PROTOCOL']}://{config['BOOKING_HOST']}:{config['BOOKING_PORT']}",
-            "secure": False,
-            "changeOrigin": True,
-            "pathRewrite": {"^/booking": "/api"},
-        },
-        "/messaging": {
-            "target": f"{config['MESSAGING_PROTOCOL']}://{config['MESSAGING_HOST']}:{config['MESSAGING_PORT']}",
-            "secure": False,
-            "changeOrigin": True,
-            "pathRewrite": {"^/messaging": "/api"},
-            "ws": True,
-        },
+            "pathRewrite": {"^/api": ""},
+        }
     }
 
     with open(paths["PROXY_CONFIG_FILE"], "w", encoding="utf-8") as f:
@@ -230,7 +199,6 @@ def update_favicon(config: Dict[str, Any], paths: Dict[str, Path]) -> None:
     # Copy favicon to public directory (for dev server and default fallback)
     public_favicon = paths["PUBLIC_DIR"] / "favicon.ico"
     shutil.copy2(config["FAVICON_PATH"], public_favicon)
-
     print(f"{GREEN}Favicon (.ico) updated in src/ and public/ directories{NC}")
 
 
@@ -249,65 +217,56 @@ def update_production_script(config: Dict[str, Any], paths: Dict[str, Path]) -> 
 
     content = f'''#!/usr/bin/env python3
 """
-Production Deployment Configuration
-Builds and runs the production Docker container
+Legacy deployment wrapper for booker-client.
+
+Deployment ownership is centralized in booker-services.
 """
 
 import os
-import sys
 import subprocess
 from pathlib import Path
+import sys
 
-# Production Deployment Configuration
-# Note: Only DOMAIN and EMAIL are customizable during setup
-# PROJECT_NAME, and PROJECT_PATH are static values
-PROJECT_NAME = "{config['PROD_CONTAINER_NAME']}"
-NETWORK_NAME = "{config['PROD_NETWORK_NAME']}"
+# Optional override values propagated to booker-services deployment.
 DOMAIN = "{config['PROD_DOMAIN']}"
 EMAIL = "{config['PROD_EMAIL']}"
-PROJECT_PATH = "{config['PROD_PROJECT_PATH']}"
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+SERVICES_ROOT = PROJECT_ROOT.parent / "booker-services"
+DEPLOY_SCRIPT = SERVICES_ROOT / "scripts" / "deploy.py"
 
 def main() -> int:
     """
     Main execution function.
-    
+
     Returns:
         Exit code (0 for success, 1 for failure)
     """
-    try:
-        # Change to project path
-        os.chdir(Path.cwd())
-        
-        # Build Docker image
-        print(f"Building Docker image for {{PROJECT_NAME}}...")
-        subprocess.run(['docker', 'build', '-t', 'nginx', '.'], check=True)
-        
-        # Run Docker container
-        print(f"Starting {{PROJECT_NAME}} container...")
-        subprocess.run([
-            'docker', 'run',
-            '--name', PROJECT_NAME,
-            '-d',
-            '--network', NETWORK_NAME,
-            '-p', '80:80',
-            '-p', '443:443',
-            '-e', f'DOMAIN={{DOMAIN}}',
-            '-e', f'EMAIL={{EMAIL}}',
-            '-v', '/etc/letsencrypt:/etc/letsencrypt',
-            'nginx'
-        ], check=True)
-        
-        print(f"{{PROJECT_NAME}} container started successfully!")
-        return 0
-        
-    except subprocess.CalledProcessError as e:
-        import sys
-        print(f"Error: Command failed with exit code {{e.returncode}}", file=sys.stderr)
+    if not DEPLOY_SCRIPT.is_file():
+        print("Error: deployment script not found in booker-services.", file=sys.stderr)
+        print(
+            "Expected sibling layout: <parent>/booker-client and <parent>/booker-services",
+            file=sys.stderr,
+        )
+        print(
+            "Get booker-services here: https://github.com/thiercelin-loic/booker-services",
+            file=sys.stderr,
+        )
         return 1
-    except Exception as e:
-        import sys
-        print(f"Error: {{e}}", file=sys.stderr)
-        return 1
+
+    print("[DEPRECATED] Use deployment from booker-services.")
+    print("Delegating to: booker-services/scripts/deploy.py")
+
+    env = os.environ.copy()
+    env["BOOKER_CLIENT_DOMAIN"] = DOMAIN
+    env["BOOKER_CLIENT_EMAIL"] = EMAIL
+
+    result = subprocess.run(
+        [sys.executable, str(DEPLOY_SCRIPT), "up", "--detached"],
+        cwd=SERVICES_ROOT,
+        env=env,
+    )
+    return result.returncode
 
 
 if __name__ == '__main__':
