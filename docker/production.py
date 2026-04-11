@@ -11,8 +11,8 @@ from pathlib import Path
 import sys
 
 # Optional override values propagated to booker-services deployment.
-DOMAIN = "parisworkhub.eu"
-EMAIL = "admin@parisworkhub.eu"
+DOMAIN = "example.com"
+EMAIL = "admin@example.com"
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SERVICES_ROOT = PROJECT_ROOT.parent / "booker-services"

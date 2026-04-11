@@ -10,7 +10,7 @@ export const APP_CONFIG = {
    * Application branding and metadata
    */
   name: 'Booker',
-  title: 'ParisWorkHub',
+  title: 'Booker',
   description: 'Customizable market platform',
   
   /**
@@ -19,9 +19,9 @@ export const APP_CONFIG = {
    */
   project: {
     name: 'Booker',
-    displayName: 'ParisWorkHub',
-    domain: 'parisworkhub.eu',
-    url: 'https://parisworkhub.eu',
+    displayName: 'Booker',
+    domain: 'example.com',
+    url: 'https://example.com',
   },
   
   /**
